@@ -32,6 +32,7 @@ class Scores extends Component {
             </header>
             <div>
                 <ul>
+                    {console.log(this.state.players[0])}
                     <li>{this.state.players[0].name},{this.state.players[0].score} </li>
                     <li>{this.state.players[1].name},{this.state.players[1].score} </li>
                     <li>{this.state.players[2].name},{this.state.players[2].score} </li>
