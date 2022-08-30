@@ -6,12 +6,14 @@ class Scores extends Component {
         this.state = {
             players: []
         };
+        this.getInfo = this.getInfo.bind(this);
     }
 
-    componentDidMount(){
+    getInfo(){
         fetch('/api')
         .then((data) => data.json)
         .then((players) => {
+            console.log('hello???',players)
             let i = 0;
             const updatedPlayers = [];
             while(i < 3){
@@ -26,19 +28,22 @@ class Scores extends Component {
     }
 
     render() {
+        this.getInfo()
+        return(
         <section>
             <header>
                 <h2>SCORES</h2>
+                {/* {console.log(this.state)} */}
             </header>
             <div>
                 <ul>
-                    {console.log(this.state.players[0])}
                     <li>{this.state.players[0].name},{this.state.players[0].score} </li>
                     <li>{this.state.players[1].name},{this.state.players[1].score} </li>
                     <li>{this.state.players[2].name},{this.state.players[2].score} </li>
                 </ul>
             </div>
         </section>
+        )
     }
 }
 
