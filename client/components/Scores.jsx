@@ -1,47 +1,25 @@
-import React, { Component } from "react";
+import React from "react";
+import Score from './Score.jsx';
 
-class Scores extends Component {
-    constructor() {
-        super();
-        
-        this.state = {
-          players: [],
-        };
+const Scores = () =>  {
+    console.log('hello')
+    const allPlayers = [];
+    for (let i = 0; i < 3; i++){
+        allPlayers.push(<Score key='justkeys' name ={this.players[i].name} score={this.players[i].score}/>)
+    }
+    return(
+    <section>
+        <header>
+            <h2>SCORES</h2>
+        </header>
+        <div>
+            <ul>
+                {allPlayers}
+            </ul>
+        </div>
+    </section>
+    )
     
-        this.componentDidMount = this.componentDidMount.bind(this);
-    }
-
-    componentDidMount() {
-    console.log('hii')
-    fetch('/api')
-      .then((data) => data.json())
-      .then( data => {
-        console.log('logged inside 2nd then:', data)
-        this.setState({urls:data})
-      })
-      .catch((err) => {
-        console.log('logged error:',err);
-      });
-    }
-
-    render() {
-     
-        return(
-        <section>
-            <header>
-                <h2>SCORES</h2>
-                {/* {console.log(this.state)} */}
-            </header>
-            <div>
-                <ul>
-                    <li>{Score } </li>
-                    <li>{this.state.players[1].name},{this.state.players[1].score} </li>
-                    <li>{this.state.players[2].name},{this.state.players[2].score} </li>
-                </ul>
-            </div>
-        </section>
-        )
-    }
 }
 
 
