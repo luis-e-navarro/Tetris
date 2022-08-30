@@ -1,34 +1,31 @@
 import React, { Component } from "react";
 
 class Scores extends Component {
-    constructor(){
+    constructor() {
         super();
+        
         this.state = {
-            players: []
+          players: [],
         };
-        this.getInfo = this.getInfo.bind(this);
+    
+        this.componentDidMount = this.componentDidMount.bind(this);
     }
 
-    getInfo(){
-        fetch('/api')
-        .then((data) => data.json)
-        .then((players) => {
-            console.log('hello???',players)
-            let i = 0;
-            const updatedPlayers = [];
-            while(i < 3){
-                updatedPlayers.push(players[i]);
-                i++
-            }
-            return this.setState({
-                players: updatedPlayers
-            })
-        })
-        .catch(err => console.log('Error found in updated players', err))
+    componentDidMount() {
+    console.log('hii')
+    fetch('/api')
+      .then((data) => data.json())
+      .then( data => {
+        console.log('logged inside 2nd then:', data)
+        this.setState({urls:data})
+      })
+      .catch((err) => {
+        console.log('logged error:',err);
+      });
     }
 
     render() {
-        this.getInfo()
+     
         return(
         <section>
             <header>
@@ -37,7 +34,7 @@ class Scores extends Component {
             </header>
             <div>
                 <ul>
-                    <li>{this.state.players[0].name},{this.state.players[0].score} </li>
+                    <li>{Score } </li>
                     <li>{this.state.players[1].name},{this.state.players[1].score} </li>
                     <li>{this.state.players[2].name},{this.state.players[2].score} </li>
                 </ul>
