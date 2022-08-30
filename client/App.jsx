@@ -2,13 +2,14 @@ import React from 'react';
 
 
 
-// import Scores from './client/components.jsx';
-// import Board from '.client/components.jsx';
+import Scores from './components/Scores.jsx';
+import Board from './components/Board.jsx';
 
 const App = () => {
    return (
     <div>
-        <h1>hello</h1>
+        <Scores/>
+        <Board/>
     </div>  
    )
 }
