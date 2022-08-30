@@ -1,11 +1,17 @@
 import React from "react";
+import { Switch, Route } from 'react-router-dom';
+
+
 import Scores from './client/components';
 import Board from '.client/components';
 
 const App = () => {
-    render(
-        <Scores />,
-        <Board />
+    return(
+        <Switch>
+            <Route exact path = '/' component = {Scores} />
+            <Route exact path = '/' component = { Board} />
+
+        </Switch>
     )
 }
 

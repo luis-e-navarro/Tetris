@@ -11,9 +11,9 @@ app.use(express.static(path.resolve(__dirname,'../client')))
 
 app.get('/api',
 playerController.updatePlayer,
-(req,res,next)=>{
-    console.log('ho??')
-    return res.status(200).json(res.locals.players)
+(req,res)=>{
+
+    return res.status(200).send(res.locals.players)
 })
 
 

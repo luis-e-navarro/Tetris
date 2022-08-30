@@ -14,3 +14,5 @@ playerController.updatePlayer = ( req, res, next) => {
         return next({log: 'Express error handler caught unknown middleware error'})
     })
 }
+
+module.exports = playerController
