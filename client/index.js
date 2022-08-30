@@ -1,13 +1,8 @@
-import React from "react";
-import { render } from "react-dom";
-import { BrowserRouter } from 'react-router-dom';
+import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import App from './App';
 
-render(
-    
-    <BrowserRouter>
-    {console.log('hello?')}
-        <App/>
-    </BrowserRouter>,
-    document.getElementById('main')
-)
+//App consists of one feed
+
+// Render an <App> component to the #app div in the body
+ReactDOM.render(<App />, document.getElementById('app'));

@@ -1,18 +1,16 @@
-import React from "react";
+import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 
 
-import Scores from './client/components';
-import Board from '.client/components';
+import Scores from './client/components.jsx';
+import Board from '.client/components.jsx';
 
 const App = () => {
-    return(
-        <Switch>
-            <Route exact path = '/' component = {Scores} />
-            <Route exact path = '/' component = { Board} />
-
-        </Switch>
-    )
+   return (
+    <div>
+        <h1>hello</h1>
+    </div>  
+   )
 }
 
 

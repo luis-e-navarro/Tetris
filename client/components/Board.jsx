@@ -7,7 +7,7 @@ const Board = () => {
                 
             </div>
         </section>
-    )
+    ) 
 }
 
 export default Board;
