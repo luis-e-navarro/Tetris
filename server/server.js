@@ -11,6 +11,7 @@ app.use(express.static(path.resolve(__dirname,'../client')))
 
 app.get('/api',
 playerController.updatePlayer,
+playerController.checkAmount,
 (req,res)=>{
 
     return res.status(200).send(res.locals.players)

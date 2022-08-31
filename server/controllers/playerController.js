@@ -7,14 +7,35 @@ playerController.updatePlayer = ( req, res, next) => {
 
     db.query(charString)
     .then(data => {
-        res.locals.players = data.rows
-        console.log('hello??',res.locals.players)
-        
-        return next();
+    res.locals.players = data.rows
+    const all = res.locals.players.sort()
+    all.sort(function(a, b) {
+        return b.score - a.score;
+    });
+    return next();
     })
     .catch(err => {
-        return next({log: 'Express error handler caught unknown middleware error'})
-    })
+        return next({log: 'Express error handler caught updatePlayer middleware error'})
+    })  
+    
+}
+
+playerController.checkAmount = (req,res,next) => {
+    if(res.locals.players.length > 5){
+        const total = res.locals.players.reduce((acc, curr) => {
+            if (curr.score < acc.score){
+                return curr
+            }
+        });
+        const charString = `DELETE FROM scores WHERE score ='${total.score}';`;
+        db.query(charString, (err, res)=>{
+      
+            return next();
+        })
+    }else{
+        return next()
+    }
+
 }
 
 module.exports = playerController

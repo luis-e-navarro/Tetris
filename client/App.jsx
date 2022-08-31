@@ -9,7 +9,7 @@ class App extends Component {
   }
 
   render() {
-    const all = [<Scores/>, <Board/>]
+    const all = [<Scores key="scorekey"/>, <Board key="boardkey"/>]
     return (
         [all]
     );
