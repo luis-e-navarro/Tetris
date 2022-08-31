@@ -16,16 +16,15 @@ class Scores extends Component {
 
       render() {
         return (
-            <div>
-           <h3>TOP 5 SCORES</h3>
-          <ol style ={{backgroundColor: 'lightblue', width: '350px'}}>
+            <div class="scoreContainer">
+          <ul class="scoreTable">
             {
               this.state.players
                 .map(person =>
-                  <li key= {`playerkey-${person.name}`}> Score: {person.score} Name: {person.name}</li>
+                  <li class ="eachLine" key= {`playerkey-${person.name}`}><p class="playerName">{person.name.toUpperCase()}</p> <p class="scoreNumber">{person.score}</p> </li>
                 )
             }
-          </ol>
+          </ul>
           </div>
         
         )

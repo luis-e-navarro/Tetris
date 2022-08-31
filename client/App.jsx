@@ -11,7 +11,7 @@ class App extends Component {
   render() {
   
     return (
-        <div style={{display:'flex'}}>
+        <div class="mainDiv">
           <Board/>
           <Scores/>
         </div>
