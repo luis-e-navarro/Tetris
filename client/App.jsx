@@ -1,6 +1,6 @@
  import React, { Component } from 'react';
  import Scores from './components/Scores.jsx';
- import Board from './components/Board.jsx';
+ import Board from './components/TetrisBoard.jsx';
  
 
 class App extends Component {
