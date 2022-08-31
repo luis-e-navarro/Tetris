@@ -2,12 +2,20 @@ import React from "react";
 
 const Board = () => {
     return (
-        <section>
-            <div style={{ backgroundColor: 'blue', height: '500px', width: '400px'}}>
-                <h1>hello</h1>
-            </div>
-        </section>
-    ) 
+        <div style={styles.container}>
+            <h2>Hello?</h2>
+        </div>
+    )
 }
 
-export default Board;
+const styles = {
+    container: {
+      border: '1px black solid',
+      width: '400px%',
+      height: '500px',
+      backgroundColor: 'lightBlue',
+      borderRadius: '9px'
+    },
+  };
+
+  export default Board;
