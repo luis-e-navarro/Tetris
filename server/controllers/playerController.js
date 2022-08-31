@@ -8,6 +8,8 @@ playerController.updatePlayer = ( req, res, next) => {
     db.query(charString)
     .then(data => {
         res.locals.players = data.rows
+        console.log('hello??',res.locals.players)
+        
         return next();
     })
     .catch(err => {

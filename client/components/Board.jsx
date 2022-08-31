@@ -11,7 +11,7 @@ const Board = () => {
 const styles = {
     container: {
       border: '1px black solid',
-      width: '400px%',
+      width: '400px',
       height: '500px',
       backgroundColor: 'lightBlue',
       borderRadius: '9px'
