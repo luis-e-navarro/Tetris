@@ -9,9 +9,12 @@ class App extends Component {
   }
 
   render() {
-    const all = [<Scores key="scorekey"/>, <Board key="boardkey"/>]
+  
     return (
-        [all]
+        <div style={{display:'flex'}}>
+          <Board/>
+          <Scores/>
+        </div>
     );
   }
 }

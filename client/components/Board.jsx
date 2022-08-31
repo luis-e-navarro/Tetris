@@ -3,7 +3,7 @@ import React from "react";
 const Board = () => {
     return (
         <div style={styles.container}>
-  
+            
         </div>
     )
 }

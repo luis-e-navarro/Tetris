@@ -27,9 +27,8 @@ playerController.checkAmount = (req,res,next) => {
                 return curr
             }
         });
-        const charString = `DELETE FROM scores WHERE score ='${total.score}';`;
+        const charString = `DELETE FROM scores WHERE score = '${total.score}';`;
         db.query(charString, (err, res)=>{
-      
             return next();
         })
     }else{
