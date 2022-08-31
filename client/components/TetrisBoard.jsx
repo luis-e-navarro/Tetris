@@ -1,11 +1,19 @@
 import React from "react";
 
-const Board = () => {
+import BoardGrid from './BoardGrid.jsx'
+
+const mapStateToProps = (state) => ({
+    currentGrid: state.currentGrid, 
+    tetroPiece: state.tetroPiece, 
+    tetroPosition: state.tetroPosition
+});
+
+const TetrisBoard = () => {
     
     return (
-        <div class="boardGame">
-            <div class="lBlock">'</div>
+        <div class="TetrisBoard">
+            <BoardGrid currentGrid = {currentGrid}/>
         </div>
     )
 }
-  export default Board;
+export default connect(mapStateToProps, null)(TetrisBoard);
