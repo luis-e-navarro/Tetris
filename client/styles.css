@@ -1,8 +1,7 @@
 body{
     width: 100%;
-    height: 350px;
-    background-image: linear-gradient(to right, blue, yellow, violet);
-    box-shadow: 0 0 120px 110px white inset;
+    height: 100%;
+    background-image: linear-gradient(to right, gold, rgb(98, 98, 195), violet);
 }
 
 
@@ -14,7 +13,14 @@ body{
 
 .mainTitle {
     display: flex;
-    justify-content: space-around;
-    background-color: rgb(32, 115, 133);
-    color: white;
+    justify-content: flex-end;
+    padding-right: 30%;
+    font-size: 200%;
+}
+
+.titleImage {
+    max-width: auto;
+    max-height: auto;
+    width: 400px;
+    text-shadow: 1px 8px 5px rgb(66, 26, 26);
 }
