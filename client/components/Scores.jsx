@@ -19,18 +19,13 @@ function mapDispatchToProps(dispatch) {
 class Scores extends Component {
     constructor(props) {
       super (props)
-      // this.componentDidMount = this.componentDidMount.bind(this)
+      this.componentDidMount = this.componentDidMount.bind(this)
     }
 
     componentDidMount() {
-      let playa;
-      axios.get(`/api`)
-      .then(res => {
-        playa = res.data
-      })
-      const [ players, setPlayers ] = useState(playa)
-
-      }
+      const { updatePlayers } = this.props;
+      updatePlayers();
+    }
 
   render() {
 
@@ -41,7 +36,7 @@ class Scores extends Component {
             {
               this.props.players
                 .map(person =>
-                  <li className ="eachLine" key= {`playerkey-${person.name}`}><p class="playerName">{person.name.toUpperCase()}</p> <p class="scoreNumber">{person.score}</p> </li>
+                  <li className ="eachLine" key= {`playerkey-${person.name}`}><p className="playerName">{person.name.toUpperCase()}</p> <p className="scoreNumber">{person.score}</p> </li>
                 )
             }
           </ul>

@@ -34,13 +34,9 @@ const initalState = {
      }
      
      case types.UPDATE_PLAYERS:
-      axios.get(`/api`)
-      .then(res => {
-        players = state.players.slice(state.players.length)
-        players.push(res.data)
-        console.log('can yoy seeplayers??', res.data)
-      })
-
+      players = state.players.slice(state.players.length)
+      players.push(...action.data)
+      console.log('-->', action.data);
      return{
       ...state,
       players,
