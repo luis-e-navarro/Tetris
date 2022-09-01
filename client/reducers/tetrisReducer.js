@@ -89,7 +89,7 @@ const initalState = {
         y: state.tetroPosition.y + 1
       })
 
-      if (state.tetroPosition.y > 4) {
+      if (state.tetroPosition.y > 15) {
         let relativeX, relativeY;
         currentGrid = state.currentGrid
 
