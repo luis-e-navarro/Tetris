@@ -2,9 +2,10 @@
 import * as types from '../constants/types.js';
 import axios from "axios";
 
+
+
   export const updatePlayers = () => async dispatch => {
     const response  = await axios.get('/api');
-    console.log('hi?',response)
     dispatch({type: types.UPDATE_PLAYERS, data: response.data })
 } 
 
@@ -20,6 +21,9 @@ export const moveTetroRight = () => ({
     payload: 1
 });
 
+export const rotate = () => ({
+  type: types.ROTATE
+})
 
 export const startGame = () => (dispatch) => {
   dispatch({ type: types.START })
@@ -35,9 +39,8 @@ export const drop = () => (dispatch) => {
 
 export function setDropTimeout(cb, interval) {
   clearDropTimeout()
-  window.droptimer = setTimeout(cb, interval)
+  window.dropTimer = setTimeout(cb, interval)
 }
-
 
 export function clearDropTimeout() {
   if (!window.dropTimer)  return

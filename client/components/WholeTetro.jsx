@@ -22,7 +22,6 @@ class WholeTetro extends Component {
     _renderTetro () {
 
         const shapeArr = this.props.tetroGrid
-        console.log('check-->>',shapeArr)
         const color = 'blue';
         
         const rows = shapeArr.length

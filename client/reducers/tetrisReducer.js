@@ -1,7 +1,7 @@
 import * as types from '../constants/types';
 import { GRID, TETROMINOS, SHAPES} from '../constants/tetromino';
 import _ from 'lodash'
-
+import { timervalue } from '../actions/actions.js';
 import {clearDropTimeout} from '../actions/actions.js'
 
 const initalState = {
@@ -16,8 +16,9 @@ const initalState = {
   }
  
  const tetrisReducer = (state = initalState, action) => {
-  let players, tetroPiece, tetroPosition, tetroGrid, newPosition;
+  let players, tetroPiece, tetroPosition, tetroGrid;
    switch (action.type) {
+
      case types.MOVE:
       tetroPosition = _.assign({}, state.tetroPosition, {
         x: state.tetroPosition.x + action.payload
@@ -26,6 +27,33 @@ const initalState = {
         ...state, 
         tetroPosition
     };
+
+    case types.ROTATE:
+
+    if (state.tetroPiece === 'O'){
+      return {
+        ...state
+      }
+    }else{
+      const array1 = state.tetroGrid
+      const newarr = [];
+
+      for (let z = 0; z < array1.length; z++ ){
+        let sub =[];
+      for (let i = array1.length -1; i > -1; i--){
+        sub.push(array1[i][z])
+      }
+        newarr.push(sub);
+      }
+
+      tetroGrid = state.tetroGrid.slice(state.tetroGrid.length)
+      tetroGrid.push(...newarr)
+
+    return {
+      ...state,
+      tetroGrid
+    }
+  }
     
      case types.START:
       const rand = Math.floor(Math.random() * TETROMINOS.length)
@@ -36,7 +64,7 @@ const initalState = {
       x: Math.round(5) - Math.round(SHAPES[tetroPiece][0].length / 2), 
       y: -2
       }
-      tetroPosition = _.assign(position, state.tetroPosition)
+      tetroPosition = _.assign(state.tetroPosition, position)
       tetroGrid = state.tetroGrid.slice(state.tetroGrid.length)
       tetroGrid = SHAPES[tetroPiece]
 
@@ -51,7 +79,6 @@ const initalState = {
      case types.UPDATE_PLAYERS:
       players = state.players.slice(state.players.length)
       players.push(...action.data)
-      console.log('-->', action.data);
      return{
       ...state,
       players,
@@ -61,17 +88,8 @@ const initalState = {
       tetroPosition = _.assign({}, state.tetroPosition, {
         y: state.tetroPosition.y + 1
       })
-
-      // drop until it hits something
-      // if (isPositionAvailable(grid, currTetroGrid, newPosition)) {
-      //   return updateTetrisStateStorage(_.assign({}, state, { currTetroPosition: newPosition }))
-      // }
-      
-      // position is not available => reaches the bottom-most position of the well
-      
-      // there is no extra room for the new tetromino, game over
-      if (state.tetroPosition.y < 0) {
-        clearDropTimeout()
+      if (state.tetroPosition.y > 5) {
+ 
 
         return {
           ...state,
@@ -84,6 +102,16 @@ const initalState = {
         tetroPosition
       }
     
+
+      // drop until it hits something
+      // if (isPositionAvailable(grid, currTetroGrid, newPosition)) {
+      //   return updateTetrisStateStorage(_.assign({}, state, { currTetroPosition: newPosition }))
+      // }
+      
+      // position is not available => reaches the bottom-most position of the well
+      
+      // there is no extra room for the new tetromino, game over
+ 
       
       // let newGrid = transferTetroGridIntoWell({
       //   grid,
