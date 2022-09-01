@@ -27,14 +27,27 @@ playerController.checkAmount = (req,res,next) => {
                 return curr
             }
         });
+        
         const charString = `DELETE FROM scores WHERE score = '${total.score}';`;
         db.query(charString, (err, res)=>{
             return next();
         })
+        .catch((error) => next({log:`Error in checkAmount function`}))
     }else{
         return next()
     }
-
 }
+
+
+playerController.addPlayer = (req, res, next) => {
+
+    const {name, score} = req.body;
+    const command = `INSERT INTO scores (name, score) VALUES ('${name}', '${score}');`;
+    db
+      .query(command)
+      .then(()=> next())
+      .catch((error =>  next({log:'Error in addCharacter function'})));
+  
+  };
 
 module.exports = playerController

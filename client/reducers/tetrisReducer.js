@@ -16,7 +16,7 @@ const initalState = {
   }
  
  const tetrisReducer = (state = initalState, action) => {
-  let players, tetroPiece, tetroPosition, tetroGrid;
+  let players, tetroPiece, tetroPosition, tetroGrid, currentGrid;
    switch (action.type) {
 
      case types.MOVE:
@@ -67,12 +67,12 @@ const initalState = {
       tetroPosition = _.assign(state.tetroPosition, position)
       tetroGrid = state.tetroGrid.slice(state.tetroGrid.length)
       tetroGrid = SHAPES[tetroPiece]
-
+      currentGrid = GRID;
       return {
         ...state,
         tetroPiece,
         tetroPosition,
-        tetroGrid
+        tetroGrid,
       }
    
      
@@ -88,8 +88,27 @@ const initalState = {
       tetroPosition = _.assign({}, state.tetroPosition, {
         y: state.tetroPosition.y + 1
       })
-      if (state.tetroPosition.y > 5) {
- 
+
+      if (state.tetroPosition.y > 4) {
+        let relativeX, relativeY;
+        currentGrid = state.currentGrid
+
+        for (let row = 0; row < state.tetroGrid.length; row++) {
+          for (let col = 0; col < state.tetroGrid[0].length; col++) {
+            if (!state.tetroGrid[row][col]) continue
+            relativeX = state.tetroPosition.x + col
+            relativeY = state.tetroPosition.y + row
+      
+            currentGrid[relativeY][relativeX] = 'green'
+          }
+        }
+
+        return {
+          ...state,
+          currentGrid
+        }
+
+
 
         return {
           ...state,

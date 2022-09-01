@@ -17,7 +17,12 @@ playerController.checkAmount,
 });
 
 
-
+app.post('/api',
+playerController.addPlayer, 
+(req, res) => {
+  console.log('dragon')
+  return res.sendStatus(200)
+})
 
 
 

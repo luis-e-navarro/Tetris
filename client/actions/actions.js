@@ -34,7 +34,7 @@ export const drop = () => (dispatch) => {
   setDropTimeout(() => {
     dispatch({ type: types.DROP })
     dispatch(drop())
-  }, 600)
+  }, 200)
 }
 
 export function setDropTimeout(cb, interval) {
