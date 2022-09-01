@@ -56,6 +56,22 @@ const initalState = {
   }
     
      case types.START:
+      currentGrid = state.currentGrid.slice(state.currentGrid.length)
+   
+      const gridBuilder = state.currentGrid.reduce((result, row) => {
+          if (!row.every(el => el !== null)) {
+            result.push([...row])
+          } else {
+    
+            result.unshift([null, null, null, null, null, null, null, null, null, null])
+          }
+    
+          return result
+        }, [])
+
+        currentGrid.push(...gridBuilder)
+
+
       const rand = Math.floor(Math.random() * TETROMINOS.length)
       state.tetroPiece = '';
       state.tetroPiece += TETROMINOS[rand];
@@ -67,12 +83,14 @@ const initalState = {
       tetroPosition = _.assign(state.tetroPosition, position)
       tetroGrid = state.tetroGrid.slice(state.tetroGrid.length)
       tetroGrid = SHAPES[tetroPiece]
-      currentGrid = GRID;
+
+
       return {
         ...state,
         tetroPiece,
         tetroPosition,
         tetroGrid,
+        currentGrid,
       }
    
      
@@ -89,7 +107,7 @@ const initalState = {
         y: state.tetroPosition.y + 1
       })
 
-      if (state.tetroPosition.y > 15) {
+      if (state.tetroPosition.y > 17) {
         let relativeX, relativeY;
         currentGrid = state.currentGrid
 
