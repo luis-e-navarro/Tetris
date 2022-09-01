@@ -1,19 +1,27 @@
-import React from "react";
-
+import React, { Component } from "react";
+import { connect } from 'react-redux';
 import BoardGrid from './BoardGrid.jsx'
 
-const mapStateToProps = (state) => ({
-    currentGrid: state.currentGrid, 
-    tetroPiece: state.tetroPiece, 
-    tetroPosition: state.tetroPosition
-});
 
-const TetrisBoard = () => {
-    
+const mapStateToProps = (state) => {
+    return {
+        currentGrid: state.currentGrid, 
+        tetroPiece: state.tetroPiece, 
+        tetroPosition: state.tetroPosition
+    };
+}
+
+class TetrisBoard extends Component {
+    constructor(props) {
+        super(props);
+      }
+      render(){
     return (
-        <div class="TetrisBoard">
-            <BoardGrid currentGrid = {currentGrid}/>
+        <div className="TetrisBoard">
+            <BoardGrid currentGrid = {this.props.currentGrid}/>
         </div>
     )
+      }
 }
+
 export default connect(mapStateToProps, null)(TetrisBoard);

@@ -7,13 +7,6 @@ body{
 }
 
 
-* {
-    margin: 0;
-    padding: 0;
-    font-family: Arial, Helvetica, sans-serif;
-}
-
-
 .mainTitle {
     display: flex;
     justify-content: flex-end;
@@ -40,11 +33,7 @@ body{
     line-height: 1.8; 
 }
 
-.mainDiv{
-    margin-top: -120px;
-    display:flex;
-    justify-content:space-evenly;
-}
+
 
 .eachLine{
     display: flex;
@@ -64,14 +53,105 @@ body{
     font-family: 'Silkscreen', cursive;
 }
 
-.boardGame{
-    width: 350px;
-    height: 630px;
+.mainDiv{
     background-color: lightblue;
-    border: 1px solid;
-    box-shadow: 5px 10px 18px pink;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    width: 275px;
+    height: 550px; 
+    margin-left: 150px;
+    margin-top: -8%;
+    
 }
 
-.singleBlock{
-    background-color: blue;
+.TetrisBoard {
+    position: relative;
+    flex-basis: 295px;
+    background-color: #e4faff;
 }
+.boardGrid {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding:0;
+}
+
+.square-container {
+    position: absolute; }
+
+ul {
+    display: block;
+    list-style-type:none;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    padding-inline-start: 40px;
+}
+/* 
+        * {
+  margin: 0;
+  padding: 0; }
+
+html, body {
+  height: 100%;
+  overflow: hidden; }
+
+ul li {
+  list-style: none; }
+
+.TetrisBoard {
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    width: 100%;
+    height: 100%; }
+
+
+
+.TetrisBoard {
+    position: relative;
+    flex-basis: 295px;
+    background-color: #e4faff; }
+    @media screen and (max-width: 451px) {
+        .TetrisBoard {
+        flex-basis: 100%; } }
+    @media screen and (max-width: 321px) {
+        .TetrisBoard {
+        flex-basis: 440px; } }
+    .TetrisBoard .boardGrid {
+        position: relative;
+        width: 100%;
+        height: 100%; }
+        .TetrisBoard .boardGrid li.square-block-container {
+        position: absolute; }
+        .TetrisBoard .boardGrid li.square-block-container .singleBlock {
+            width: 100%;
+            height: 100%; }
+    .TetrisBoard .tetromino {
+        position: absolute; }
+        .TetrisBoard .tetromino .square-block-container {
+        position: absolute;
+        width: 25%;
+        height: 25%; }
+        .TetrisBoard .tetromino .square-block-container .singleBlock {
+            width: 100%;
+            height: 100%; }
+    .TetrisBoard .overlay {
+        position: absolute;
+        top: 0;
+        height: calc(100% - 30px);
+        color: #0d2e6d;
+        padding: 15px;
+        line-height: 2;
+        overflow: hidden;
+        background: rgba(228, 250, 255, 0.5); }
+        .TetrisBoard .overlay a {
+        text-decoration: none; } */

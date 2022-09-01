@@ -1,22 +1,16 @@
  import React, { Component } from 'react';
  import Scores from './components/Scores.jsx';
- import Board from './components/TetrisBoard.jsx';
+ import TetrisBoard from './components/TetrisBoard.jsx';
  
 
-class App extends Component {
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
+const App = () =>  {
   
     return (
-        <div class="mainDiv">
-          <Board/>
+        <div className="mainDiv">
+          <TetrisBoard/>
           <Scores/>
         </div>
     );
-  }
 }
  
  export default App;

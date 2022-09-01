@@ -1,7 +1,5 @@
 export const TETROMINOS = ['I', 'O', 'T', 'J', 'L', 'S', 'Z'];
 
-export const START = 13;
-
 
 export const SHAPES = {
   I: [[0, 0, 0, 0], [1, 1, 1, 1], [0, 0, 0, 0], [0, 0, 0, 0]],
@@ -35,3 +33,4 @@ export const GRID =  [
         [null, null, null, null, null, null, null, null, null, null],
         [null, null, null, null, null, null, null, null, null, null]
       ]
+    

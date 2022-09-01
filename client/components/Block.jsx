@@ -3,7 +3,7 @@ import { render } from "react-dom";
 
 const Block = () => {
     return (
-        <div class="singleBlock"></div>
+        <div className="singleBlock"></div>
     )
 }
 

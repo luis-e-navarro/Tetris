@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/luis-e-navarro/tetris#readme",
   "dependencies": {
+    "@redux-devtools/extension": "^3.2.3",
     "axios": "^0.27.2",
     "express": "^4.18.1",
     "pg": "^8.8.0",
@@ -26,6 +27,7 @@
     "react-dom": "^18.2.0",
     "react-redux": "^8.0.2",
     "react-router-dom": "^6.3.0",
+    "redux-devtools-extension": "^2.13.9",
     "redux-thunk": "^2.4.1"
   },
   "devDependencies": {

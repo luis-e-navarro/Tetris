@@ -16,3 +16,7 @@ export const startGame = () => ({
     type: types.START,
 })
 
+export const updatePlayers = () => ({
+    type: types.UPDATE_PLAYERS
+})
+
