@@ -62,7 +62,8 @@ body{
     align-items: stretch;
     height: 550px; 
     margin-left: 150px;
-    margin-top: -8%;
+    margin-top: -5%;
+    justify-content: space-evenly;
     
 }
 
@@ -70,6 +71,8 @@ body{
     position: relative;
     flex-basis: 295px;
     background-color: #e4faff;
+    border: 0px solid;
+    box-shadow: 6px 20px 30px red;
 }
 .boardGrid {
     position: relative;

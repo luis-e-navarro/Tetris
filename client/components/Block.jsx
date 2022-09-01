@@ -1,9 +1,9 @@
 import React from "react";
 import { render } from "react-dom";
 
-const Block = () => {
+const Block = ({color}) => {
     return (
-        <div className="singleBlock"></div>
+        <div className="singleBlock" style={{ backgroundColor: color }}></div>
     )
 }
 
