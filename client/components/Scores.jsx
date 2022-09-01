@@ -1,18 +1,20 @@
 import React, { Component }  from "react";
 import { connect } from 'react-redux';
 import axios from "axios";
-import { updatePlayers } from "../actions/actions";
+import { updatePlayers, startGame } from "../actions/actions";
 import { useState } from 'react';
 
 const mapStateToProps = (state) => {
    return {
-    players: state.players
+    players: state.players,
+    tetroGrid: state.tetroGrid
    }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    updatePlayers: () => dispatch(updatePlayers())
+    updatePlayers: () => dispatch(updatePlayers()),
+    startGame: () => dispatch(startGame())
   }
 }
 
@@ -23,7 +25,7 @@ class Scores extends Component {
     }
 
     componentDidMount() {
-      const { updatePlayers } = this.props;
+      const { updatePlayers, startGame } = this.props;
       updatePlayers();
     }
 
@@ -31,7 +33,6 @@ class Scores extends Component {
 
     return (
         <div className="scoreContainer">
-          {console.log('playas',this.props)}
           <ul className="scoreTable">
             {
               this.props.players

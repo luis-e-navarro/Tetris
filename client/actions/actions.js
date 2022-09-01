@@ -10,34 +10,35 @@ import axios from "axios";
 
 
 export const moveTetroLeft = () => ({
-    type: types.MOVE_LEFT,
+    type: types.MOVE,
     payload: -1
   });
 
 
 export const moveTetroRight = () => ({
-    type: types.MOVE_RIGHT,
+    type: types.MOVE,
     payload: 1
 });
 
-export const startGame = () => (dispatch) => {
-  dispatch({ type: types.START})
-  dispatch( setDropTimeout(() => {
-    if (gameStatus === STOPPED) return
-    
-    if (gameStatus === PLAYING) {
-      dispatch({ type: DROP })
-    }
 
-    dispatch(drop())
-  }, 600))
+export const startGame = () => (dispatch) => {
+  dispatch({ type: types.START })
+  dispatch(drop())
 }
 
-//helper functions
+export const drop = () => (dispatch) => {
+  setDropTimeout(() => {
+    dispatch({ type: types.DROP })
+    dispatch(drop())
+  }, 600)
+}
+
 export function setDropTimeout(cb, interval) {
   clearDropTimeout()
-  window.dropTimer = setTimeout(cb, interval)
+  window.droptimer = setTimeout(cb, interval)
 }
+
+
 export function clearDropTimeout() {
   if (!window.dropTimer)  return
   clearTimeout(window.dropTimer)

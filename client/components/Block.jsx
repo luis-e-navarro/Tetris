@@ -3,7 +3,7 @@ import { render } from "react-dom";
 
 const Block = ({color}) => {
     return (
-        <div className="singleBlock" style={{ backgroundColor: color }}></div>
+        <div className="singleBlock" style={{ backgroundColor: `${color}` }}></div>
     )
 }
 

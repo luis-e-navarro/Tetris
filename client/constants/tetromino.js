@@ -1,5 +1,5 @@
 export const TETROMINOS = ['I', 'O', 'T', 'J', 'L', 'S', 'Z'];
-
+export const SPACE_KEY = 32;
 
 export const SHAPES = {
   I: [[0, 0, 0, 0], [1, 1, 1, 1], [0, 0, 0, 0], [0, 0, 0, 0]],

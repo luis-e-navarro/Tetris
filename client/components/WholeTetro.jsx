@@ -2,9 +2,10 @@ import React, { Component } from "react";
 
 import Block from './Block.jsx'
 import { GRID, TETROMINOS, SHAPES} from '../constants/tetromino';
+import { render } from "react-dom";
 
 class WholeTetro extends Component {
-
+   
     _getTetrominoStyle(){
         const rows = GRID.length
         const columns = GRID[0].length
@@ -18,16 +19,19 @@ class WholeTetro extends Component {
             left: `${this.props.tetroPosition.x * widthPercent}%`
         }
     }
-    _renderTetro(){
+    _renderTetro () {
+
         const shapeArr = this.props.tetroGrid
-        console.log('check',shapeArr)
+        console.log('check-->>',shapeArr)
         const color = 'blue';
+        
         const rows = shapeArr.length
         const columns = shapeArr[0].length
         let result = []
 
         for (let row = 0; row < rows; row++){
             for (let col = 0; col < columns; col++){
+                if (!shapeArr[row][col]) continue
                 result.push(
                     <li className="square-container"
                     key={`t-${row}${col}`}
@@ -41,15 +45,18 @@ class WholeTetro extends Component {
                 )
             }
         }
+        return result;
     }
 
     render(){
         return (
-            <ul className="WholeTetro" style ={this._getTetrominoStyle}>
+            
+            <ul className="WholeTetro" style ={this._getTetrominoStyle()}>
                 {this._renderTetro()}
             </ul>
         )
     }
+
 }
 
 export default WholeTetro;
