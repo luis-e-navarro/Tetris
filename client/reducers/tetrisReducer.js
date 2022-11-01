@@ -18,7 +18,7 @@ const initalState = {
  const tetrisReducer = (state = initalState, action) => {
   let players, tetroPiece, tetroPosition, tetroGrid, currentGrid;
    switch (action.type) {
-
+    // move ------------------------------------------------------
      case types.MOVE:
       tetroPosition = _.assign({}, state.tetroPosition, {
         x: state.tetroPosition.x + action.payload
@@ -27,45 +27,39 @@ const initalState = {
         ...state, 
         tetroPosition
     };
+    // rotate ------------------------------------------------------
+      case types.ROTATE:
+        if (state.tetroPiece === 'O'){
+          return {
+            ...state
+          }
+        }else{
+          const array1 = state.tetroGrid
+          const newarr = [];
+          for (let z = 0; z < array1.length; z++ ){
+            let sub =[];
+            for (let i = array1.length -1; i > -1; i--){
+              sub.push(array1[i][z])
+            }
+            newarr.push(sub);
+          }
+          tetroGrid = state.tetroGrid.slice(state.tetroGrid.length)
+          tetroGrid.push(...newarr)
+          return {
+            ...state,
+            tetroGrid
+          }
+        }
 
-    case types.ROTATE:
-
-    if (state.tetroPiece === 'O'){
-      return {
-        ...state
-      }
-    }else{
-      const array1 = state.tetroGrid
-      const newarr = [];
-
-      for (let z = 0; z < array1.length; z++ ){
-        let sub =[];
-      for (let i = array1.length -1; i > -1; i--){
-        sub.push(array1[i][z])
-      }
-        newarr.push(sub);
-      }
-
-      tetroGrid = state.tetroGrid.slice(state.tetroGrid.length)
-      tetroGrid.push(...newarr)
-
-    return {
-      ...state,
-      tetroGrid
-    }
-  }
-    
-     case types.START:
-      currentGrid = state.currentGrid.slice(state.currentGrid.length)
-   
-      const gridBuilder = state.currentGrid.reduce((result, row) => {
+        case types.START:
+          currentGrid = state.currentGrid.slice(state.currentGrid.length)
+          const gridBuilder = state.currentGrid.reduce((result, row) => {
           if (!row.every(el => el !== null)) {
             result.push([...row])
           } else {
     
             result.unshift([null, null, null, null, null, null, null, null, null, null])
           }
-    
           return result
         }, [])
 
@@ -101,39 +95,102 @@ const initalState = {
       ...state,
       players,
      }
-     // DROP REDUCER CASE -----
+     
+     // DROP REDUCER CASE ----------------------------------------------------------------------
      case types.DROP:
+      let howManyAdded;
+      let checkerY = state.tetroPosition.y
+      let currentPosition;
+      if (state.tetroPiece === 'O'){
+       currentPosition = {
+          0:[],
+          1:[]
+        }
+        howManyAdded = 1
+        currentPosition['0'].push(state.tetroPosition.x,state.tetroPosition.y + 1)
+        currentPosition['1'].push(state.tetroPosition.x + 1, state.tetroPosition.y + 1)
+      }else if (state.tetroPiece === 'I'){
+        howManyAdded = 3
+        currentPosition = {
+          0:[],
+          1:[],
+          2:[],
+          3:[],
+        }
+        console.log('hi')
+      }else{
+        howManyAdded = 2
+        currentPosition = {
+          0:[],
+          1:[],
+          2:[],
+        }
+      }
+        let flip = false
+        for (let row = state.tetroGrid.length - 1; row > -1; row--){
+          for(let column = state.tetroGrid[0].length - 1; column > -1; column--){
+            if (state.tetroGrid[row][column] === 1){
+              flip = true
+              if(!currentPosition[column].length){
+                currentPosition[column].push(state.tetroPosition.x + column, checkerY + howManyAdded)
+              }
+            }
+          }
+          if (!flip){
+            howManyAdded--
+          }
+        }
+      checkerY += howManyAdded
+      //console.log(state.tetroPosition.y,checkerY, howManyAdded)
+      //console.log('logging currentposition',currentPosition)
+      const allValues = Object.values(currentPosition)
+      // console.log('grid',state.currentGrid)
+      for (const crosshair of allValues){
+        let checkSpot = state.currentGrid[crosshair[1]+1]
+        if(checkerY === 19){
+          let relativeX, relativeY;
+          currentGrid = state.currentGrid
+
+          for (let row = 0; row < state.tetroGrid.length; row++) {
+            for (let col = 0; col < state.tetroGrid[0].length; col++) {
+              if (!state.tetroGrid[row][col]) continue
+              relativeX = state.tetroPosition.x + col
+              relativeY = state.tetroPosition.y + row
+        
+              currentGrid[relativeY][relativeX] = 'green'
+            }
+          }
+          return {
+            ...state,
+            currentGrid
+          }
+        }else if (checkSpot !== undefined){
+          console.log('logging checkstop',checkSpot)
+           if (checkSpot[crosshair[0]] === 'green'){
+             let relativeX, relativeY;
+             currentGrid = state.currentGrid
+   
+             for (let row = 0; row < state.tetroGrid.length; row++) {
+               for (let col = 0; col < state.tetroGrid[0].length; col++) {
+                 if (!state.tetroGrid[row][col]) continue
+                 relativeX = state.tetroPosition.x + col
+                 relativeY = state.tetroPosition.y + row
+           
+                 currentGrid[relativeY][relativeX] = 'green'
+               }
+             }
+             return {
+               ...state,
+               currentGrid
+             }
+           }
+           }
+      }
+
+      
       tetroPosition = _.assign({}, state.tetroPosition, {
         y: state.tetroPosition.y + 1
       })
-
-      if (state.tetroPosition.y > 17) {
-        let relativeX, relativeY;
-        currentGrid = state.currentGrid
-
-        for (let row = 0; row < state.tetroGrid.length; row++) {
-          for (let col = 0; col < state.tetroGrid[0].length; col++) {
-            if (!state.tetroGrid[row][col]) continue
-            relativeX = state.tetroPosition.x + col
-            relativeY = state.tetroPosition.y + row
-      
-            currentGrid[relativeY][relativeX] = 'green'
-          }
-        }
-
-        return {
-          ...state,
-          currentGrid
-        }
-
-
-
-        return {
-          ...state,
-          tetroPosition
-        }
-      }
-
       return {
         ...state,
         tetroPosition
@@ -169,9 +226,9 @@ const initalState = {
       //     dropInterval: dropInterval <= DROP_INTERVAL_MIN ? DROP_INTERVAL_MIN :  dropInterval - DROP_INTERVAL_DEC
       //   }))
       // } else {
-        return {
-          ...state
-        }
+        // return {
+        //   ...state
+        // }
       
     
       // }

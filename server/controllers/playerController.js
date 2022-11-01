@@ -40,7 +40,7 @@ playerController.checkAmount = (req,res,next) => {
 
 
 playerController.addPlayer = (req, res, next) => {
-
+    console.log('insert here agian')
     const {name, score} = req.body;
     const command = `INSERT INTO scores (name, score) VALUES ('${name}', '${score}');`;
     db

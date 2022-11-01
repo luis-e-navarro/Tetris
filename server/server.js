@@ -9,6 +9,10 @@ app.use(express.urlencoded({ extended: true}));
 
 app.use(express.static(path.resolve(__dirname,'../client')))
 
+app.get('/spiderman', (req,res,next)=>{
+  return res.status(200).sendFile(path.join(__dirname,'../dist/bundle.js'))
+})
+
 app.get('/api',
 playerController.updatePlayer,
 playerController.checkAmount,
@@ -20,7 +24,6 @@ playerController.checkAmount,
 app.post('/api',
 playerController.addPlayer, 
 (req, res) => {
-  console.log('dragon')
   return res.sendStatus(200)
 })
 
