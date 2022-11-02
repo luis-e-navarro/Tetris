@@ -21,6 +21,7 @@
   "dependencies": {
     "@redux-devtools/extension": "^3.2.3",
     "axios": "^0.27.2",
+    "dotenv": "^16.0.3",
     "express": "^4.18.1",
     "pg": "^8.8.0",
     "react": "^18.2.0",

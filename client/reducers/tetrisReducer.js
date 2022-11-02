@@ -12,11 +12,12 @@ const initalState = {
     x: 3,
     y: -2
   },
-  players: []
+  players: [],
+  stateFlip: false
   }
  
  const tetrisReducer = (state = initalState, action) => {
-  let players, tetroPiece, tetroPosition, tetroGrid, currentGrid;
+  let players, tetroPiece, tetroPosition, tetroGrid, currentGrid, stateFlip;
    switch (action.type) {
     // move ------------------------------------------------------
      case types.MOVE:
@@ -52,6 +53,7 @@ const initalState = {
         }
 
         case types.START:
+          stateFlip = false
           currentGrid = state.currentGrid.slice(state.currentGrid.length)
           const gridBuilder = state.currentGrid.reduce((result, row) => {
           if (!row.every(el => el !== null)) {
@@ -85,6 +87,7 @@ const initalState = {
         tetroPosition,
         tetroGrid,
         currentGrid,
+        stateFlip
       }
    
      
@@ -117,7 +120,7 @@ const initalState = {
           2:[],
           3:[],
         }
-        console.log('hi')
+
       }else{
         howManyAdded = 2
         currentPosition = {
@@ -132,7 +135,7 @@ const initalState = {
             if (state.tetroGrid[row][column] === 1){
               flip = true
               if(!currentPosition[column].length){
-                currentPosition[column].push(state.tetroPosition.x + column, checkerY + howManyAdded)
+                currentPosition[column].push(state.tetroPosition.x + column, checkerY + row)
               }
             }
           }
@@ -141,10 +144,10 @@ const initalState = {
           }
         }
       checkerY += howManyAdded
-      //console.log(state.tetroPosition.y,checkerY, howManyAdded)
-      //console.log('logging currentposition',currentPosition)
+
+
       const allValues = Object.values(currentPosition)
-      // console.log('grid',state.currentGrid)
+
       for (const crosshair of allValues){
         let checkSpot = state.currentGrid[crosshair[1]+1]
         if(checkerY === 19){
@@ -160,12 +163,14 @@ const initalState = {
               currentGrid[relativeY][relativeX] = 'green'
             }
           }
+          stateFlip = true
           return {
             ...state,
-            currentGrid
+            currentGrid,
+            stateFlip
           }
         }else if (checkSpot !== undefined){
-          console.log('logging checkstop',checkSpot)
+
            if (checkSpot[crosshair[0]] === 'green'){
              let relativeX, relativeY;
              currentGrid = state.currentGrid
@@ -179,9 +184,11 @@ const initalState = {
                  currentGrid[relativeY][relativeX] = 'green'
                }
              }
+             stateFlip = true
              return {
                ...state,
-               currentGrid
+               currentGrid,
+               stateFlip
              }
            }
            }

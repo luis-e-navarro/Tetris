@@ -11,6 +11,7 @@ const mapStateToProps = (state) => {
         tetroPiece: state.tetroPiece, 
         tetroGrid: state.tetroGrid,
         tetroPosition: state.tetroPosition,
+        stateFlip: state.stateFlip
     };
 }
 
@@ -19,7 +20,8 @@ function mapDispatchToProps(dispatch) {
         startGame: () => dispatch(startGame()),
         moveTetroLeft: () => dispatch(moveTetroLeft()),
         moveTetroRight: () => dispatch(moveTetroRight()),
-        rotate: () => dispatch(rotate())
+        rotate: () => dispatch(rotate()),
+        
     }
   }
 
@@ -55,14 +57,20 @@ class TetrisBoard extends Component{
         document.addEventListener('keyup', this.start)
        document.addEventListener('keyup', this.move)
     }
-
+    componentDidUpdate(){
+        if(this.props.stateFlip){
+            this.props.startGame();
+           }
+    }
       
 render(){
     return (
         <div className="TetrisBoard">
-            <BoardGrid currentGrid = {this.props.currentGrid}/>
-            {<WholeTetro 
+            <BoardGrid
+            currentGrid = {this.props.currentGrid}
             startGame = {this.props.startGame}
+            />
+            {<WholeTetro 
             currentGrid = {this.props.currentGrid}
             tetroGrid = {this.props.tetroGrid}
             tetroPosition={this.props.tetroPosition}
