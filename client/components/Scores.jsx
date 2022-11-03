@@ -41,6 +41,7 @@ class Scores extends Component {
                 )
             }
           </ul>
+
         </div>
         
     )

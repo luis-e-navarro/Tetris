@@ -1,33 +1,89 @@
 import * as types from '../constants/types';
-import { GRID, TETROMINOS, SHAPES} from '../constants/tetromino';
+import { GRID, TETROMINOS, SHAPES, TETROCOLORS} from '../constants/tetromino';
 import _ from 'lodash'
 import { timervalue } from '../actions/actions.js';
 import {clearDropTimeout} from '../actions/actions.js'
 
 const initalState = {
   currentGrid: GRID,
-  tetroPiece: 'T',
+  tetroPiece: '',
   tetroGrid: [[0, 0, 1], [1, 1, 1], [0, 0, 0]],
   tetroPosition: {
     x: 3,
     y: -2
   },
   players: [],
-  stateFlip: false
+  stateFlip: false,
+  ongoingScore: 0
   }
  
  const tetrisReducer = (state = initalState, action) => {
-  let players, tetroPiece, tetroPosition, tetroGrid, currentGrid, stateFlip;
+  let players, tetroPiece, tetroPosition, tetroGrid, currentGrid, stateFlip, ongoingScore;
    switch (action.type) {
     // move ------------------------------------------------------
      case types.MOVE:
-      tetroPosition = _.assign({}, state.tetroPosition, {
-        x: state.tetroPosition.x + action.payload
-      })
-       return {
-        ...state, 
-        tetroPosition
-    };
+      let sidePosition = {
+        left: null,
+        right: null
+      }
+      if (state.tetroPiece === 'I'){
+        if (state.tetroGrid[1][0] === 1){
+          sidePosition.left = state.tetroPosition.x
+          sidePosition.right = state.tetroPosition.x + 3
+        }else{
+          sidePosition.left = state.tetroPosition.x + 2
+          sidePosition.right = state.tetroPosition.x + 2
+        }
+      }else{
+        for (const row of state.tetroGrid){
+          if(row[0] === 1){
+            sidePosition.left = state.tetroPosition.x
+          }
+        }
+        if (sidePosition.left === null){
+          sidePosition.left = state.tetroPosition.x + 1
+        }
+        for (const row of state.tetroGrid){
+          if (row[2] === 1){
+            sidePosition.right = state.tetroPosition.x + 2
+          }
+        }
+        if (!sidePosition.right) sidePosition.right = state.tetroPosition.x + 1 
+      }
+
+
+      if (sidePosition.right < 9 && sidePosition.left > 0){
+        tetroPosition = _.assign({}, state.tetroPosition, {
+          x: state.tetroPosition.x + action.payload
+        })
+        return {
+          ...state, 
+          tetroPosition
+        };
+      }else if(sidePosition.right === 9  && action.payload < 0){
+
+        tetroPosition = _.assign({}, state.tetroPosition, {
+          x: state.tetroPosition.x + action.payload
+        })
+        return {
+          ...state, 
+          tetroPosition
+        };
+      }else if (sidePosition.left === 0 && action.payload > 0){
+
+        tetroPosition = _.assign({}, state.tetroPosition, {
+          x: state.tetroPosition.x + action.payload
+        })
+        return {
+          ...state, 
+          tetroPosition
+        };
+      }
+
+        return {
+          ...state, 
+      };
+
     // rotate ------------------------------------------------------
       case types.ROTATE:
         if (state.tetroPiece === 'O'){
@@ -52,14 +108,17 @@ const initalState = {
           }
         }
 
+      // start ------------------------------------------------------
         case types.START:
           stateFlip = false
+          ongoingScore = state.ongoingScore
           currentGrid = state.currentGrid.slice(state.currentGrid.length)
+       
           const gridBuilder = state.currentGrid.reduce((result, row) => {
           if (!row.every(el => el !== null)) {
             result.push([...row])
           } else {
-    
+            ongoingScore += 12
             result.unshift([null, null, null, null, null, null, null, null, null, null])
           }
           return result
@@ -73,7 +132,7 @@ const initalState = {
       state.tetroPiece += TETROMINOS[rand];
       tetroPiece = state.tetroPiece
       const position = {
-      x: Math.round(5) - Math.round(SHAPES[tetroPiece][0].length / 2), 
+      x: Math.round(5) - Math.round(SHAPES[tetroPiece][0].length / 2),
       y: -2
       }
       tetroPosition = _.assign(state.tetroPosition, position)
@@ -87,10 +146,11 @@ const initalState = {
         tetroPosition,
         tetroGrid,
         currentGrid,
-        stateFlip
+        stateFlip,
+        ongoingScore
       }
    
-     
+     // updated CASE ----------------------------------------------------------------------
      case types.UPDATE_PLAYERS:
       players = state.players.slice(state.players.length)
       players.push(...action.data)
@@ -98,6 +158,13 @@ const initalState = {
       ...state,
       players,
      }
+
+      // FALLDROP CASE ----------------------------------------------------------------------
+      case types.FLOOR_DROP:
+       
+      return{
+        ...state,
+      }
      
      // DROP REDUCER CASE ----------------------------------------------------------------------
      case types.DROP:
@@ -160,7 +227,7 @@ const initalState = {
               relativeX = state.tetroPosition.x + col
               relativeY = state.tetroPosition.y + row
         
-              currentGrid[relativeY][relativeX] = 'green'
+              currentGrid[relativeY][relativeX] = TETROCOLORS[state.tetroPiece]
             }
           }
           stateFlip = true
@@ -171,7 +238,7 @@ const initalState = {
           }
         }else if (checkSpot !== undefined){
 
-           if (checkSpot[crosshair[0]] === 'green'){
+           if (checkSpot[crosshair[0]] !== null){
              let relativeX, relativeY;
              currentGrid = state.currentGrid
    
@@ -181,7 +248,7 @@ const initalState = {
                  relativeX = state.tetroPosition.x + col
                  relativeY = state.tetroPosition.y + row
            
-                 currentGrid[relativeY][relativeX] = 'green'
+                 currentGrid[relativeY][relativeX] = TETROCOLORS[state.tetroPiece]
                }
              }
              stateFlip = true

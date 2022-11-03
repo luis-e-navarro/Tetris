@@ -1,6 +1,16 @@
 export const TETROMINOS = ['I', 'O', 'T', 'J', 'L', 'S', 'Z'];
 export const SPACE_KEY = 32;
 
+export const TETROCOLORS = {
+    I:'#00ffff',
+    O:'#ffff00',
+    T:'#aa00ff',
+    J:'#0000ff',
+    L:'#ffaa00',
+    S:'#00ff00',
+    Z:'#ff0000'
+}
+
 export const SHAPES = {
   I: [[0, 0, 0, 0],
       [1, 1, 1, 1],

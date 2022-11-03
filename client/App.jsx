@@ -1,7 +1,7 @@
- import React, { Component } from 'react';
- import Scores from './components/Scores.jsx';
- import TetrisBoard from './components/TetrisBoard.jsx';
- 
+import React, { Component } from 'react';
+import CurrentBoard from './components/CurrentBoard.jsx';
+import Scores from './components/Scores.jsx';
+import TetrisBoard from './components/TetrisBoard.jsx';
 
 const App = () =>  {
  
@@ -9,6 +9,7 @@ const App = () =>  {
     return (
         <div className="mainDiv">
           <TetrisBoard/>
+          <CurrentBoard/>
           <Scores/>
         </div>
     );

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 import Block from './Block.jsx'
-import { GRID, TETROMINOS, SHAPES} from '../constants/tetromino';
+import { GRID, TETROMINOS, SHAPES, TETROCOLORS} from '../constants/tetromino';
 import { render } from "react-dom";
 
 class WholeTetro extends Component {
@@ -22,7 +22,7 @@ class WholeTetro extends Component {
     _renderTetro () {
 
         const shapeArr = this.props.tetroGrid
-        const color = 'blue';
+        const color = TETROCOLORS[this.props.tetroPiece];
         
         const rows = shapeArr.length
         const columns = shapeArr[0].length
@@ -37,6 +37,7 @@ class WholeTetro extends Component {
                     style={{
                         top: `${row * 25}%`,
                         left: `${col * 25}%`
+
                     }}>
                         <Block color={color}/>
 

@@ -3,8 +3,9 @@ import { connect } from 'react-redux';
 import BoardGrid from './BoardGrid.jsx'
 import WholeTetro from "./WholeTetro.jsx";
 import { SPACE_KEY } from '../constants/tetromino.js'
-import { startGame, moveTetroLeft, moveTetroRight, rotate } from "../actions/actions";
+import { startGame, moveTetroLeft, moveTetroRight, rotate, floorDrop } from "../actions/actions";
 //import React, { useState, useEffect } from 'react';
+
 const mapStateToProps = (state) => {
     return {
         currentGrid: state.currentGrid, 
@@ -21,7 +22,7 @@ function mapDispatchToProps(dispatch) {
         moveTetroLeft: () => dispatch(moveTetroLeft()),
         moveTetroRight: () => dispatch(moveTetroRight()),
         rotate: () => dispatch(rotate()),
-        
+        floorDrop: () => dispatch(floorDrop())
     }
   }
 
@@ -37,7 +38,7 @@ class TetrisBoard extends Component{
         }
     }
 
-    move = (e) =>{
+     move = (e) =>{
         switch (e.keyCode){
             case 39:
                 this.props.moveTetroRight();
@@ -45,17 +46,19 @@ class TetrisBoard extends Component{
             case 37:
                 this.props.moveTetroLeft();
                 break;
-            case 38:
+            case 40:
                 this.props.rotate();
+            case 38:
+                this.props.floorDrop();
             default:
                 break;
         }
 
     }
 
-    componentDidMount(){
-        document.addEventListener('keyup', this.start)
-       document.addEventListener('keyup', this.move)
+    async componentDidMount(){
+        await document.addEventListener('keyup', this.start)
+        await document.addEventListener('keyup', this.move)
     }
     componentDidUpdate(){
         if(this.props.stateFlip){

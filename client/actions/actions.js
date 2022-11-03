@@ -10,6 +10,7 @@ import axios from "axios";
 } 
 
 
+
 export const moveTetroLeft = () => ({
     type: types.MOVE,
     payload: -1
@@ -24,6 +25,12 @@ export const moveTetroRight = () => ({
 export const rotate = () => ({
   type: types.ROTATE
 })
+
+export const floorDrop = () => (dispatch) => {
+  clearDropTimeout();
+  dispatch({ type: types.FLOOR_DROP })
+  
+}
 
 export const startGame = () => (dispatch) => {
   dispatch({ type: types.START })

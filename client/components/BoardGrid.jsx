@@ -5,37 +5,6 @@ import Block from './Block.jsx'
 
 
 class BoardGrid extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-         virtualGrid: this.props.currentGrid,
-         allGreen: 0
-        }
-    }
-
-    // componentDidUpdate(previousProps, previousState) {
-    //     if (previousProps.currentGrid !== this.props.currentGrid) {
-    //         previousProps.startGame();
-    //     }
-    //    }
-// _sendAnother(){
-//     const {startGame} = this.props;
-//     startGame();
-//     return
-// }
-// componentDidUpdate(prevProps){
-//     let newGreen = this.state.allGreen
-//     prevProps.currentGrid.forEach((subArray)=>{
-//         subArray.forEach((el)=> el === 'green' ? newGreen++ : null)
-//     })
-//     if (this.state.virtualGrid !== prevProps.currentGrid){
-//         prevProps.startGame();
-//     }
-//     console.log(this.state.allGreen, newGreen)
-
-//  }
-
-
 
 _renderBlocks(){
     const  { currentGrid } = this.props
@@ -46,7 +15,6 @@ _renderBlocks(){
     const widthPercent = 100 / cols
     const heighPercent = 100 / rows
      let result = [];
-
      for (let row = 0; row < rows; row++){
         for (let col = 0; col < cols; col++){
             result.push(
