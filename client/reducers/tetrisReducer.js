@@ -14,11 +14,13 @@ const initalState = {
   },
   players: [],
   stateFlip: false,
-  ongoingScore: 0
+  ongoingScore: 0,
+  gameOver: false,
+  finalScore: 0
   }
  
  const tetrisReducer = (state = initalState, action) => {
-  let players, tetroPiece, tetroPosition, tetroGrid, currentGrid, stateFlip, ongoingScore;
+  let players, tetroPiece, tetroPosition, tetroGrid, currentGrid, stateFlip, ongoingScore, gameOver,finalScore;
    switch (action.type) {
     // move ------------------------------------------------------
      case types.MOVE:
@@ -159,12 +161,56 @@ const initalState = {
       players,
      }
 
-      // FALLDROP CASE ----------------------------------------------------------------------
+      // FLOORDROP CASE ----------------------------------------------------------------------
       case types.FLOOR_DROP:
-       
-      return{
-        ...state,
-      }
+        let currentDropPosition;
+        let pastingColor;
+        if (state.tetroPiece === 'O'){
+          pastingColor = state.tetroPosition
+          currentDropPosition = {
+            0:[],
+            1:[]
+          }
+          currentDropPosition['0'].push(state.tetroPosition.x, state.tetroPosition.y + 1)
+          currentDropPosition['1'].push(state.tetroPosition.x + 1, state.tetroPosition.y + 1)
+          let checkingGrid1 = state.currentGrid[currentDropPosition['0'][1]+1][currentDropPosition['0'][0]]
+          let checkingGrid2 = state.currentGrid[currentDropPosition['1'][1]+1][currentDropPosition['0'][0]]
+          console.log('-->',checkingGrid1,checkingGrid2)
+
+          while(checkingGrid1 === null && checkingGrid2 === null){
+            currentDropPosition['0'][1]++
+            currentDropPosition['1'][1]++
+            checkingGrid1 = state.currentGrid[currentDropPosition['0'][1]+1][currentDropPosition['0'][0]]
+            checkingGrid2 = state.currentGrid[currentDropPosition['1'][1]+1][currentDropPosition['0'][0]]
+             console.log(checkingGrid1,checkingGrid2)
+            ++pastingColor.y
+            console.log('checking inside')
+          }
+          console.log('after',checkingGrid1,checkingGrid2)
+          currentGrid = state.currentGrid
+          stateFlip = true
+          let relX,relY;
+          
+          for (let row = 0; row < state.tetroGrid.length; row++) {
+            for (let col = 0; col < state.tetroGrid[0].length; col++) {
+              if (!state.tetroGrid[row][col]) continue
+              relX = pastingColor.x + col
+              relY = pastingColor.y + row
+              currentGrid[relY][relX] = TETROCOLORS[state.tetroPiece]
+            }
+          }
+          console.log(pastingColor,'checking',currentGrid)
+  
+        return{
+          ...state,
+          currentGrid,
+          stateFlip
+        }
+        }
+
+        return {
+          ...state
+        }
      
      // DROP REDUCER CASE ----------------------------------------------------------------------
      case types.DROP:
@@ -239,24 +285,38 @@ const initalState = {
         }else if (checkSpot !== undefined){
 
            if (checkSpot[crosshair[0]] !== null){
-             let relativeX, relativeY;
-             currentGrid = state.currentGrid
-   
-             for (let row = 0; row < state.tetroGrid.length; row++) {
-               for (let col = 0; col < state.tetroGrid[0].length; col++) {
-                 if (!state.tetroGrid[row][col]) continue
-                 relativeX = state.tetroPosition.x + col
-                 relativeY = state.tetroPosition.y + row
-           
-                 currentGrid[relativeY][relativeX] = TETROCOLORS[state.tetroPiece]
-               }
-             }
-             stateFlip = true
-             return {
-               ...state,
-               currentGrid,
-               stateFlip
-             }
+            currentGrid = state.currentGrid
+            let upperY = checkerY - howManyAdded
+            if (upperY < 0){
+              finalScore = state.ongoingScore
+              ongoingScore = 0
+              gameOver = true
+              return {
+                ...state,
+                currentGrid,
+                gameOver,
+                ongoingScore,
+                finalScore
+              }
+            }else{
+              let relativeX, relativeY;
+              for (let row = 0; row < state.tetroGrid.length; row++) {
+                for (let col = 0; col < state.tetroGrid[0].length; col++) {
+                  if (!state.tetroGrid[row][col]) continue
+                  relativeX = state.tetroPosition.x + col
+                  relativeY = state.tetroPosition.y + row
+            
+                  currentGrid[relativeY][relativeX] = TETROCOLORS[state.tetroPiece]
+                }
+              }
+              stateFlip = true
+              return {
+                ...state,
+                currentGrid,
+                stateFlip
+              }
+            }
+
            }
            }
       }

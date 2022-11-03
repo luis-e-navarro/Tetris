@@ -27,9 +27,11 @@ export const rotate = () => ({
 })
 
 export const floorDrop = () => (dispatch) => {
-  clearDropTimeout();
   dispatch({ type: types.FLOOR_DROP })
-  
+}
+
+export const stopGame = () => (dispatch) => {
+  clearDropTimeout();
 }
 
 export const startGame = () => (dispatch) => {
@@ -41,7 +43,7 @@ export const drop = () => (dispatch) => {
   setDropTimeout(() => {
     dispatch({ type: types.DROP })
     dispatch(drop())
-  }, 200)
+  }, 400)
 }
 
 export function setDropTimeout(cb, interval) {

@@ -39,14 +39,22 @@ playerController.checkAmount = (req,res,next) => {
 }
 
 
-playerController.addPlayer = (req, res, next) => {
-    console.log('insert here agian')
-    const {name, score} = req.body;
-    const command = `INSERT INTO scores (name, score) VALUES ('${name}', '${score}');`;
-    db
-      .query(command)
-      .then(()=> next())
-      .catch((error =>  next({log:'Error in addCharacter function'})));
+playerController.addPlayer = async (req, res, next) => {
+    try{
+        const {name, score} = req.body;
+        if (name !== '' && score > 0){
+            const command = `INSERT INTO scores (name, score) VALUES ('${name}', '${score}');`;
+            await db
+               .query(command)
+               .then(()=> next())
+               .catch((error =>  next({log:'Error in addCharacter function'})));
+        }else{
+            return next()
+        }
+       
+    }catch(err){
+        return next({message:'Something went wrong in server', log:'Something went wrong in addPlayer middleware function'});
+    }
   
   };
 

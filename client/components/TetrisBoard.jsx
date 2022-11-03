@@ -12,7 +12,8 @@ const mapStateToProps = (state) => {
         tetroPiece: state.tetroPiece, 
         tetroGrid: state.tetroGrid,
         tetroPosition: state.tetroPosition,
-        stateFlip: state.stateFlip
+        stateFlip: state.stateFlip,
+        gameOver: state.gameOver
     };
 }
 
@@ -48,17 +49,21 @@ class TetrisBoard extends Component{
                 break;
             case 40:
                 this.props.rotate();
+                break;
             case 38:
                 this.props.floorDrop();
+                break;
             default:
                 break;
         }
-
     }
 
     async componentDidMount(){
-        await document.addEventListener('keyup', this.start)
-        await document.addEventListener('keyup', this.move)
+        console.log(this.props.gameOver)
+        if(!this.props.gameOver){
+            await document.addEventListener('keyup', this.start)
+            await document.addEventListener('keyup', this.move)
+        }
     }
     componentDidUpdate(){
         if(this.props.stateFlip){

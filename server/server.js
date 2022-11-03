@@ -24,7 +24,7 @@ playerController.checkAmount,
 app.post('/api',
 playerController.addPlayer, 
 (req, res) => {
-  return res.sendStatus(200)
+  return res.redirect('/')
 })
 
 
