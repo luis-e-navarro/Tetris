@@ -6,6 +6,9 @@ const Block = ({color}) => {
     if(!color){
         blockColor = '#1f2122'
     }else{
+    if (color === '#76ff7a'){
+        console.log('true')
+    }
         blockColor = color
     }
     return (

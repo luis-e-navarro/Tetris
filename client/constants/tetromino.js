@@ -8,7 +8,8 @@ export const TETROCOLORS = {
     J:'#0000ff',
     L:'#ffaa00',
     S:'#00ff00',
-    Z:'#ff0000'
+    Z:'#ff0000',
+    C:'#76ff7a'
 }
 
 export const SHAPES = {

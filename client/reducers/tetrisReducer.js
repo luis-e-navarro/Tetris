@@ -17,12 +17,19 @@ const initalState = {
   ongoingScore: 0,
   gameOver: false,
   finalScore: 0,
-  innerState: true
+  innerState: false,
+  superGate: false
   }
  
  const tetrisReducer = (state = initalState, action) => {
-  let players, tetroPiece, tetroPosition, tetroGrid, currentGrid, stateFlip, ongoingScore, gameOver,finalScore, innerState;
+  let players, tetroPiece, tetroPosition, tetroGrid, currentGrid, stateFlip, ongoingScore, gameOver,finalScore, innerState, superGate;
    switch (action.type) {
+    case types.STATE_FLIP_OFF:
+      stateFlip = false;
+      return{
+        ...state,
+        stateFlip
+      }
     // move ------------------------------------------------------
      case types.MOVE:
       let sidePosition = {
@@ -129,42 +136,50 @@ const initalState = {
       // color lines ------------------------------------------------
       case types.COLOR_LINES:
         innerState = false
-        console.log('hiiiiiiii')
+        let coloringNow = TETROCOLORS[state.tetroPiece]
         currentGrid = state.currentGrid.slice(state.currentGrid.length)
         const colorBuilder = state.currentGrid.reduce((result, row) => {
           if (!row.every(el => el !== null)) {
             result.push([...row])
           } else {
-            result.push(['#76ff7a', '#76ff7a', '#76ff7a', '#76ff7a', '#76ff7a', '#76ff7a', '#76ff7a', '#76ff7a', '#76ff7a', '#76ff7a'])
+            innerState = true
+            result.push([coloringNow, coloringNow, coloringNow, coloringNow, coloringNow, coloringNow, coloringNow, coloringNow, coloringNow, coloringNow])
           }
           return result
         }, [])
         currentGrid.push(...colorBuilder)
+        superGate = false
+        console.log('logging supergate',state.superGate,superGate)
         return {
           ...state,
+          currentGrid,
           innerState,
-          currentGrid
+          superGate
         }
+        
       // start ------------------------------------------------------
         case types.START:
-          stateFlip = false
-          innerState = true
           ongoingScore = state.ongoingScore
           currentGrid = state.currentGrid.slice(state.currentGrid.length)
-       
-          const gridBuilder = state.currentGrid.reduce((result, row) => {
-          if (!row.every(el => el !== null)) {
-            result.push([...row])
-          } else {
-            ongoingScore += 12
-            result.unshift([null, null, null, null, null, null, null, null, null, null])
-          }
-          return result
-        }, [])
-
-        currentGrid.push(...gridBuilder)
+          innerState = false
 
 
+            const gridBuilder = state.currentGrid.reduce((result, row) => {
+              if (!row.every(el => el !== null)) {
+                result.push([...row])
+                console.log('ll')
+              } else {
+                ongoingScore += 12
+                console.log('??????????????fsdfasds')
+                result.unshift([null, null, null, null, null, null, null, null, null, null])
+              }
+              return result
+            }, [])
+    
+            currentGrid.push(...gridBuilder)
+          
+
+        
       const rand = Math.floor(Math.random() * TETROMINOS.length)
       state.tetroPiece = '';
       state.tetroPiece += TETROMINOS[rand];
@@ -177,14 +192,12 @@ const initalState = {
       tetroGrid = state.tetroGrid.slice(state.tetroGrid.length)
       tetroGrid = SHAPES[tetroPiece]
 
-
       return {
         ...state,
         tetroPiece,
         tetroPosition,
         tetroGrid,
         currentGrid,
-        stateFlip,
         ongoingScore,
         innerState
       }
@@ -248,6 +261,8 @@ const initalState = {
      
      // DROP REDUCER CASE ----------------------------------------------------------------------
      case types.DROP:
+      innerState = false
+      superGate = false
       let howManyAdded;
       let checkerY = state.tetroPosition.y
       let currentPosition;
@@ -310,23 +325,13 @@ const initalState = {
               currentGrid[relativeY][relativeX] = TETROCOLORS[state.tetroPiece]
             }
           }
-
-          const inlineColors = currentGrid.reduce((result, row) => {
-            if (!row.every(el => el !== null)) {
-              result.push([...row])
-            } else {
-              result.push(['#76ff7a', '#76ff7a', '#76ff7a', '#76ff7a', '#76ff7a', '#76ff7a', '#76ff7a', '#76ff7a', '#76ff7a', '#76ff7a'])
-            }
-            return result
-          }, [])
-          currentGrid = state.currentGrid.slice(state.currentGrid.length)
-          currentGrid.push(...inlineColors)
-
+          superGate = true
           stateFlip = true
           return {
             ...state,
             currentGrid,
-            stateFlip
+            stateFlip,
+            superGate
           }
         }else if (checkSpot !== undefined){
 
@@ -342,7 +347,9 @@ const initalState = {
                 currentGrid,
                 gameOver,
                 ongoingScore,
-                finalScore
+                finalScore,
+                innerState,
+                superGate
               }
             }else{
               let relativeX, relativeY;
@@ -355,21 +362,13 @@ const initalState = {
                   currentGrid[relativeY][relativeX] = TETROCOLORS[state.tetroPiece]
                 }
               }
-              const inlineColors = currentGrid.reduce((result, row) => {
-                if (!row.every(el => el !== null)) {
-                  result.push([...row])
-                } else {
-                  result.push(['#76ff7a', '#76ff7a', '#76ff7a', '#76ff7a', '#76ff7a', '#76ff7a', '#76ff7a', '#76ff7a', '#76ff7a', '#76ff7a'])
-                }
-                return result
-              }, [])
-              currentGrid = state.currentGrid.slice(state.currentGrid.length)
-              currentGrid.push(...inlineColors)
+              superGate = true
               stateFlip = true
               return {
                 ...state,
                 currentGrid,
-                stateFlip
+                stateFlip,
+                superGate
               }
             }
 
@@ -383,7 +382,8 @@ const initalState = {
       })
       return {
         ...state,
-        tetroPosition
+        tetroPosition,
+        innerState
       }
        default: {
        return state;

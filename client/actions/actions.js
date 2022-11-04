@@ -20,6 +20,10 @@ export const moveTetroRight = () => ({
     payload: 1
 });
 
+export const stateFlipOff = () =>({
+  type: types.STATE_FLIP_OFF
+})
+
 // rotate tetro right or left ------------------------------------------------
 export const rotateLeft = () => ({
   type: types.ROTATE,
@@ -34,25 +38,38 @@ export const rotateRight = () => ({
 export const floorDrop = () => (dispatch) => {
   dispatch({ type: types.FLOOR_DROP })
 }
-// color lines ----------------------------------------------------------------
-export const colorLines = () => (dispatch) => {
-  dispatch({ type: types.COLOR_LINES })
+// drop ----------------------------------------------------------------
+export const dropBlocks = () => (dispatch) => {
+   dispatch(drop())
 }
+
+
+export const colorBlocks = () => async (dispatch) => {
+  clearDropTimeout();
+  await dispatch({ type: types.COLOR_LINES })
+ 
+}
+
+// export const clearRow = () => async (dispatch) => {
+//   await dispatch({ type: types.CLEAR_ROW })
+ 
+// }
+
 // stopgame -------------------------------------------------------------------
 export const stopGame = () => (dispatch) => {
   clearDropTimeout();
 }
 
-export const startGame = () => (dispatch) => {
-  dispatch({ type: types.START })
-  dispatch(drop())
+export const startGame =  () => async(dispatch) => {
+  clearDropTimeout();
+  await dispatch({ type: types.START })
 }
 
-export const drop = () => (dispatch) => {
-  setDropTimeout(() => {
+export const drop = () => async (dispatch) => {
+  await setDropTimeout(() => {
     dispatch({ type: types.DROP })
     dispatch(drop())
-  }, 100)
+  }, 200)
 }
 
 export function setDropTimeout(cb, interval) {
