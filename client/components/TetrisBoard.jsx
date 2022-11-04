@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import BoardGrid from './BoardGrid.jsx'
 import WholeTetro from "./WholeTetro.jsx";
 import { SPACE_KEY } from '../constants/tetromino.js'
-import { startGame, moveTetroLeft, moveTetroRight, rotate, floorDrop } from "../actions/actions";
+import { startGame, moveTetroLeft, colorLines, moveTetroRight, rotateLeft, rotateRight, floorDrop } from "../actions/actions";
 //import React, { useState, useEffect } from 'react';
 
 const mapStateToProps = (state) => {
@@ -13,7 +13,8 @@ const mapStateToProps = (state) => {
         tetroGrid: state.tetroGrid,
         tetroPosition: state.tetroPosition,
         stateFlip: state.stateFlip,
-        gameOver: state.gameOver
+        gameOver: state.gameOver,
+        innerState: state.innerState
     };
 }
 
@@ -22,8 +23,10 @@ function mapDispatchToProps(dispatch) {
         startGame: () => dispatch(startGame()),
         moveTetroLeft: () => dispatch(moveTetroLeft()),
         moveTetroRight: () => dispatch(moveTetroRight()),
-        rotate: () => dispatch(rotate()),
-        floorDrop: () => dispatch(floorDrop())
+        rotateLeft: () => dispatch(rotateLeft()),
+        rotateRight: () => dispatch(rotateRight()),
+        floorDrop: () => dispatch(floorDrop()),
+        colorLines: () => dispatch(colorLines())
     }
   }
 
@@ -41,16 +44,19 @@ class TetrisBoard extends Component{
 
      move = (e) =>{
         switch (e.keyCode){
-            case 39:
+            case 68:
                 this.props.moveTetroRight();
                 break;
-            case 37:
+            case 65:
                 this.props.moveTetroLeft();
                 break;
-            case 40:
-                this.props.rotate();
+            case 37:
+                this.props.rotateRight();
                 break;
-            case 38:
+            case 39:
+                this.props.rotateLeft();
+                break;
+            case 87:
                 this.props.floorDrop();
                 break;
             default:
@@ -67,7 +73,11 @@ class TetrisBoard extends Component{
     }
     componentDidUpdate(){
         if(this.props.stateFlip){
-            this.props.startGame();
+            if (this.props.innerState){
+                this.props.colorLines();
+            }else{
+                this.props.startGame();
+            }
            }
     }
       

@@ -16,11 +16,12 @@ const initalState = {
   stateFlip: false,
   ongoingScore: 0,
   gameOver: false,
-  finalScore: 0
+  finalScore: 0,
+  innerState: true
   }
  
  const tetrisReducer = (state = initalState, action) => {
-  let players, tetroPiece, tetroPosition, tetroGrid, currentGrid, stateFlip, ongoingScore, gameOver,finalScore;
+  let players, tetroPiece, tetroPosition, tetroGrid, currentGrid, stateFlip, ongoingScore, gameOver,finalScore, innerState;
    switch (action.type) {
     // move ------------------------------------------------------
      case types.MOVE:
@@ -95,24 +96,59 @@ const initalState = {
         }else{
           const array1 = state.tetroGrid
           const newarr = [];
-          for (let z = 0; z < array1.length; z++ ){
-            let sub =[];
-            for (let i = array1.length -1; i > -1; i--){
-              sub.push(array1[i][z])
+          if(action.payload){
+            for (let z = 0; z < array1.length; z++ ){
+              let sub =[];
+              for (let i = array1.length -1; i > -1; i--){
+                sub.push(array1[i][z])
+              }
+              newarr.push(sub);
             }
-            newarr.push(sub);
-          }
-          tetroGrid = state.tetroGrid.slice(state.tetroGrid.length)
-          tetroGrid.push(...newarr)
-          return {
-            ...state,
-            tetroGrid
+            tetroGrid = state.tetroGrid.slice(state.tetroGrid.length)
+            tetroGrid.push(...newarr)
+            return {
+              ...state,
+              tetroGrid
+            }
+          }else{
+            for (let z = array1.length - 1; z > -1; z-- ){
+              let sub =[];
+              for (let i = 0; i < array1.length ; i++){
+                sub.push(array1[i][z])
+              }
+              newarr.push(sub);
+            }
+            tetroGrid = state.tetroGrid.slice(state.tetroGrid.length)
+            tetroGrid.push(...newarr)
+            return {
+              ...state,
+              tetroGrid
+            }
           }
         }
-
+      // color lines ------------------------------------------------
+      case types.COLOR_LINES:
+        innerState = false
+        console.log('hiiiiiiii')
+        currentGrid = state.currentGrid.slice(state.currentGrid.length)
+        const colorBuilder = state.currentGrid.reduce((result, row) => {
+          if (!row.every(el => el !== null)) {
+            result.push([...row])
+          } else {
+            result.push(['#76ff7a', '#76ff7a', '#76ff7a', '#76ff7a', '#76ff7a', '#76ff7a', '#76ff7a', '#76ff7a', '#76ff7a', '#76ff7a'])
+          }
+          return result
+        }, [])
+        currentGrid.push(...colorBuilder)
+        return {
+          ...state,
+          innerState,
+          currentGrid
+        }
       // start ------------------------------------------------------
         case types.START:
           stateFlip = false
+          innerState = true
           ongoingScore = state.ongoingScore
           currentGrid = state.currentGrid.slice(state.currentGrid.length)
        
@@ -149,7 +185,8 @@ const initalState = {
         tetroGrid,
         currentGrid,
         stateFlip,
-        ongoingScore
+        ongoingScore,
+        innerState
       }
    
      // updated CASE ----------------------------------------------------------------------
@@ -175,18 +212,16 @@ const initalState = {
           currentDropPosition['1'].push(state.tetroPosition.x + 1, state.tetroPosition.y + 1)
           let checkingGrid1 = state.currentGrid[currentDropPosition['0'][1]+1][currentDropPosition['0'][0]]
           let checkingGrid2 = state.currentGrid[currentDropPosition['1'][1]+1][currentDropPosition['0'][0]]
-          console.log('-->',checkingGrid1,checkingGrid2)
+
 
           while(checkingGrid1 === null && checkingGrid2 === null){
             currentDropPosition['0'][1]++
             currentDropPosition['1'][1]++
             checkingGrid1 = state.currentGrid[currentDropPosition['0'][1]+1][currentDropPosition['0'][0]]
             checkingGrid2 = state.currentGrid[currentDropPosition['1'][1]+1][currentDropPosition['0'][0]]
-             console.log(checkingGrid1,checkingGrid2)
             ++pastingColor.y
-            console.log('checking inside')
           }
-          console.log('after',checkingGrid1,checkingGrid2)
+
           currentGrid = state.currentGrid
           stateFlip = true
           let relX,relY;
@@ -199,7 +234,6 @@ const initalState = {
               currentGrid[relY][relX] = TETROCOLORS[state.tetroPiece]
             }
           }
-          console.log(pastingColor,'checking',currentGrid)
   
         return{
           ...state,
@@ -276,6 +310,18 @@ const initalState = {
               currentGrid[relativeY][relativeX] = TETROCOLORS[state.tetroPiece]
             }
           }
+
+          const inlineColors = currentGrid.reduce((result, row) => {
+            if (!row.every(el => el !== null)) {
+              result.push([...row])
+            } else {
+              result.push(['#76ff7a', '#76ff7a', '#76ff7a', '#76ff7a', '#76ff7a', '#76ff7a', '#76ff7a', '#76ff7a', '#76ff7a', '#76ff7a'])
+            }
+            return result
+          }, [])
+          currentGrid = state.currentGrid.slice(state.currentGrid.length)
+          currentGrid.push(...inlineColors)
+
           stateFlip = true
           return {
             ...state,
@@ -309,6 +355,16 @@ const initalState = {
                   currentGrid[relativeY][relativeX] = TETROCOLORS[state.tetroPiece]
                 }
               }
+              const inlineColors = currentGrid.reduce((result, row) => {
+                if (!row.every(el => el !== null)) {
+                  result.push([...row])
+                } else {
+                  result.push(['#76ff7a', '#76ff7a', '#76ff7a', '#76ff7a', '#76ff7a', '#76ff7a', '#76ff7a', '#76ff7a', '#76ff7a', '#76ff7a'])
+                }
+                return result
+              }, [])
+              currentGrid = state.currentGrid.slice(state.currentGrid.length)
+              currentGrid.push(...inlineColors)
               stateFlip = true
               return {
                 ...state,
@@ -329,9 +385,22 @@ const initalState = {
         ...state,
         tetroPosition
       }
-    
+       default: {
+       return state;
+     }
+   }
+ };
+ 
+ export default tetrisReducer;
 
-      // drop until it hits something
+
+
+
+
+
+
+
+       // drop until it hits something
       // if (isPositionAvailable(grid, currTetroGrid, newPosition)) {
       //   return updateTetrisStateStorage(_.assign({}, state, { currTetroPosition: newPosition }))
       // }
@@ -366,15 +435,3 @@ const initalState = {
       
     
       // }
-  
- 
-    
- 
-     default: {
-       return state;
-     }
-   }
- };
- 
- export default tetrisReducer;
- 

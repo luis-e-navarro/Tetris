@@ -4,32 +4,41 @@ import axios from "axios";
 
 
 
-  export const updatePlayers = () => async dispatch => {
-    const response  = await axios.get('/api');
-    dispatch({type: types.UPDATE_PLAYERS, data: response.data })
+export const updatePlayers = () => async dispatch => {
+  const response  = await axios.get('/api');
+  dispatch({type: types.UPDATE_PLAYERS, data: response.data })
 } 
 
 
-
+// move tetro right or left ------------------------------------------------
 export const moveTetroLeft = () => ({
-    type: types.MOVE,
-    payload: -1
-  });
-
-
+  type: types.MOVE,
+  payload: -1
+});
 export const moveTetroRight = () => ({
     type: types.MOVE,
     payload: 1
 });
 
-export const rotate = () => ({
-  type: types.ROTATE
+// rotate tetro right or left ------------------------------------------------
+export const rotateLeft = () => ({
+  type: types.ROTATE,
+  payload: false
+})
+export const rotateRight = () => ({
+  type: types.ROTATE,
+  payload: true
 })
 
+// floordrop -------------------------------------------------------------------
 export const floorDrop = () => (dispatch) => {
   dispatch({ type: types.FLOOR_DROP })
 }
-
+// color lines ----------------------------------------------------------------
+export const colorLines = () => (dispatch) => {
+  dispatch({ type: types.COLOR_LINES })
+}
+// stopgame -------------------------------------------------------------------
 export const stopGame = () => (dispatch) => {
   clearDropTimeout();
 }
@@ -43,7 +52,7 @@ export const drop = () => (dispatch) => {
   setDropTimeout(() => {
     dispatch({ type: types.DROP })
     dispatch(drop())
-  }, 400)
+  }, 100)
 }
 
 export function setDropTimeout(cb, interval) {
