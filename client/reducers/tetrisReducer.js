@@ -74,7 +74,7 @@ const initalState = {
           }else{
             tetroGrid.push(...rotateRight(array1))
           }
-          
+
           const holder = tetroGrid.every(row => row[0] === 0)
             if (state.tetroPosition.x < 0 && !holder){
               if(state.tetroPiece === 'I'){
@@ -173,21 +173,19 @@ const initalState = {
       // FLOORDROP CASE ----------------------------------------------------------------------
       case types.FLOOR_DROP:
         let currentDropPosition;
-        let pastingColor;
+        let pastingColor = state.tetroPosition
 
         if (state.tetroPiece === 'O'){
-          pastingColor = state.tetroPosition
           currentDropPosition = {
             0:[],
             1:[]
           }
-          console.log('first',currentDropPosition)
           currentDropPosition['0'].push(state.tetroPosition.x, state.tetroPosition.y + 1)
           currentDropPosition['1'].push(state.tetroPosition.x + 1, state.tetroPosition.y + 1)
+
           let checkingGrid1 = state.currentGrid[currentDropPosition['0'][1]+1][currentDropPosition['0'][0]]
           let checkingGrid2 = state.currentGrid[currentDropPosition['1'][1]+1][currentDropPosition['1'][0]]
           while(checkingGrid1 === null && checkingGrid2 === null){
-            console.log(currentDropPosition)
             currentDropPosition['0'][1]++
             currentDropPosition['1'][1]++
             checkingGrid1 = state.currentGrid[currentDropPosition['0'][1]+1][currentDropPosition['0'][0]]
@@ -206,11 +204,71 @@ const initalState = {
               currentGrid[relY][relX] = TETROCOLORS[state.tetroPiece]
             }
           }
-  
+          superGate = true
         return{
           ...state,
           currentGrid,
-          stateFlip
+          stateFlip,
+          superGate
+        }
+        }else if (state.tetroPiece !== 'I'){
+          currentDropPosition = {
+            0:[],
+            1:[],
+            2:[]
+          }
+
+          for (let row = state.tetroGrid.length - 1; row > -1; row--){
+            for(let column = state.tetroGrid[0].length - 1; column > -1; column--){
+              if (state.tetroGrid[row][column] === 1){
+                if(!currentDropPosition[column].length){
+                  currentDropPosition[column].push(state.tetroPosition.x + column, state.tetroPosition.y + row)
+                }
+              }
+            }
+          }
+          const adv = Object.values(currentDropPosition)
+          let checkingGrid1 = null
+          let checkingGrid2 = null
+          let checkingGrid3 = null
+          if (adv[0].length) checkingGrid1 = state.currentGrid[adv[0][1]+1][adv[0][0]]
+          if (adv[1].length) checkingGrid2 = state.currentGrid[adv[1][1]+1][adv[1][0]]
+          if (adv[2].length) checkingGrid3 = state.currentGrid[adv[2][1]+1][adv[2][0]]
+
+          console.log(checkingGrid1,checkingGrid2,checkingGrid3)
+          while(!checkingGrid1 && !checkingGrid2 && !checkingGrid3){
+            if(adv[0].length){
+              adv[0][1]++
+              checkingGrid1 = state.currentGrid[adv[0][1]+1][adv[0][0]]
+            }
+            if(adv[1].length){
+              adv[1][1]++
+              checkingGrid2 = state.currentGrid[adv[1][1]+1][adv[1][0]]
+            }
+            if(adv[2].length){
+            adv[2][1]++
+            checkingGrid3 = state.currentGrid[adv[2][1]+1][adv[2][0]]
+            }
+            pastingColor.y++
+          }
+          currentGrid = state.currentGrid
+          let relX,relY;
+          
+          for (let row = 0; row < state.tetroGrid.length; row++) {
+            for (let col = 0; col < state.tetroGrid[0].length; col++) {
+              if (!state.tetroGrid[row][col]) continue
+              relX = pastingColor.x + col
+              relY = pastingColor.y + row
+              currentGrid[relY][relX] = TETROCOLORS[state.tetroPiece]
+            }
+          }
+          stateFlip = true
+          superGate = true
+        return{
+          ...state,
+          currentGrid,
+          stateFlip,
+          superGate
         }
         }
 
@@ -268,7 +326,6 @@ const initalState = {
 
 
       const allValues = Object.values(currentPosition)
-
       for (const crosshair of allValues){
         let checkSpot = state.currentGrid[crosshair[1]+1]
         if(checkerY === 19){

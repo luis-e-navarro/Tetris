@@ -9,7 +9,6 @@ export const updatePlayers = () => async dispatch => {
   dispatch({type: types.UPDATE_PLAYERS, data: response.data })
 } 
 
-
 // move tetro right or left ------------------------------------------------
 export const moveTetroLeft = () => ({
   type: types.MOVE,
@@ -43,17 +42,11 @@ export const dropBlocks = () => (dispatch) => {
    dispatch(drop())
 }
 
-
 export const colorBlocks = () => async (dispatch) => {
   clearDropTimeout();
   await dispatch({ type: types.COLOR_LINES })
  
 }
-
-// export const clearRow = () => async (dispatch) => {
-//   await dispatch({ type: types.CLEAR_ROW })
- 
-// }
 
 // stopgame -------------------------------------------------------------------
 export const stopGame = () => (dispatch) => {
@@ -69,7 +62,7 @@ export const drop = () => async (dispatch) => {
   await setDropTimeout(() => {
     dispatch({ type: types.DROP })
     dispatch(drop())
-  }, 800)
+  }, 200)
 }
 
 export function setDropTimeout(cb, interval) {

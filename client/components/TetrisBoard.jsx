@@ -85,6 +85,7 @@ class TetrisBoard extends Component{
     async componentDidUpdate(){
         if(this.props.stateFlip){
             if (this.props.superGate){
+                
                 await this.props.colorBlocks();
             }else{  
                 if (this.props.innerState){
