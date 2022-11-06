@@ -8,7 +8,7 @@ import Block from './Block.jsx'
 class BoardGrid extends Component {
 
 _renderBlocks(){
-    const  { currentGrid } = this.props
+    const  { currentGrid, innerState } = this.props
     
     const rows = currentGrid.length
     const cols = currentGrid[0].length
@@ -27,7 +27,7 @@ _renderBlocks(){
                     top: `${row * heighPercent}%`,
                     left: `${col * widthPercent}%`
                 }}>
-                    <Block color={ currentGrid[row][col] } />
+                    <Block innerState = {innerState} color={ currentGrid[row][col] } />
                 </li>
             )
         }

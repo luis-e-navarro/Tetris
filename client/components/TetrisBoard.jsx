@@ -60,6 +60,12 @@ class TetrisBoard extends Component{
             case 39:
                 this.props.rotateLeft();
                 break;
+            default:
+                break;
+        }
+    }
+    slam = (e) =>{
+        switch (e.keyCode){
             case 87:
                 this.props.floorDrop();
                 break;
@@ -71,20 +77,20 @@ class TetrisBoard extends Component{
      componentDidMount(){
         if(!this.props.gameOver){
              document.addEventListener('keyup', this.start)
-             document.addEventListener('keyup', this.move)
+             document.addEventListener('keydown', this.move)
+             document.addEventListener('keyup', this.slam)
         }
     }
 
     async componentDidUpdate(){
         if(this.props.stateFlip){
             if (this.props.superGate){
-                console.log('inside colorblocks', this.props.superGate)
                 await this.props.colorBlocks();
             }else{  
                 if (this.props.innerState){
                     await this.props.stateFlipOff();
-                    setTimeout(this.props.startGame,600);
-                    setTimeout(this.props.dropBlocks,600);
+                    setTimeout(this.props.startGame,250);
+                    setTimeout(this.props.dropBlocks,250);
                 }else{
                     await this.props.stateFlipOff();
                     await this.props.startGame();
