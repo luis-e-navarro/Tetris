@@ -4,7 +4,7 @@ import BoardGrid from './BoardGrid.jsx'
 import WholeTetro from "./WholeTetro.jsx";
 import { SPACE_KEY } from '../constants/tetromino.js'
 import { startGame, moveTetroLeft, moveTetroRight,dropBlocks, stateFlipOff, rotateLeft,colorBlocks, rotateRight, floorDrop } from "../actions/actions";
-//import React, { useState, useEffect } from 'react';
+import single from '../constants/audio/single.wav'; 
 
 const mapStateToProps = (state) => {
     return {
@@ -85,10 +85,11 @@ class TetrisBoard extends Component{
     async componentDidUpdate(){
         if(this.props.stateFlip){
             if (this.props.superGate){
-                
                 await this.props.colorBlocks();
             }else{  
                 if (this.props.innerState){
+                    let sound = new Audio(single);
+                    sound.play(); 
                     await this.props.stateFlipOff();
                     setTimeout(this.props.startGame,250);
                     setTimeout(this.props.dropBlocks,250);
