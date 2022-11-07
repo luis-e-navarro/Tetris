@@ -1,4 +1,6 @@
-import React, { Component } from "react";
+import React, { Component, useEffect } from "react";
+// import { startGame } from "../actions/actions.js";
+// import { startGame } from "../actions/actions.js";
 
 import Block from './Block.jsx'
 
@@ -6,7 +8,7 @@ import Block from './Block.jsx'
 class BoardGrid extends Component {
 
 _renderBlocks(){
-    const  { currentGrid } = this.props
+    const  { currentGrid, innerState } = this.props
     
     const rows = currentGrid.length
     const cols = currentGrid[0].length
@@ -14,7 +16,6 @@ _renderBlocks(){
     const widthPercent = 100 / cols
     const heighPercent = 100 / rows
      let result = [];
-
      for (let row = 0; row < rows; row++){
         for (let col = 0; col < cols; col++){
             result.push(
@@ -26,14 +27,24 @@ _renderBlocks(){
                     top: `${row * heighPercent}%`,
                     left: `${col * widthPercent}%`
                 }}>
-                    <Block color={ currentGrid[row][col] } />
+                    <Block innerState = {innerState} color={ currentGrid[row][col] } />
                 </li>
             )
         }
      }
+
      return result
 }
 render(){
+    // const {colorLines, stateFlip, innerState, startGame} = this.props
+    // console.log('stateeee',stateFlip)
+    // if (stateFlip){
+    //     if(innerState){
+    //         colorLines();
+    //     }else{
+    //         startGame();
+    //     }
+    // }
     return(
         <ul className="boardGrid">
         {this._renderBlocks()}

@@ -3,7 +3,7 @@
 body{
     width: 100%;
     height: 100%;
-    background-image: linear-gradient(to right, gold, rgb(98, 98, 195), violet);
+    background-image: linear-gradient(to right, rgb(190, 187, 168), rgb(98, 98, 195), rgb(68, 37, 68));
 }
 
 
@@ -23,7 +23,6 @@ body{
 
 .scoreContainer{
     align-items: flex-start;
-    margin-left: 100px;
 }
 
 .scoreTable{
@@ -48,10 +47,31 @@ body{
     text-shadow: 1px 5px 5px rgb(66, 26, 26);
     font-family: 'Silkscreen', cursive;
 }
+
+.scoreName{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+    font-size: 190%;
+    text-shadow: 1px 5px 5px rgb(66, 26, 26);
+    font-family: 'Silkscreen', cursive;
+}
+
 .scoreNumber{
     color: gold;
     font-family: 'Silkscreen', cursive;
 }
+
+.ongoingScore{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: gold;
+    font-family: 'Silkscreen', cursive;
+    font-size: 350%;
+}
+
 
 .mainDiv{
     position: relative;
@@ -70,7 +90,7 @@ body{
 .TetrisBoard {
     position: relative;
     flex-basis: 295px;
-    background-color: #e4faff;
+    background-color: #1f2122;
     border: 3px solid;
     box-shadow: 6px 20px 30px red;
 }
@@ -83,7 +103,12 @@ body{
 }
 
 .square-container {
-    position: absolute; }
+    position: absolute;
+}
+
+.falling-container {
+    position: absolute;
+}
 
 ul {
     display: block;
@@ -95,20 +120,84 @@ ul {
     padding-inline-start: 40px;
 }
 
+.currentScoreTank{
+    margin-top: 100px;
+    width: 100%;
+    border-style: outset;
+    background-color: rgb(20, 36, 51);
+}
+
+input:focus {
+    border: 3px solid rgb(196, 174, 174);
+    background-color: #242828;
+  }
+
+.inputName{
+    font-family: 'Silkscreen', cursive;
+    color: yellow;
+    width: 100%;
+    height: 40px;
+    font-size: 125%;
+    border: none;
+    outline: none;
+    background-color: rgb(63, 77, 90);
+    text-align: center; 
+}
+
+.gameOverTank{
+    margin-top: 40%;
+    width: 100%;
+    border-style: outset;
+    background-color: rgb(20, 36, 51);
+}
+
 .singleBlock {
     width: 100%;
     height: 100%;
+    background-color: 1f2122;
 }
+
+
+@keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
+
+.hlBlock{
+    width: 100%;
+    height: 100%;
+    background-color: 1f2122;
+    background: linear-gradient(-25deg, #ffffff, #23a6d5, #d90101);
+	animation: gradient .1s ease infinite;
+    background-size: 200% 200%;
+}
+
 .WholeTetro{
     position: absolute;
     padding: 0;
     margin: 0;
 }
 
+.GhostTetro{
+    position: absolute;
+    padding: 0;
+    margin: 0;
+    opacity: 25%;
+}
+
 .square-container{
     position: absolute;
     width: 25%;
     height: 25%; 
+    border-style: inset;
+    border-color: #242828;
 }
 
 * {

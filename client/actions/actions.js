@@ -1,40 +1,70 @@
 
 import * as types from '../constants/types.js';
 import axios from "axios";
+import slam from '../constants/audio/slam.wav'; 
 
 
-
-  export const updatePlayers = () => async dispatch => {
-    const response  = await axios.get('/api');
-    dispatch({type: types.UPDATE_PLAYERS, data: response.data })
+export const updatePlayers = () => async dispatch => {
+  const response  = await axios.get('/api');
+  dispatch({type: types.UPDATE_PLAYERS, data: response.data })
 } 
 
-
+// move tetro right or left ------------------------------------------------
 export const moveTetroLeft = () => ({
-    type: types.MOVE,
-    payload: -1
-  });
-
-
+  type: types.MOVE,
+  payload: -1
+});
 export const moveTetroRight = () => ({
     type: types.MOVE,
     payload: 1
 });
 
-export const rotate = () => ({
-  type: types.ROTATE
+export const stateFlipOff = () =>({
+  type: types.STATE_FLIP_OFF
 })
 
-export const startGame = () => (dispatch) => {
-  dispatch({ type: types.START })
+// rotate tetro right or left ------------------------------------------------
+export const rotateLeft = () => ({
+  type: types.ROTATE,
+  payload: false
+})
+export const rotateRight = () => ({
+  type: types.ROTATE,
+  payload: true
+})
+
+// floordrop -------------------------------------------------------------------
+export const floorDrop = () => (dispatch) => {
+  let sound = new Audio(slam)
+  sound.play();
+  dispatch({ type: types.FLOOR_DROP })
+}
+// drop ----------------------------------------------------------------
+export const dropBlocks = () => (dispatch) => {
   dispatch(drop())
 }
 
-export const drop = () => (dispatch) => {
-  setDropTimeout(() => {
+export const colorBlocks = () => async (dispatch) => {
+  clearDropTimeout();
+  await dispatch({ type: types.COLOR_LINES })
+ 
+}
+
+// stopgame -------------------------------------------------------------------
+export const stopGame = () => (dispatch) => {
+  clearDropTimeout();
+}
+
+export const startGame =  () => async(dispatch) => {
+  clearDropTimeout();
+  await dispatch({ type: types.START })
+}
+
+export const drop = () => async (dispatch) => {
+  await setDropTimeout(() => {
     dispatch({ type: types.DROP })
     dispatch(drop())
-  }, 200)
+  }, 500)
 }
 
 export function setDropTimeout(cb, interval) {
