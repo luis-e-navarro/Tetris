@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from 'react-redux';
 import BoardGrid from './BoardGrid.jsx'
 import WholeTetro from "./WholeTetro.jsx";
+import GhosTetro from "./GhostTetro.jsx";
 import { SPACE_KEY } from '../constants/tetromino.js'
 import { startGame, moveTetroLeft, moveTetroRight, dropBlocks, stateFlipOff, rotateLeft,colorBlocks, rotateRight, floorDrop } from "../actions/actions";
 
@@ -16,7 +17,8 @@ const mapStateToProps = (state) => {
         gameOver: state.gameOver,
         innerState: state.innerState,
         superGate: state.superGate,
-        sound: state.sound
+        sound: state.sound,
+        ghostTetroPosition: state.ghostTetroPosition
     };
 }
 
@@ -122,6 +124,12 @@ render(){
             currentGrid = {this.props.currentGrid}
             tetroGrid = {this.props.tetroGrid}
             tetroPosition={this.props.tetroPosition}
+            tetroPiece = {this.props.tetroPiece}
+            />}
+            {<GhosTetro
+            currentGrid = {this.props.currentGrid}
+            tetroGrid = {this.props.tetroGrid}
+            ghostTetroPosition = {this.props.ghostTetroPosition}
             tetroPiece = {this.props.tetroPiece}
             />}
         </div>

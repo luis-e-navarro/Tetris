@@ -185,6 +185,13 @@ input:focus {
     margin: 0;
 }
 
+.GhostTetro{
+    position: absolute;
+    padding: 0;
+    margin: 0;
+    opacity: 25%;
+}
+
 .square-container{
     position: absolute;
     width: 25%;

@@ -1,9 +1,10 @@
 import * as types from '../constants/types';
 import { GRID, TETROMINOS, SHAPES, TETROCOLORS} from '../constants/tetromino';
 import _ from 'lodash'
-import { coordinateBuilder, moveAllTetros, moveTetroI, rotateLeft, rotateRight } from '../constants/utils';
+import { coordinateBuilder, moveAllTetros, moveTetroI, rotateLeft, ghostTetroPositionBuilder, rotateRight } from '../constants/utils';
 import single from '../constants/audio/single.wav'; 
-import double from '../constants/audio/double.wav'; 
+import doubles from '../constants/audio/doubles.wav';
+import quad from '../constants/audio/quad.wav'
 const initalState = {
   currentGrid: GRID,
   tetroPiece: '',
@@ -11,6 +12,10 @@ const initalState = {
   tetroPosition: {
     x: 3,
     y: -2
+  },
+  ghostTetroPosition:{
+    x: 3,
+    y: 17
   },
   players: [],
   stateFlip: false,
@@ -20,11 +25,12 @@ const initalState = {
   innerState: false,
   superGate: false,
   sound: false
-  }
- 
- const tetrisReducer = (state = initalState, action) => {
-  let players, tetroPiece, tetroPosition, tetroGrid, currentGrid, stateFlip, ongoingScore, gameOver,finalScore, innerState, superGate, sound;
-   switch (action.type) {
+}
+
+const tetrisReducer = (state = initalState, action) => {
+  let players, tetroPiece, tetroPosition, tetroGrid, currentGrid,
+  stateFlip, ongoingScore, gameOver,finalScore, innerState, superGate, sound, ghostTetroPosition;
+  switch (action.type) {
     // turnoff stateflip -------------------------------------------------
     case types.STATE_FLIP_OFF:
       stateFlip = false;
@@ -32,10 +38,11 @@ const initalState = {
         ...state,
         stateFlip
       }
-    // move --------------------------------------------------------------
-     case types.MOVE:
-      let sidePosition = undefined
 
+    // move --------------------------------------------------------------
+    case types.MOVE:
+      let sidePosition = undefined
+      
       if (state.tetroPiece === 'I'){
         sidePosition = moveTetroI(state.tetroGrid, state.tetroPosition);
       }else{
@@ -51,9 +58,12 @@ const initalState = {
       }
  
       if(tetroPosition){
+        const ghostPositionArg = _.assign({},tetroPosition)
+        ghostTetroPosition = ghostTetroPositionBuilder(ghostPositionArg, state.tetroGrid, state.tetroPiece, state.currentGrid);
         return {
           ...state,
-          tetroPosition
+          tetroPosition,
+          ghostTetroPosition
         }
       }else{
         return {
@@ -91,11 +101,14 @@ const initalState = {
             }else if (state.tetroPosition.x > 7){
               tetroPosition.x--
             }
-
+            const ghostPositionArg = _.assign({},tetroPosition)
+            const ghostTetroGridArg = [...tetroGrid]
+            ghostTetroPosition = ghostTetroPositionBuilder(ghostPositionArg, ghostTetroGridArg, state.tetroPiece, state.currentGrid);
             return {
               ...state,
               tetroGrid,
-              tetroPosition
+              tetroPosition,
+              ghostTetroPosition
             }
         }
 
@@ -115,7 +128,7 @@ const initalState = {
           }
           return result
         }, [])
-        counter > 1 ? sound = new Audio(double) : sound = new Audio(single);
+        counter === 4 ? sound = new Audio(quad) : counter > 1 ? sound = new Audio(doubles) : sound = new Audio(single);
         
         currentGrid.push(...colorBuilder)
         superGate = false
@@ -129,40 +142,43 @@ const initalState = {
         }
         
       // start ------------------------------------------------------
-        case types.START:
-          ongoingScore = state.ongoingScore
-          currentGrid = state.currentGrid.slice(state.currentGrid.length)
-          innerState = false
+      case types.START:
+        ongoingScore = state.ongoingScore
+        currentGrid = state.currentGrid.slice(state.currentGrid.length)
+        innerState = false
+        let scoreCounter = 0
+        let bonus = 0
+        const gridBuilder = state.currentGrid.reduce((result, row) => {
+          if (!row.every(el => el !== null)) {
+            result.push([...row])
+          } else {
+            if(scoreCounter === 1) bonus += 6
+            if(scoreCounter === 2) bonus += 8
+            if(scoreCounter === 3) bonus += 10
+            scoreCounter++
+            result.unshift([null, null, null, null, null, null, null, null, null, null])
+          }
+          return result
+        }, [])
+        scoreCounter *= 12
+        scoreCounter += bonus
+        ongoingScore += scoreCounter
+        currentGrid.push(...gridBuilder)
 
-
-            const gridBuilder = state.currentGrid.reduce((result, row) => {
-              if (!row.every(el => el !== null)) {
-                result.push([...row])
-
-              } else {
-                ongoingScore += 12
- 
-                result.unshift([null, null, null, null, null, null, null, null, null, null])
-              }
-              return result
-            }, [])
-    
-            currentGrid.push(...gridBuilder)
-          
-
+        const rand = Math.floor(Math.random() * TETROMINOS.length)
+        tetroPiece = TETROMINOS[rand];
+  
+        const position = {
+        x: Math.round(5) - Math.round(SHAPES[tetroPiece][0].length / 2),
+        y: -2
+        }
         
-      const rand = Math.floor(Math.random() * TETROMINOS.length)
-      state.tetroPiece = '';
-      state.tetroPiece += TETROMINOS[rand];
-      tetroPiece = state.tetroPiece
-      const position = {
-      x: Math.round(5) - Math.round(SHAPES[tetroPiece][0].length / 2),
-      y: -2
-      }
-      tetroPosition = _.assign(state.tetroPosition, position)
-      tetroGrid = state.tetroGrid.slice(state.tetroGrid.length)
-      tetroGrid = SHAPES[tetroPiece]
-
+        tetroPosition = _.assign(state.tetroPosition, position)
+        const ghostPositionArg = _.assign({},tetroPosition)
+        ghostPositionArg.y += 3
+        tetroGrid = state.tetroGrid.slice(state.tetroGrid.length)
+        tetroGrid = SHAPES[tetroPiece]
+        ghostTetroPosition = ghostTetroPositionBuilder(ghostPositionArg, tetroGrid, tetroPiece, gridBuilder);
       return {
         ...state,
         tetroPiece,
@@ -170,7 +186,8 @@ const initalState = {
         tetroGrid,
         currentGrid,
         ongoingScore,
-        innerState
+        innerState,
+        ghostTetroPosition
       }
    
      // updated CASE ----------------------------------------------------------------------
@@ -222,8 +239,8 @@ const initalState = {
               }
               droppedBlockPosition.y++
             }
-            
           }
+
           currentGrid = state.currentGrid
           let relX,relY;
           
