@@ -62,3 +62,37 @@ export function moveAllTetros(tetrominoGrid, blockPosition){
   if (!sidePosition.right) sidePosition.right = blockPosition.x + 1 
   return sidePosition
 }
+
+export function coordinateBuilder(grid, gridPosition, piece){
+
+  let howManyToAdd = additionalSpaces(piece);
+  let howManyToAddFlip = false
+  const currentCoordinates = {
+    0:[],
+    1:[],
+    2:[],
+    3:[],
+    checker: gridPosition.y
+  }
+  for (let row = grid.length - 1; row > -1; row--){
+    for(let column = grid[0].length - 1; column > -1; column--){
+      if (grid[row][column] === 1){
+        howManyToAddFlip = true
+        if(!currentCoordinates[column].length){
+          currentCoordinates[column].push(gridPosition.x + column, gridPosition.y + row)
+        }
+      }
+    }
+    if(!howManyToAddFlip){
+      howManyToAdd--
+    }
+  }
+  currentCoordinates.checker += howManyToAdd
+  return currentCoordinates
+}
+
+function additionalSpaces(tetroPiece){
+  if(tetroPiece === 'O') return 1
+  if(tetroPiece === 'I') return 3
+  return 2
+}

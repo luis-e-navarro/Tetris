@@ -1,7 +1,7 @@
 
 import * as types from '../constants/types.js';
 import axios from "axios";
-
+import slam from '../constants/audio/slam.wav'; 
 
 
 export const updatePlayers = () => async dispatch => {
@@ -35,11 +35,13 @@ export const rotateRight = () => ({
 
 // floordrop -------------------------------------------------------------------
 export const floorDrop = () => (dispatch) => {
+  let sound = new Audio(slam)
+  sound.play();
   dispatch({ type: types.FLOOR_DROP })
 }
 // drop ----------------------------------------------------------------
 export const dropBlocks = () => (dispatch) => {
-   dispatch(drop())
+  dispatch(drop())
 }
 
 export const colorBlocks = () => async (dispatch) => {
@@ -62,7 +64,7 @@ export const drop = () => async (dispatch) => {
   await setDropTimeout(() => {
     dispatch({ type: types.DROP })
     dispatch(drop())
-  }, 200)
+  }, 500)
 }
 
 export function setDropTimeout(cb, interval) {

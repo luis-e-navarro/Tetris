@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import BoardGrid from './BoardGrid.jsx'
 import WholeTetro from "./WholeTetro.jsx";
 import { SPACE_KEY } from '../constants/tetromino.js'
-import { startGame, moveTetroLeft, moveTetroRight,dropBlocks, stateFlipOff, rotateLeft,colorBlocks, rotateRight, floorDrop } from "../actions/actions";
-import single from '../constants/audio/single.wav'; 
+import { startGame, moveTetroLeft, moveTetroRight, dropBlocks, stateFlipOff, rotateLeft,colorBlocks, rotateRight, floorDrop } from "../actions/actions";
+
 
 const mapStateToProps = (state) => {
     return {
@@ -15,7 +15,8 @@ const mapStateToProps = (state) => {
         stateFlip: state.stateFlip,
         gameOver: state.gameOver,
         innerState: state.innerState,
-        superGate: state.superGate
+        superGate: state.superGate,
+        sound: state.sound
     };
 }
 
@@ -29,7 +30,8 @@ function mapDispatchToProps(dispatch) {
         floorDrop: () => dispatch(floorDrop()),
         dropBlocks: () => dispatch(dropBlocks()),
         stateFlipOff:()=> dispatch(stateFlipOff()),
-        colorBlocks: ()=> dispatch(colorBlocks())
+        colorBlocks: ()=> dispatch(colorBlocks()),
+        slamSound:() => dispatch(slamSound())
     }
   }
 
@@ -74,6 +76,7 @@ class TetrisBoard extends Component{
         }
     }
 
+
      componentDidMount(){
         if(!this.props.gameOver){
              document.addEventListener('keyup', this.start)
@@ -87,8 +90,8 @@ class TetrisBoard extends Component{
             if (this.props.superGate){
                 await this.props.colorBlocks();
             }else{  
+                let sound = this.props.sound
                 if (this.props.innerState){
-                    let sound = new Audio(single);
                     sound.play(); 
                     await this.props.stateFlipOff();
                     setTimeout(this.props.startGame,250);

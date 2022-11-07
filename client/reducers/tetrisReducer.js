@@ -1,8 +1,9 @@
 import * as types from '../constants/types';
 import { GRID, TETROMINOS, SHAPES, TETROCOLORS} from '../constants/tetromino';
 import _ from 'lodash'
-import { moveAllTetros, moveTetroI, rotateLeft, rotateRight } from '../constants/utils';
-
+import { coordinateBuilder, moveAllTetros, moveTetroI, rotateLeft, rotateRight } from '../constants/utils';
+import single from '../constants/audio/single.wav'; 
+import double from '../constants/audio/double.wav'; 
 const initalState = {
   currentGrid: GRID,
   tetroPiece: '',
@@ -17,11 +18,12 @@ const initalState = {
   gameOver: false,
   finalScore: 0,
   innerState: false,
-  superGate: false
+  superGate: false,
+  sound: false
   }
  
  const tetrisReducer = (state = initalState, action) => {
-  let players, tetroPiece, tetroPosition, tetroGrid, currentGrid, stateFlip, ongoingScore, gameOver,finalScore, innerState, superGate;
+  let players, tetroPiece, tetroPosition, tetroGrid, currentGrid, stateFlip, ongoingScore, gameOver,finalScore, innerState, superGate, sound;
    switch (action.type) {
     // turnoff stateflip -------------------------------------------------
     case types.STATE_FLIP_OFF:
@@ -77,11 +79,16 @@ const initalState = {
 
           const holder = tetroGrid.every(row => row[0] === 0)
             if (state.tetroPosition.x < 0 && !holder){
-              if(state.tetroPiece === 'I'){
+              if(state.tetroPiece === 'I' && state.tetroPosition.x < -1){
                 tetroPosition.x++
               }
               tetroPosition.x++
-            }else if(state.tetroPosition.x > 7){
+            }else if(state.tetroPiece === 'I' && state.tetroPosition.x > 6){
+              if(state.tetroPosition.x > 7){
+                tetroPosition.x-- 
+              }
+              tetroPosition.x-- 
+            }else if (state.tetroPosition.x > 7){
               tetroPosition.x--
             }
 
@@ -95,17 +102,21 @@ const initalState = {
       // color lines ------------------------------------------------
       case types.COLOR_LINES:
         innerState = false
+        let counter = 0
         let col = TETROCOLORS.C
         currentGrid = state.currentGrid.slice(state.currentGrid.length)
         const colorBuilder = state.currentGrid.reduce((result, row) => {
           if (!row.every(el => el !== null)) {
             result.push([...row])
           } else {
+            counter++
             innerState = true
             result.push([col, col, col, col, col, col, col, col, col, col])
           }
           return result
         }, [])
+        counter > 1 ? sound = new Audio(double) : sound = new Audio(single);
+        
         currentGrid.push(...colorBuilder)
         superGate = false
 
@@ -113,7 +124,8 @@ const initalState = {
           ...state,
           currentGrid,
           innerState,
-          superGate
+          superGate,
+          sound
         }
         
       // start ------------------------------------------------------
@@ -172,84 +184,45 @@ const initalState = {
 
       // FLOORDROP CASE ----------------------------------------------------------------------
       case types.FLOOR_DROP:
-        let currentDropPosition;
-        let pastingColor = state.tetroPosition
-
-        if (state.tetroPiece === 'O'){
-          currentDropPosition = {
-            0:[],
-            1:[]
-          }
-          currentDropPosition['0'].push(state.tetroPosition.x, state.tetroPosition.y + 1)
-          currentDropPosition['1'].push(state.tetroPosition.x + 1, state.tetroPosition.y + 1)
-
-          let checkingGrid1 = state.currentGrid[currentDropPosition['0'][1]+1][currentDropPosition['0'][0]]
-          let checkingGrid2 = state.currentGrid[currentDropPosition['1'][1]+1][currentDropPosition['1'][0]]
-          while(checkingGrid1 === null && checkingGrid2 === null){
-            currentDropPosition['0'][1]++
-            currentDropPosition['1'][1]++
-            checkingGrid1 = state.currentGrid[currentDropPosition['0'][1]+1][currentDropPosition['0'][0]]
-            checkingGrid2 = state.currentGrid[currentDropPosition['1'][1]+1][currentDropPosition['1'][0]]
-            pastingColor.y++
-          }
-          currentGrid = state.currentGrid
-          stateFlip = true
-          let relX,relY;
-          
-          for (let row = 0; row < state.tetroGrid.length; row++) {
-            for (let col = 0; col < state.tetroGrid[0].length; col++) {
-              if (!state.tetroGrid[row][col]) continue
-              relX = pastingColor.x + col
-              relY = pastingColor.y + row
-              currentGrid[relY][relX] = TETROCOLORS[state.tetroPiece]
-            }
-          }
-          superGate = true
-        return{
-          ...state,
-          currentGrid,
-          stateFlip,
-          superGate
-        }
-        }else if (state.tetroPiece !== 'I'){
-          currentDropPosition = {
-            0:[],
-            1:[],
-            2:[]
-          }
-
-          for (let row = state.tetroGrid.length - 1; row > -1; row--){
-            for(let column = state.tetroGrid[0].length - 1; column > -1; column--){
-              if (state.tetroGrid[row][column] === 1){
-                if(!currentDropPosition[column].length){
-                  currentDropPosition[column].push(state.tetroPosition.x + column, state.tetroPosition.y + row)
-                }
-              }
-            }
-          }
-          const adv = Object.values(currentDropPosition)
+          let droppedBlockPosition = state.tetroPosition
+          const adv = Object.values(coordinateBuilder(state.tetroGrid, state.tetroPosition, state.tetroPiece))
           let checkingGrid1 = null
           let checkingGrid2 = null
           let checkingGrid3 = null
+          let checkingGrid4 = null
           if (adv[0].length) checkingGrid1 = state.currentGrid[adv[0][1]+1][adv[0][0]]
           if (adv[1].length) checkingGrid2 = state.currentGrid[adv[1][1]+1][adv[1][0]]
           if (adv[2].length) checkingGrid3 = state.currentGrid[adv[2][1]+1][adv[2][0]]
+          if (adv[3].length) checkingGrid4 = state.currentGrid[adv[3][1]+1][adv[3][0]]
 
-          console.log(checkingGrid1,checkingGrid2,checkingGrid3)
-          while(!checkingGrid1 && !checkingGrid2 && !checkingGrid3){
-            if(adv[0].length){
-              adv[0][1]++
-              checkingGrid1 = state.currentGrid[adv[0][1]+1][adv[0][0]]
+          while(!checkingGrid1 && !checkingGrid2 && !checkingGrid3 && !checkingGrid4){
+            adv[4]++
+            if(adv[4] === 19){
+              droppedBlockPosition.y++
+              checkingGrid1 = true
+            }else{
+              if(adv[0].length){
+                adv[0][1]++
+                checkingGrid1 = state.currentGrid[adv[0][1]+1][adv[0][0]]
+              }
+  
+              if(adv[1].length){
+                adv[1][1]++
+                checkingGrid2 = state.currentGrid[adv[1][1]+1][adv[1][0]]      
+              }
+  
+              if(adv[2].length){
+                adv[2][1]++
+                checkingGrid3 = state.currentGrid[adv[2][1]+1][adv[2][0]]
+              }
+  
+              if(adv[3].length){
+                adv[3][1]++
+                checkingGrid4 = state.currentGrid[adv[3][1]+1][adv[3][0]]
+              }
+              droppedBlockPosition.y++
             }
-            if(adv[1].length){
-              adv[1][1]++
-              checkingGrid2 = state.currentGrid[adv[1][1]+1][adv[1][0]]
-            }
-            if(adv[2].length){
-            adv[2][1]++
-            checkingGrid3 = state.currentGrid[adv[2][1]+1][adv[2][0]]
-            }
-            pastingColor.y++
+            
           }
           currentGrid = state.currentGrid
           let relX,relY;
@@ -257,23 +230,24 @@ const initalState = {
           for (let row = 0; row < state.tetroGrid.length; row++) {
             for (let col = 0; col < state.tetroGrid[0].length; col++) {
               if (!state.tetroGrid[row][col]) continue
-              relX = pastingColor.x + col
-              relY = pastingColor.y + row
+              relX = droppedBlockPosition.x + col
+              relY = droppedBlockPosition.y + row
               currentGrid[relY][relX] = TETROCOLORS[state.tetroPiece]
             }
           }
           stateFlip = true
           superGate = true
+          tetroGrid = state.tetroGrid.map((curr)=>{
+            return curr.map((el)=>{
+              return 0
+            })
+          })
         return{
           ...state,
           currentGrid,
           stateFlip,
-          superGate
-        }
-        }
-
-        return {
-          ...state
+          superGate,
+          tetroGrid
         }
      
      // DROP REDUCER CASE ----------------------------------------------------------------------
