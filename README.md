@@ -12,6 +12,15 @@ Enjoy a game of tetris!
 * [Node](https://nodejs.org/en/)
 * [Express](https://expressjs.com/)
 
+## Demo
+
+
+**Gameplay**
+
+![Tetris Demo](./client/constants/images/tetrisgif.gif "Tetris Demo")
+
+
+
 ## Running Tetris
 
 1. Install dependencies with 
