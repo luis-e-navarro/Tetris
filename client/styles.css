@@ -176,6 +176,7 @@ input:focus {
     background: linear-gradient(-25deg, #ffffff, #23a6d5, #d90101);
 	animation: gradient .1s ease infinite;
     background-size: 200% 200%;
+  
 }
 
 .WholeTetro{
