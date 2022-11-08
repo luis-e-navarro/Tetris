@@ -1,4 +1,4 @@
-# tetris
+# Tetris
 Enjoy a game of tetris!
 
 ## Tech Stack
@@ -12,7 +12,7 @@ Enjoy a game of tetris!
 * [Node](https://nodejs.org/en/)
 * [Express](https://expressjs.com/)
 
-## Running tetris
+## Running Tetris
 
 1. Install dependencies with 
              
