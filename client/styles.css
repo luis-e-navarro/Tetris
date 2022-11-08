@@ -91,7 +91,7 @@ body{
     position: relative;
     flex-basis: 295px;
     background-color: #1f2122;
-    border: 3px solid;
+    border: 2px solid;
     box-shadow: 6px 20px 30px red;
 }
 .boardGrid {
@@ -157,7 +157,6 @@ input:focus {
     background-color: 1f2122;
 }
 
-
 @keyframes gradient {
 	0% {
 		background-position: 0% 50%;
@@ -177,6 +176,7 @@ input:focus {
     background: linear-gradient(-25deg, #ffffff, #23a6d5, #d90101);
 	animation: gradient .1s ease infinite;
     background-size: 200% 200%;
+  
 }
 
 .WholeTetro{
@@ -189,7 +189,22 @@ input:focus {
     position: absolute;
     padding: 0;
     margin: 0;
-    opacity: 25%;
+}
+
+.ghostBlock{
+    background-color: 1f2122;
+    opacity: 65%;
+    width: 100%;
+    height: 100%;
+    box-shadow:
+    inset 0 0 45px #fff,
+    /* inset 20px 0 80px #f0f,
+    inset -20px 0 80px #0ff,
+    inset 20px 0 300px #f0f,
+    inset -20px 0 300px #0ff, */
+    0 0 50px #fff,
+    -10px 0 80px #f0f,
+    10px 0 80px #0ff;
 }
 
 .square-container{
@@ -197,7 +212,7 @@ input:focus {
     width: 25%;
     height: 25%; 
     border-style: inset;
-    border-color: #242828;
+    border-color: #081b1b;
 }
 
 * {
