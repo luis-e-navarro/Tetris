@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Block from './Block.jsx'
+import GhostBlock from './GhostBlock.jsx'
 import { GRID, TETROMINOS, SHAPES, TETROCOLORS} from '../constants/tetromino';
 import { render } from "react-dom";
 
@@ -38,7 +38,7 @@ class GhosTetro extends Component {
                         left: `${col * 25}%`
 
                     }}>
-                        <Block color={color}/>
+                        <GhostBlock color={color}/>
 
                     </li>
                 )
