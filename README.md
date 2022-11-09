@@ -17,7 +17,9 @@ Enjoy a game of tetris!
 
 **Gameplay**
 
-![Tetris Demo](./client/constants/images/tetrisgif.gif "Tetris Demo")
+<p align="center">
+  <img src="client/constants/tetrisDemo/tetrisgif.gif" width="600px" margin="auto"/>
+</p>
 
 
 
