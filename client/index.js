@@ -14,13 +14,3 @@ root.render(
 </Provider>,
 );
 
-
-
-
-
-// render(
-//   <Provider store={store}>
-//     <App/>
-//   </Provider>,
-//   document.getElementById('contents')
-// );
