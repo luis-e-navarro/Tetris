@@ -41,7 +41,7 @@ function mapDispatchToProps(dispatch) {
 class TetrisBoard extends Component{
     start = (e) => {
         switch (e.keyCode){
-            case 38:
+            case SPACE_KEY:
                 this.props.startGame();
                 this.props.dropBlocks();
                 break;

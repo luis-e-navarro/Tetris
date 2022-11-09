@@ -3,7 +3,7 @@
 body{
     width: 100%;
     height: 100%;
-    background-image: linear-gradient(to right, rgb(190, 187, 168), rgb(98, 98, 195), rgb(68, 37, 68));
+    background-image: linear-gradient(to right, rgb(3, 32, 26), rgb(98, 98, 195), rgb(68, 37, 68));
 }
 
 
@@ -82,7 +82,7 @@ body{
     align-items: stretch;
     height: 550px; 
     margin-left: 150px;
-    margin-top: -5%;
+    margin-top: 10%;
     justify-content: space-evenly;
     
 }
