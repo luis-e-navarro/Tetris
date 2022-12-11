@@ -9,7 +9,7 @@ app.use(express.urlencoded({ extended: true}));
 
 app.use(express.static(path.resolve(__dirname,'../client')))
 
-app.get('/spiderman', (req,res,next)=>{
+app.get('/backend', (req,res,next)=>{
   return res.status(200).sendFile(path.join(__dirname,'../dist/bundle.js'))
 })
 
