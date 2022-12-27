@@ -19,13 +19,10 @@ function mapDispatchToProps(dispatch) {
 const CurrentBoard = (props) => {
 
     return (
-        <section>
-        <div className="currentScoreTank">
-        <p className="scoreName">SCORE</p>
-       <p className="ongoingScore">{props.ongoingScore}</p>
-        </div>
-
-        </section>
+          <div className="scoreTank">
+            <p className="scoreName">SCORE</p>
+            <p className="ongoingScore">{props.ongoingScore}</p>
+          </div>
     )
 }
 

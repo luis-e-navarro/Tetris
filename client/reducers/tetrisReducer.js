@@ -1,14 +1,14 @@
 import * as types from '../constants/types';
 import { GRID, TETROMINOS, SHAPES, TETROCOLORS} from '../constants/tetromino';
-import _ from 'lodash'
-import { coordinateBuilder, moveAllTetros, moveTetroI, rotateLeft, ghostTetroPositionBuilder, rotateRight } from '../constants/utils';
+import _, { has } from 'lodash'
+import { moveAllTetros, moveTetroI, rotateLeft, ghostTetroPositionBuilder, rotateRight } from '../constants/utils';
 import single from '../constants/audio/single.wav'; 
 import doubles from '../constants/audio/doubles.wav';
 import quad from '../constants/audio/quad.wav'
 const initalState = {
   currentGrid: GRID,
   tetroPiece: '',
-  tetroGrid: [[0, 0, 1], [1, 1, 1], [0, 0, 0]],
+  tetroGrid: [[0, 0, 0], [0, 0, 0], [0, 0, 0]],
   tetroPosition: {
     x: 3,
     y: -2
@@ -24,12 +24,16 @@ const initalState = {
   finalScore: 0,
   innerState: false,
   superGate: false,
-  sound: false
+  sound: false,
+  savedTetromino: '',
+  hasSaved: false,
+  currentlyPicked: false,
+  incomingTetros: ['','','','','','']
 }
 
 const tetrisReducer = (state = initalState, action) => {
-  let players, tetroPiece, tetroPosition, tetroGrid, currentGrid,
-  stateFlip, ongoingScore, gameOver,finalScore, innerState, superGate, sound, ghostTetroPosition;
+  let players, tetroPiece, currentlyPicked, tetroPosition, tetroGrid, incomingTetros, currentGrid, hasSaved,
+  stateFlip, ongoingScore, gameOver,finalScore, innerState, superGate, sound, ghostTetroPosition, savedTetromino;
   switch (action.type) {
     // turnoff stateflip -------------------------------------------------
     case types.STATE_FLIP_OFF:
@@ -37,6 +41,16 @@ const tetrisReducer = (state = initalState, action) => {
       return{
         ...state,
         stateFlip
+      }
+    // saved tetro ---------------------------------------------------------
+    case types.SAVE_TETRO:
+      if(!state.hasSaved){
+        savedTetromino = state.tetroPiece;
+      }  
+      return{
+        ...state,
+        savedTetromino,
+        currentlyPicked
       }
 
     // move --------------------------------------------------------------
@@ -164,13 +178,36 @@ const tetrisReducer = (state = initalState, action) => {
         scoreCounter += bonus
         ongoingScore += scoreCounter
         currentGrid.push(...gridBuilder)
+        let rand = Math.floor(Math.random() * TETROMINOS.length)
+        rand = TETROMINOS[rand];
+        hasSaved = state.hasSaved
+        incomingTetros = state.incomingTetros
+        if(!state.incomingTetros[0].length){
+          incomingTetros = state.incomingTetros.map((el) => {
+            let newTetro = Math.floor(Math.random() * TETROMINOS.length)
+            return TETROMINOS[newTetro];
+          })
+          tetroPiece = rand
+          savedTetromino = state.savedTetromino
+          currentlyPicked = false;
+        }else{
+          if(!action.payload){
+            tetroPiece = incomingTetros.shift();
+            incomingTetros.push(rand)
+            savedTetromino = state.savedTetromino
+            currentlyPicked = false;
+          }else{
+            tetroPiece = !state.hasSaved ? incomingTetros.shift() : state.savedTetromino;
+            incomingTetros.push(rand)
+            savedTetromino = state.tetroPiece;
+            currentlyPicked = true;
+            hasSaved = true
+          }
+        }
 
-        const rand = Math.floor(Math.random() * TETROMINOS.length)
-        tetroPiece = TETROMINOS[rand];
-  
         const position = {
-        x: Math.round(5) - Math.round(SHAPES[tetroPiece][0].length / 2),
-        y: -2
+          x: Math.round(5) - Math.round(SHAPES[tetroPiece][0].length / 2),
+          y: -2
         }
         
         tetroPosition = _.assign(state.tetroPosition, position)
@@ -181,6 +218,10 @@ const tetrisReducer = (state = initalState, action) => {
         ghostTetroPosition = ghostTetroPositionBuilder(ghostPositionArg, tetroGrid, tetroPiece, gridBuilder);
       return {
         ...state,
+        incomingTetros,
+        hasSaved,
+        currentlyPicked,
+        savedTetromino,
         tetroPiece,
         tetroPosition,
         tetroGrid,
@@ -198,48 +239,7 @@ const tetrisReducer = (state = initalState, action) => {
       ...state,
       players,
      }
-
-      // FLOORDROP CASE ----------------------------------------------------------------------
       case types.FLOOR_DROP:
-          // let droppedBlockPosition = state.tetroPosition
-          // const adv = Object.values(coordinateBuilder(state.tetroGrid, state.tetroPosition, state.tetroPiece))
-          // let checkingGrid1 = null
-          // let checkingGrid2 = null
-          // let checkingGrid3 = null
-          // let checkingGrid4 = null
-          // if (adv[0].length) checkingGrid1 = state.currentGrid[adv[0][1]+1][adv[0][0]]
-          // if (adv[1].length) checkingGrid2 = state.currentGrid[adv[1][1]+1][adv[1][0]]
-          // if (adv[2].length) checkingGrid3 = state.currentGrid[adv[2][1]+1][adv[2][0]]
-          // if (adv[3].length) checkingGrid4 = state.currentGrid[adv[3][1]+1][adv[3][0]]
-
-          // while(!checkingGrid1 && !checkingGrid2 && !checkingGrid3 && !checkingGrid4){
-          //   adv[4]++
-          //   if(adv[4] === 19){
-          //     droppedBlockPosition.y++
-          //     checkingGrid1 = true
-          //   }else{
-          //     if(adv[0].length){
-          //       adv[0][1]++
-          //       checkingGrid1 = state.currentGrid[adv[0][1]+1][adv[0][0]]
-          //     }
-  
-          //     if(adv[1].length){
-          //       adv[1][1]++
-          //       checkingGrid2 = state.currentGrid[adv[1][1]+1][adv[1][0]]      
-          //     }
-  
-          //     if(adv[2].length){
-          //       adv[2][1]++
-          //       checkingGrid3 = state.currentGrid[adv[2][1]+1][adv[2][0]]
-          //     }
-  
-          //     if(adv[3].length){
-          //       adv[3][1]++
-          //       checkingGrid4 = state.currentGrid[adv[3][1]+1][adv[3][0]]
-          //     }
-          //     droppedBlockPosition.y++
-          //   }
-          // }
 
           currentGrid = state.currentGrid
 
@@ -412,46 +412,3 @@ const tetrisReducer = (state = initalState, action) => {
  };
  
  export default tetrisReducer;
-
-
-
-
-
-
-
-
-       // drop until it hits something
-      // if (isPositionAvailable(grid, currTetroGrid, newPosition)) {
-      //   return updateTetrisStateStorage(_.assign({}, state, { currTetroPosition: newPosition }))
-      // }
-      
-      // position is not available => reaches the bottom-most position of the well
-      
-      // there is no extra room for the new tetromino, game over
- 
-      
-      // let newGrid = transferTetroGridIntoWell({
-      //   grid,
-      //   tetroGrid: currTetroGrid,
-      //   tetroPosition: currTetroPosition, // not newPosition!!
-      //   color: COLORS[currTetromino]
-      // })
-
-      // if (hasLineToClear(newGrid)) {
-      //   return updateTetrisStateStorage(_.assign({}, state, {
-      //     score: score + 10,
-      //     linesCleared: linesCleared + 1,
-      //     grid: clearLines(newGrid),
-      //     currTetromino: nextTetromino,
-      //     currTetroGrid: SHAPES[nextTetromino],
-      //     currTetroPosition: getInitTetroPosition(nextTetromino),
-      //     nextTetromino: getRandomTetromino(),
-      //     dropInterval: dropInterval <= DROP_INTERVAL_MIN ? DROP_INTERVAL_MIN :  dropInterval - DROP_INTERVAL_DEC
-      //   }))
-      // } else {
-        // return {
-        //   ...state
-        // }
-      
-    
-      // }

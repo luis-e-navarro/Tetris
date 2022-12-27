@@ -111,7 +111,6 @@ export function ghostTetroPositionBuilder(currTetroPos, currTetroGrid, currTetro
   let checkingGrid2 = null
   let checkingGrid3 = null
   let checkingGrid4 = null
-  console.log(currTetroPiece, adv)
   if (adv[0].length) checkingGrid1 = mainGrid[adv[0][1]+1][adv[0][0]]
   if (adv[1].length) checkingGrid2 = mainGrid[adv[1][1]+1][adv[1][0]]
   if (adv[2].length) checkingGrid3 = mainGrid[adv[2][1]+1][adv[2][0]]

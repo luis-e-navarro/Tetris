@@ -1,0 +1,60 @@
+import React from "react";
+import Block from './Block.jsx'
+import {SMALLGRID, GRID, TETROMINOS, SHAPES, TETROCOLORS} from '../constants/tetromino';
+
+const IncomingTetros = ({incomingTetros}) => {
+
+    function getTetrominoStyle(position){
+        const heightPos = 13;
+        const rows = SMALLGRID.length
+        const columns = SMALLGRID[0].length
+        const widthPercent = 140 / columns
+        const heightPercent = 35 / rows
+        return {
+            width: `${4 * widthPercent}%`,
+            height: `${4 * heightPercent}%`,
+            top: `${position * heightPos}%`,
+            left: `15%`
+        }
+    }
+
+    function renderTetro (tetro) {
+        const shapeArr = !tetro.length ? SHAPES.D : SHAPES[tetro]
+        const color = TETROCOLORS[tetro];
+        
+        const rows = shapeArr.length
+        const columns = shapeArr[0].length
+        let result = []
+
+        for (let row = 0; row < rows; row++){
+            for (let col = 0; col < columns; col++){
+                if (!shapeArr[row][col]) continue
+                result.push(
+                    <li className="square-container"
+                    key={`t-${row}${col}`}
+                    style={{
+                        marginTop: '20%',
+                        top: `${row * 25}%`,
+                        left: `${col * 25}%`
+                    }}>
+                        <Block color={color}/>
+                    </li>
+                )
+            }
+        }
+        return result;
+    }
+        return (
+            <div id="incomingTetroContainer">
+                {incomingTetros.map((tetro, index) => {
+                    return (<ul className="savedTetro" style ={getTetrominoStyle(index)}>
+                        {renderTetro(tetro)}
+                    </ul>)
+                })}
+            </div>
+
+        )
+    
+}
+
+export default IncomingTetros

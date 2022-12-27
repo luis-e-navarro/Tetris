@@ -1,14 +1,18 @@
 import React, { Component } from 'react';
-import CurrentBoard from './components/CurrentBoard.jsx';
-import GameOver from './components/GameOver.jsx';
 import Scores from './components/Scores.jsx';
 import TetrisBoard from './components/TetrisBoard.jsx';
 import { connect } from 'react-redux';
 import {stopGame} from './actions/actions.js'
+import IncomingTetros from './components/IncomingTetros.jsx'
 const mapStateToProps = (state) => {
   return {
    gameOver: state.gameOver,
-   finalScore: state.finalScore
+   currentGrid: state.currentGrid, 
+   tetroPiece: state.tetroPiece, 
+   tetroGrid: state.tetroGrid,
+   tetroPosition: state.tetroPosition,
+   savedTetromino: state.savedTetromino,
+   incomingTetros: state.incomingTetros
   }
 }
 function mapDispatchToProps(dispatch) {
@@ -21,18 +25,18 @@ function mapDispatchToProps(dispatch) {
 const App = (props) =>  {
 
   props.gameOver ? props.stopGame() : null
-
+  console.log(props.savedTetromino)
     return (
         <div className="mainDiv">
-          <TetrisBoard />
-          <div>
-          {props.gameOver ? <GameOver finalScore={props.finalScore}/> : <CurrentBoard/>}
-          </div>
-
           <Scores/>
-       
+          <TetrisBoard />
+          <div id='leftMainDiv'>
+          <h2 id='savedHeader'>NEXT</h2>
+            <IncomingTetros
+            incomingTetros={props.incomingTetros}
+            />
+          </div>
         </div>
-
     );
 }
  

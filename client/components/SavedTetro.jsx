@@ -1,27 +1,26 @@
 import React, { Component } from "react";
-import GhostBlock from './GhostBlock.jsx'
-import { GRID, TETROMINOS, SHAPES, TETROCOLORS} from '../constants/tetromino';
-import { render } from "react-dom";
+import Block from './Block.jsx'
+import {SMALLGRID, GRID, TETROMINOS, SHAPES, TETROCOLORS} from '../constants/tetromino';
+import GhostBlock from "./GhostBlock.jsx";
 
-class GhosTetro extends Component {
+class SavedTetro extends Component {
    
     _getTetrominoStyle(){
-        const rows = GRID.length
-        const columns = GRID[0].length
-
-        const widthPercent = 100 / columns
-        const heightPercent = 100 / rows
+        const rows = SMALLGRID.length
+        const columns = SMALLGRID[0].length
+        const widthPercent = 175 / columns
+        const heightPercent = 175 / rows
         return {
             width: `${4 * widthPercent}%`,
             height: `${4 * heightPercent}%`,
-            top: `${this.props.ghostTetroPosition.y * heightPercent}%`,
-            left: `${this.props.ghostTetroPosition.x * widthPercent}%`
+            top: `22%`,
+            left: `12%`
         }
     }
-    _renderTetro () {
 
-        const shapeArr = this.props.tetroGrid
-        const color = TETROCOLORS[this.props.tetroPiece];
+    _renderTetro () {
+        const shapeArr = !this.props.savedTetromino.length ? SHAPES.D : SHAPES[this.props.savedTetromino]
+        const color = TETROCOLORS[this.props.savedTetromino];
         
         const rows = shapeArr.length
         const columns = shapeArr[0].length
@@ -36,9 +35,8 @@ class GhosTetro extends Component {
                     style={{
                         top: `${row * 25}%`,
                         left: `${col * 25}%`
-
                     }}>
-                        <GhostBlock color={color}/>
+                        <Block color={color}/>
                     </li>
                 )
             }
@@ -48,7 +46,7 @@ class GhosTetro extends Component {
 
     render(){
         return (
-            <ul className="GhostTetro" style ={this._getTetrominoStyle()}>
+            <ul className="savedTetro" style ={this._getTetrominoStyle()}>
                 {this._renderTetro()}
             </ul>
         )
@@ -56,4 +54,4 @@ class GhosTetro extends Component {
 
 }
 
-export default GhosTetro;
+export default SavedTetro;

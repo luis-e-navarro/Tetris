@@ -2,37 +2,33 @@ const db = require ('../models/playerModels');
 
 const playerController = {};
 
-playerController.updatePlayer = ( req, res, next) => {
+playerController.updatePlayer = async ( req, res, next) => {
     const charString = 'SELECT * FROM scores';
-
-    db.query(charString)
-    .then(data => {
-    res.locals.players = data.rows
-    const all = res.locals.players.sort()
-    all.sort(function(a, b) {
-        return b.score - a.score;
-    });
-    return next();
-    })
-    .catch(err => {
-        return next({log: 'Express error handler caught updatePlayer middleware error'})
-    })  
-    
+    try{
+        await db.query(charString)
+        .then(data => {
+        data.rows.sort((a, b) => b.score - a.score);
+        res.locals.players = data.rows
+        return next();
+        })
+        .catch(err => {
+            return next({log: 'Express error handler caught updatePlayer middleware error'})
+        })  
+    }catch(err){
+        return next({message:'Something went wrong in server', log:'Something went wrong in addPlayer middleware function'});
+    }
 }
 
-playerController.checkAmount = (req,res,next) => {
+playerController.checkAmount = async (req,res,next) => {
     if(res.locals.players.length > 5){
-        const total = res.locals.players.reduce((acc, curr) => {
-            if (curr.score < acc.score){
-                return curr
-            }
-        });
-        
-        const charString = `DELETE FROM scores WHERE score = '${total.score}';`;
-        db.query(charString, (err, res)=>{
-            return next();
-        })
-        .catch((error) => next({log:`Error in checkAmount function`}))
+        const lowest = res.locals.players.pop()
+        const command = `DELETE FROM scores WHERE score = '${lowest.score}';`;
+        await db.query(command)
+            .then(data => {
+                console.log(data)
+                return next()
+            })
+            .catch(error => next({log:`Error in dbquery checkAmount function`}))
     }else{
         return next()
     }

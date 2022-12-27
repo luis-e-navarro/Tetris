@@ -8,6 +8,9 @@ export const updatePlayers = () => async dispatch => {
   const response  = await axios.get('/api');
   dispatch({type: types.UPDATE_PLAYERS, data: response.data })
 } 
+export const saveTetro = () => ({
+  type: types.SAVE_TETRO,
+})
 
 // move tetro right or left ------------------------------------------------
 export const moveTetroLeft = () => ({
@@ -57,7 +60,18 @@ export const stopGame = () => (dispatch) => {
 
 export const startGame =  () => async(dispatch) => {
   clearDropTimeout();
-  await dispatch({ type: types.START })
+  await dispatch({
+    type: types.START,
+    payload: false
+  })
+}
+
+export const startGameRenderSavedTetromino =  () => async(dispatch) => {
+  clearDropTimeout();
+  await dispatch({
+    type: types.START,
+    payload: true
+  })
 }
 
 export const drop = () => async (dispatch) => {

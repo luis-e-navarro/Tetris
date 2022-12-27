@@ -2,7 +2,7 @@ const path =  require ('path');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-    mode: 'development',
+    mode: process.env.NODE_ENV,
     entry: './client/index.js',
     output: {
         path: path.join(__dirname, 'dist'),
@@ -19,6 +19,7 @@ module.exports = {
         maxEntrypointSize: 512000,
         maxAssetSize: 512000
    },
+   devtool: false,
       module: {
         rules: [
           {
@@ -65,10 +66,7 @@ module.exports = {
          * to localhost:3000/api/* (where our Express server is running)
          */
         proxy: {
-          '/api': {
-            target: 'http://localhost:3000/',
-            secure: false,
-          },
+          "/api": "http://localhost:3000",
         },
       }
 }

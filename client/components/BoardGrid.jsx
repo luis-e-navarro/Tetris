@@ -1,6 +1,4 @@
-import React, { Component, useEffect } from "react";
-// import { startGame } from "../actions/actions.js";
-// import { startGame } from "../actions/actions.js";
+import React, { Component } from "react";
 
 import Block from './Block.jsx'
 
@@ -36,15 +34,6 @@ _renderBlocks(){
      return result
 }
 render(){
-    // const {colorLines, stateFlip, innerState, startGame} = this.props
-    // console.log('stateeee',stateFlip)
-    // if (stateFlip){
-    //     if(innerState){
-    //         colorLines();
-    //     }else{
-    //         startGame();
-    //     }
-    // }
     return(
         <ul className="boardGrid">
         {this._renderBlocks()}
