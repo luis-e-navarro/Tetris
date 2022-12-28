@@ -36,6 +36,12 @@ export const rotateRight = () => ({
   payload: true
 })
 
+// move down -------------------------------------------------------------------
+
+export const moveDown = (dispatch) => {
+  clearDropTimeout()
+  dispatch({types: types.DROP});
+}
 // floordrop -------------------------------------------------------------------
 export const floorDrop = () => (dispatch) => {
   let sound = new Audio(slam)
@@ -80,6 +86,7 @@ export const drop = () => async (dispatch) => {
     dispatch(drop())
   }, 500)
 }
+
 
 export function setDropTimeout(cb, interval) {
   clearDropTimeout()

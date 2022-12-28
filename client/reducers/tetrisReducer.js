@@ -182,10 +182,21 @@ const tetrisReducer = (state = initalState, action) => {
         rand = TETROMINOS[rand];
         hasSaved = state.hasSaved
         incomingTetros = state.incomingTetros
+        const tempTetros = {};
+        const TETROMINOS_CLONE = JSON.parse(JSON.stringify(TETROMINOS));
         if(!state.incomingTetros[0].length){
           incomingTetros = state.incomingTetros.map((el) => {
-            let newTetro = Math.floor(Math.random() * TETROMINOS.length)
-            return TETROMINOS[newTetro];
+            let newTetro = TETROMINOS_CLONE[Math.floor(Math.random() * TETROMINOS_CLONE.length)]
+            if(!tempTetros[newTetro]){
+              tempTetros[newTetro] = 1
+            }else{
+              tempTetros[newTetro]++
+            }
+            if(tempTetros[newTetro] === 2){
+              let tempIndex = TETROMINOS_CLONE.indexOf(newTetro)
+              TETROMINOS_CLONE.splice(tempIndex,1)
+            }
+            return newTetro;
           })
           tetroPiece = rand
           savedTetromino = state.savedTetromino
@@ -193,12 +204,20 @@ const tetrisReducer = (state = initalState, action) => {
         }else{
           if(!action.payload){
             tetroPiece = incomingTetros.shift();
-            incomingTetros.push(rand)
+            incomingTetros.forEach((el)=> !tempTetros[el] ? tempTetros[el] = 1 : tempTetros[el]++)
+            console.log(tempTetros)
+            const insertTetroList = TETROMINOS_CLONE.filter((el)=>{
+              if(!tempTetros[el] || tempTetros[el] < 2){
+                return el
+              }
+            })
+            let newTetromino = insertTetroList[Math.floor(Math.random() * insertTetroList.length)]
+            incomingTetros.push(newTetromino)
             savedTetromino = state.savedTetromino
             currentlyPicked = false;
           }else{
             tetroPiece = !state.hasSaved ? incomingTetros.shift() : state.savedTetromino;
-            incomingTetros.push(rand)
+            !state.hasSaved ? incomingTetros.push(rand) : null;
             savedTetromino = state.tetroPiece;
             currentlyPicked = true;
             hasSaved = true

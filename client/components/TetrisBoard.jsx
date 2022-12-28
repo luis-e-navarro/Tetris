@@ -45,7 +45,8 @@ function mapDispatchToProps(dispatch) {
         colorBlocks: ()=> dispatch(colorBlocks()),
         slamSound:() => dispatch(slamSound()),
         saveTetro:() => dispatch(saveTetro()),
-        startGameRenderSavedTetromino:() => dispatch(startGameRenderSavedTetromino())
+        startGameRenderSavedTetromino:() => dispatch(startGameRenderSavedTetromino()),
+        moveDown:() => dispatch(moveDown())
     }
   }
 
@@ -69,6 +70,8 @@ class TetrisBoard extends Component{
             case 39:
                 keyState[e.keyCode] = false
                 rotateCounter = 4;
+            case 83:
+                this.props.dropBlocks();
             default:
                 break;
         }
@@ -111,6 +114,9 @@ class TetrisBoard extends Component{
                         this.props.dropBlocks();
                     }
                 }
+                break;
+            case 83:
+                this.props.moveDown();
                 break;
             default:
                 break;
@@ -165,7 +171,7 @@ class TetrisBoard extends Component{
                     }
                 }
 
-                setTimeout(gameLoop, 68);
+                setTimeout(gameLoop, 67);
             }    
             gameLoop();
         }

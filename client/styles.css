@@ -21,15 +21,21 @@ body{
 
 }
 
+#allScoresContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: end;
+}
+
 .scoreContainer{
-    margin-left: 1.2vh;
     position: relative;
     box-shadow: 6px 20px 30px rgb(83, 23, 117);
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 50vh;
-    margin-top: 10vh;
+    margin-top: .5vh;
     background-image: url('./constants/tetrisboardbackground.jpg');
 }
 
@@ -108,6 +114,7 @@ body{
     flex-wrap: nowrap;
     height: 742.5px; 
     margin: 3% 15%;    
+    justify-content: start;
 }
 
 #leftMainDiv { 

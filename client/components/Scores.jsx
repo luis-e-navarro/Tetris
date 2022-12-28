@@ -41,30 +41,32 @@ class Scores extends Component {
     const {finalScore, gameOver, currentGrid, tetroGrid, tetroPosition, savedTetromino } = this.props;
 
     return (
-      <div>
-            <h2 id='savedHeader'>HOLD</h2>
-            <div className='savedTetroBoard'>
-            {<SavedTetro
-              currentGrid = {currentGrid}
-              tetroGrid = {tetroGrid}
-              tetroPosition={tetroPosition}
-              savedTetromino = {savedTetromino}
-            />}
-            </div>
-        <div className="scoreContainer">
-          <div>
-            {gameOver ? <GameOver finalScore={finalScore}/> : <CurrentBoard/>}
+      <div id="allScoresContainer">
+        <div>
+          <h2 id='savedHeader'>HOLD</h2>
+          <div className='savedTetroBoard'>
+          {<SavedTetro
+            currentGrid = {currentGrid}
+            tetroGrid = {tetroGrid}
+            tetroPosition={tetroPosition}
+            savedTetromino = {savedTetromino}
+          />}
           </div>
-          <ul className="scoreTank">
-            {
-              this.props.players
-                .map(person =>
-                  <li className ="eachLine" key= {`playerkey-${person.name}`}><p className="playerName">{person.name.toUpperCase()}</p> <p className="scoreNumber">{person.score}</p> </li>
-                )
-            }
-          </ul>
+          </div>
+          <div className="scoreContainer">
+            <div>
+              {gameOver ? <GameOver finalScore={finalScore}/> : <CurrentBoard/>}
+            </div>
+            <ul className="scoreTank">
+              {
+                this.props.players
+                  .map(person =>
+                    <li className ="eachLine" key= {`playerkey-${person.name}`}><p className="playerName">{person.name.toUpperCase()}</p> <p className="scoreNumber">{person.score}</p> </li>
+                  )
+              }
+            </ul>
 
-        </div>
+          </div>
         </div>
         
     )

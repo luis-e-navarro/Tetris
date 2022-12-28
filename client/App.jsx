@@ -31,10 +31,10 @@ const App = (props) =>  {
           <Scores/>
           <TetrisBoard />
           <div id='leftMainDiv'>
-          <h2 id='savedHeader'>NEXT</h2>
-            <IncomingTetros
-            incomingTetros={props.incomingTetros}
-            />
+              <h2 id='savedHeader'>NEXT</h2>
+              <IncomingTetros
+              incomingTetros={props.incomingTetros}
+              />
           </div>
         </div>
     );

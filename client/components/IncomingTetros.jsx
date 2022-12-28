@@ -44,10 +44,20 @@ const IncomingTetros = ({incomingTetros}) => {
         }
         return result;
     }
+
+    function keyMaker(){
+        let count = 0;
+        return function(){
+            count++
+            return count
+        }
+    }
+
+    const keyAssigner = keyMaker()
         return (
             <div id="incomingTetroContainer">
                 {incomingTetros.map((tetro, index) => {
-                    return (<ul className="savedTetro" style ={getTetrominoStyle(index)}>
+                    return (<ul key={keyAssigner()} className="savedTetro" style ={getTetrominoStyle(index)}>
                         {renderTetro(tetro)}
                     </ul>)
                 })}
