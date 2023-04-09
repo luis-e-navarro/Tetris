@@ -187,7 +187,6 @@ class TetrisBoard extends Component{
             }else{  
                 let sound = this.props.sound
                 if (this.props.innerState){
-                    console.log('on top of the play sound')
                     sound.play(); 
                     await this.props.stateFlipOff();
                     setTimeout(this.props.startGame,250);
@@ -216,15 +215,17 @@ render(){
             tetroPosition={this.props.tetroPosition}
             tetroPiece = {this.props.tetroPiece}
             />}
-            {<GhosTetro
+         {<GhosTetro
             currentGrid = {this.props.currentGrid}
             tetroGrid = {this.props.tetroGrid}
             ghostTetroPosition = {this.props.ghostTetroPosition}
             tetroPiece = {this.props.tetroPiece}
             />}
+
         </div>
     )
     }
 }
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(TetrisBoard);

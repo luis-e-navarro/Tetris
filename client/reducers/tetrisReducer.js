@@ -267,8 +267,8 @@ const tetrisReducer = (state = initalState, action) => {
             for (let col = 0; col < state.tetroGrid[0].length; col++) {
               if (!state.tetroGrid[row][col]) continue
               relX = state.ghostTetroPosition.x + col
-              relY = state.ghostTetroPosition.y + row
-              currentGrid[relY][relX] = TETROCOLORS[state.tetroPiece]
+              relY = state.ghostTetroPosition.y + row;
+              currentGrid[relY][relX] = TETROCOLORS[state.tetroPiece];
             }
           }
           stateFlip = true

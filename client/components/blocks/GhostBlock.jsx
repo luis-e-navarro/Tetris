@@ -1,5 +1,6 @@
 import React from "react";
 import { TETROCOLORS } from "../../constants/tetromino";
+import { motion } from "framer-motion";
 
 const GhostBlock = ({ color }) => {
   const tetrominoClasses = {
@@ -12,7 +13,20 @@ const GhostBlock = ({ color }) => {
     [TETROCOLORS.Z]: 'zTetro',
   };
   const className = `ghostBlock ${tetrominoClasses[color]}`;
-  return <div className={className} style={{ backgroundColor: color }}></div>;
+  return (
+    <motion.div
+      className={className}
+      style={{ backgroundColor: color }}
+      animate={{
+        scale: [1, 1.5, 1],
+        rotate: [0, 360],
+        opacity: [0,1],
+      }}
+      transition={{
+        duration: 0.4,
+      }}
+    />
+  );
 };
 
 export default GhostBlock;

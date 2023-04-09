@@ -46,6 +46,7 @@ export const moveDown = (dispatch) => {
 export const floorDrop = () => (dispatch) => {
   let sound = new Audio(slam)
   sound.play();
+  sound.free;
   dispatch({ type: types.FLOOR_DROP })
 }
 // drop ----------------------------------------------------------------
