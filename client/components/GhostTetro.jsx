@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import GhostBlock from './GhostBlock.jsx'
+import GhostBlock from './blocks/GhostBlock.jsx'
 import { GRID, TETROMINOS, SHAPES, TETROCOLORS} from '../constants/tetromino';
 import { render } from "react-dom";
 

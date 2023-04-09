@@ -1,11 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Silkscreen:wght@700&display=swap');
-
+@mixin border-colors ($inputColor){
+    border-top-color: lighten($inputColor, 35%);
+    border-left-color: darken($inputColor, 10%);
+    border-right-color: darken($inputColor, 10%);
+    border-bottom-color: darken($inputColor, 35%);
+  }
 body{
     width: 100%;
     height: 100%;
     background-image: linear-gradient(to right, rgb(3, 32, 26), rgb(98, 98, 195), rgb(68, 37, 68));
 }
-
+$border_width: 8px;
 
 .mainTitle {
     display: flex;
@@ -25,7 +30,7 @@ body{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    align-items: end;
+    align-items: flex-end;
 }
 
 .scoreContainer{
@@ -87,6 +92,7 @@ body{
     background-size: 475px;
     background-position: center;
 }
+
 .scoreName{
     display: flex;
     flex-direction: column;
@@ -114,7 +120,7 @@ body{
     flex-wrap: nowrap;
     height: 742.5px; 
     margin: 3% 15%;    
-    justify-content: start;
+    justify-content: flex-start;
 }
 
 #leftMainDiv { 
@@ -125,8 +131,6 @@ body{
     margin-right: .4vh;
     width: 22vh;
 }
-
-
 
 .TetrisBoard {
     position: relative;
@@ -216,27 +220,27 @@ input:focus {
     height: 100%;
 }
 
-@keyframes gradient {
-	0% {
-		background-position: 0% 50%;
-	}
-	50% {
-		background-position: 100% 50%;
-	}
-	100% {
-		background-position: 0% 50%;
-	}
+.hlBlock {
+  width: 100%;
+  height: 100%;
+  background-color: #1f2122;
+  background-image: linear-gradient(-25deg, #ffffff, #23a6d5, #d90101);
+  background-size: 200% 200%;
+  animation: gradient .1s ease infinite;
 }
 
-.hlBlock{
-    width: 100%;
-    height: 100%;
-    background-color: 1f2122;
-    background: linear-gradient(-25deg, #ffffff, #23a6d5, #d90101);
-	animation: gradient .1s ease infinite;
-    background-size: 200% 200%;
-  
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
+
 
 .WholeTetro{
     position: absolute;
@@ -257,15 +261,49 @@ input:focus {
 }
 
 .ghostBlock{
-    background-color: 1f2122;
-    opacity: 65%;
+    //background-color: 1f2122;
+    //opacity: 65%;
     width: 100%;
     height: 100%;
-    box-shadow:
-    inset 0 0 45px #fff,
-    0 0 50px #fff,
-    -10px 0 80px #f0f,
-    10px 0 80px #0ff;
+    box-shadow: inset 0 0 45px #fff, 0 0 50px #fff, -10px 0 80px #f0f, 10px 0 80px #0ff;
+    //box-shadow: inset 0px 0px 10px rgba(255, 255, 255, 0.5), 0px 0px 10px rgba(0, 0, 0, 0.5);
+    border-style: outset;
+    border: 7px solid;
+    box-sizing: border-box;
+    animation: glow 1.3s infinite;
+    &.iTetro {
+    @include border-colors(#00ffff)  
+    }
+    &.oTetro {
+        @include border-colors(#ffff00)  
+    }
+    &.tTetro {
+        @include border-colors(#aa00ff)  
+    }
+    &.jTetro {
+        @include border-colors(#0000ff)  
+    }
+    &.lTetro {
+        @include border-colors(#ffaa00)  
+    }
+    &.sTetro {
+        @include border-colors(#00ff00)  
+    }
+    &.zTetro {
+        @include border-colors(#ff0000)  
+    }
+}
+
+@keyframes glow {
+  0% {
+    box-shadow: 0 0 8px #fff;
+  }
+  50% {
+    box-shadow: 0 0 25px #fff;
+  }
+  100% {
+    box-shadow: 0 0 8px #fff;
+  }
 }
 
 .square-container{
@@ -286,4 +324,68 @@ input:focus {
 
 * {
     margin: 0;
-    padding: 0; }
+    padding: 0; 
+}
+
+
+// @function createBorders($color) {
+//     //$border_width: 2px; // Set your desired border width here
+//     $lighten_amount: 35%; // Set the percentage amount to lighten the top border color
+//     $darken_amount: 10%; // Set the percentage amount to darken the left and right border colors
+    
+//     // Return the CSS for the border with the specified color
+//     @return (
+//     border: $border_width solid $color
+//     border-top-color lighten($color, $lighten_amount)
+//     border-left-color  darken($color, $darken_amount)
+//     border-right-color  darken($color, $darken_amount)
+//     border-bottom-color darken($color, $lighten_amount)
+//     );
+// }
+
+// .staticBlock {
+//     $color: #{var("--my-color")};
+//     width: 100%;
+//     height: 100%;
+//     box-shadow: inset 0px 0px 10px rgba(255, 255, 255, 0.5), 
+//                 0px 0px 10px rgba(0, 0, 0, 0.5);
+//     border-style: outset;
+//     border-color: #ffffff;
+//     box-sizing: border-box;
+//     border-top-color: lighten($color, 35%);
+//     border-left-color: darken($color, 10%);
+//     border-right-color: darken($color, 10%);
+//     border-bottom-color: darken($color, 35%);
+// }
+.staticBlock {
+    //$color: $color; // Define the color variable using the prop passed to the component
+    width: 100%;
+    height: 100%;
+    box-shadow: inset 0px 0px 10px rgba(255, 255, 255, 0.5), 
+                0px 0px 10px rgba(0, 0, 0, 0.5);
+    border-style: outset;
+    border: 7px solid;
+    box-sizing: border-box;
+   // --border-color: currentColor; /* set default border color to the current text color */
+    &.iTetro {
+      @include border-colors(#00ffff)  
+    }
+    &.oTetro {
+        @include border-colors(#ffff00)  
+      }
+    &.tTetro {
+        @include border-colors(#aa00ff)  
+    }
+    &.jTetro {
+        @include border-colors(#0000ff)  
+    }
+    &.lTetro {
+        @include border-colors(#ffaa00)  
+      }
+    &.sTetro {
+        @include border-colors(#00ff00)  
+    }
+    &.zTetro {
+        @include border-colors(#ff0000)  
+    }
+  }

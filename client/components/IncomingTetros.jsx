@@ -1,5 +1,5 @@
 import React from "react";
-import Block from './Block.jsx'
+import DynamicBlock from './blocks/DynamicBlock.jsx'
 import {SMALLGRID, GRID, TETROMINOS, SHAPES, TETROCOLORS} from '../constants/tetromino';
 
 const IncomingTetros = ({incomingTetros}) => {
@@ -37,7 +37,7 @@ const IncomingTetros = ({incomingTetros}) => {
                         top: `${row * 25}%`,
                         left: `${col * 25}%`
                     }}>
-                        <Block color={color}/>
+                        <DynamicBlock color={color}/>
                     </li>
                 )
             }

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import Block from './Block.jsx'
-import {SMALLGRID, GRID, TETROMINOS, SHAPES, TETROCOLORS} from '../constants/tetromino';
-import GhostBlock from "./GhostBlock.jsx";
+import StaticBlock from './blocks/StaticBlock.jsx'
+import {SMALLGRID, GRID, TETROMINOS, SHAPES, TETROCOLORS} from '../constants/tetromino.js';
+import GhostBlock from "./blocks/GhostBlock.jsx";
 
 class SavedTetro extends Component {
    
@@ -20,8 +20,7 @@ class SavedTetro extends Component {
 
     _renderTetro () {
         const shapeArr = !this.props.savedTetromino.length ? SHAPES.D : SHAPES[this.props.savedTetromino]
-        const color = TETROCOLORS[this.props.savedTetromino];
-        
+        const color = TETROCOLORS[this.props.savedTetromino];        
         const rows = shapeArr.length
         const columns = shapeArr[0].length
         let result = []
@@ -36,7 +35,7 @@ class SavedTetro extends Component {
                         top: `${row * 25}%`,
                         left: `${col * 25}%`
                     }}>
-                        <Block color={color}/>
+                        <StaticBlock color={color}/>
                     </li>
                 )
             }

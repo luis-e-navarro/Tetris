@@ -1,45 +1,35 @@
-import React, { Component } from "react";
+import React from "react";
+import DynamicBlock from "./blocks/DynamicBlock.jsx";
 
-import Block from './Block.jsx'
+const BoardGrid = ({ currentGrid, innerState }) => {
+  const rows = currentGrid.length;
+  const cols = currentGrid[0].length;
 
+  const widthPercent = 100 / cols;
+  const heightPercent = 100 / rows;
 
-class BoardGrid extends Component {
+  const blocks = currentGrid.flatMap((row, rowIndex) =>
+    row.map((color, colIndex) => {
+      const blockKey = `r${rowIndex}c${colIndex}`;
 
-_renderBlocks(){
-    const  { currentGrid, innerState } = this.props
-    
-    const rows = currentGrid.length
-    const cols = currentGrid[0].length
+      return (
+        <li
+          className="square-container"
+          key={blockKey}
+          style={{
+            width: `${widthPercent}%`,
+            height: `${heightPercent}%`,
+            top: `${rowIndex * heightPercent}%`,
+            left: `${colIndex * widthPercent}%`,
+          }}
+        >
+          <DynamicBlock innerState={innerState} color={color} />
+        </li>
+      );
+    })
+  );
 
-    const widthPercent = 100 / cols
-    const heighPercent = 100 / rows
-     let result = [];
-     for (let row = 0; row < rows; row++){
-        for (let col = 0; col < cols; col++){
-            result.push(
-                <li className="square-container"
-                key={`r${row}c${col}`}
-                style={{
-                    width: `${widthPercent}%`,
-                    height: `${heighPercent}%`,
-                    top: `${row * heighPercent}%`,
-                    left: `${col * widthPercent}%`
-                }}>
-                    <Block innerState = {innerState} color={ currentGrid[row][col] } />
-                </li>
-            )
-        }
-     }
-
-     return result
-}
-render(){
-    return(
-        <ul className="boardGrid">
-        {this._renderBlocks()}
-        </ul>
-    )
-}
-}
+  return <ul className="boardGrid">{blocks}</ul>;
+};
 
 export default BoardGrid;

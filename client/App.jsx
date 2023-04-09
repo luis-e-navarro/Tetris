@@ -25,8 +25,8 @@ function mapDispatchToProps(dispatch) {
 const App = (props) =>  {
 
   props.gameOver ? props.stopGame() : null
-  console.log(props.savedTetromino)
-    return (
+
+  return (
         <div className="mainDiv">
           <Scores/>
           <TetrisBoard />

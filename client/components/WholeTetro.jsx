@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import Block from './Block.jsx'
+import StaticBlock from './blocks/StaticBlock.jsx'
 import { GRID, TETROMINOS, SHAPES, TETROCOLORS} from '../constants/tetromino';
 import { render } from "react-dom";
 
@@ -20,7 +20,6 @@ class WholeTetro extends Component {
         }
     }
     _renderTetro () {
-
         const shapeArr = this.props.tetroGrid
         const color = TETROCOLORS[this.props.tetroPiece];
         
@@ -37,10 +36,8 @@ class WholeTetro extends Component {
                     style={{
                         top: `${row * 25}%`,
                         left: `${col * 25}%`
-
                     }}>
-                        <Block color={color}/>
-
+                        <StaticBlock color={color}/>
                     </li>
                 )
             }

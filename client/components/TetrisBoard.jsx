@@ -4,6 +4,7 @@ import BoardGrid from './BoardGrid.jsx'
 import WholeTetro from "./WholeTetro.jsx";
 import GhosTetro from "./GhostTetro.jsx";
 import { SPACE_KEY } from '../constants/tetromino.js'
+
 import { startGame,
     moveTetroLeft,
     startGameRenderSavedTetromino,
@@ -12,9 +13,11 @@ import { startGame,
     rotateLeft,colorBlocks,
     rotateRight, floorDrop,
     saveTetro } from "../actions/actions";
+
 const keyState = {};
 let moveCounter = 2;
 let rotateCounter = 4;
+
 const mapStateToProps = (state) => {
     return {
         currentGrid: state.currentGrid, 
@@ -184,6 +187,7 @@ class TetrisBoard extends Component{
             }else{  
                 let sound = this.props.sound
                 if (this.props.innerState){
+                    console.log('on top of the play sound')
                     sound.play(); 
                     await this.props.stateFlipOff();
                     setTimeout(this.props.startGame,250);
@@ -193,8 +197,6 @@ class TetrisBoard extends Component{
                     await this.props.startGame();
                     await this.props.dropBlocks();
                 }
-
-        
             }
         }
     }

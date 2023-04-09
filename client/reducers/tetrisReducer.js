@@ -205,7 +205,6 @@ const tetrisReducer = (state = initalState, action) => {
           if(!action.payload){
             tetroPiece = incomingTetros.shift();
             incomingTetros.forEach((el)=> !tempTetros[el] ? tempTetros[el] = 1 : tempTetros[el]++)
-            console.log(tempTetros)
             const insertTetroList = TETROMINOS_CLONE.filter((el)=>{
               if(!tempTetros[el] || tempTetros[el] < 2){
                 return el

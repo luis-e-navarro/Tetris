@@ -38,7 +38,7 @@ class Scores extends Component {
     }
 
   render() {
-    const {finalScore, gameOver, currentGrid, tetroGrid, tetroPosition, savedTetromino } = this.props;
+    const { finalScore, gameOver, currentGrid, tetroGrid, tetroPosition, savedTetromino } = this.props;
 
     return (
       <div id="allScoresContainer">

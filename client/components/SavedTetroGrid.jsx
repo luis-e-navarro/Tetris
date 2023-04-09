@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { SMALLGRID } from "../constants/tetromino.js";
-import Block from './Block.jsx'
+import DynamicBlock from './DynamicBlock.jsx'
 
 
 class SavedTetroGrid extends Component {
@@ -23,7 +23,7 @@ class SavedTetroGrid extends Component {
                         top: `${row * heighPercent}%`,
                         left: `${col * widthPercent}%`
                     }}>
-                        <Block color={SMALLGRID[row][col] } />
+                        <DynamicBlock color={SMALLGRID[row][col] } />
                     </li>
                 )
             }
