@@ -27,14 +27,20 @@ export const stateFlipOff = () =>({
 })
 
 // rotate tetro right or left ------------------------------------------------
-export const rotateLeft = () => ({
-  type: types.ROTATE,
-  payload: false
-})
-export const rotateRight = () => ({
+export const rotateLeft = () => {
+
+  return{
+    type: types.ROTATE,
+    payload: false
+  }
+  
+}
+export const rotateRight = () => {
+  return{
   type: types.ROTATE,
   payload: true
-})
+  }
+}
 
 // move down -------------------------------------------------------------------
 
@@ -52,7 +58,19 @@ export const floorDrop = () => (dispatch) => {
 // drop ----------------------------------------------------------------
 export const dropBlocks = () => (dispatch) => {
   dispatch(drop())
+  
 }
+
+// color bool ----
+export const colorBoolTrue = () => ({
+  type: types.COLOR_BOOL,
+  payload: true
+})
+
+export const colorBoolFalse = () => ({
+  type: types.COLOR_BOOL,
+  payload: false
+})
 
 export const colorBlocks = () => async (dispatch) => {
   clearDropTimeout();
@@ -82,15 +100,18 @@ export const startGameRenderSavedTetromino =  () => async(dispatch) => {
 }
 
 export const drop = () => async (dispatch) => {
+  
   await setDropTimeout(() => {
     dispatch({ type: types.DROP })
-    dispatch(drop())
+    dispatch(drop());
+    dispatch(colorBoolFalse());
   }, 500)
 }
 
 
 export function setDropTimeout(cb, interval) {
   clearDropTimeout()
+  
   window.dropTimer = setTimeout(cb, interval)
 }
 

@@ -1,28 +1,36 @@
-import React, { Component } from "react";
+import React, {useState, useEffect, useMemo } from "react";
 import GhostBlock from './blocks/GhostBlock.jsx'
 import { GRID, TETROMINOS, SHAPES, TETROCOLORS} from '../constants/tetromino';
 import { render } from "react-dom";
 
-class GhosTetro extends Component {
-   
-    _getTetrominoStyle(){
+const GhosTetro = (props) => {
+    const tetrominoClasses = {
+        [TETROCOLORS.I]: 'iTetro',
+        [TETROCOLORS.O]: 'oTetro',
+        [TETROCOLORS.T]: 'tTetro',
+        [TETROCOLORS.J]: 'jTetro',
+        [TETROCOLORS.L]: 'lTetro',
+        [TETROCOLORS.S]: 'sTetro',
+        [TETROCOLORS.Z]: 'zTetro',
+      };
+
+
+    const _getTetrominoStyle = () => {
         const rows = GRID.length
         const columns = GRID[0].length
-
+        
         const widthPercent = 100 / columns
         const heightPercent = 100 / rows
         return {
             width: `${4 * widthPercent}%`,
             height: `${4 * heightPercent}%`,
-            top: `${this.props.ghostTetroPosition.y * heightPercent}%`,
-            left: `${this.props.ghostTetroPosition.x * widthPercent}%`
+            top: `${props.ghostTetroPosition.y * heightPercent}%`,
+            left: `${props.ghostTetroPosition.x * widthPercent}%`
         }
     }
-    _renderTetro () {
-
-        const shapeArr = this.props.tetroGrid
-        const color = TETROCOLORS[this.props.tetroPiece];
-        
+    const _renderTetro = () => {
+        const shapeArr = props.tetroGrid
+        const color = TETROCOLORS[props.tetroPiece];
         const rows = shapeArr.length
         const columns = shapeArr[0].length
         let result = []
@@ -38,22 +46,23 @@ class GhosTetro extends Component {
                         left: `${col * 25}%`
 
                     }}>
-                        <GhostBlock color={color}/>
+            
+              <GhostBlock
+                color={color} colorBool ={props.colorBool}/>
+                
                     </li>
                 )
             }
         }
+        
         return result;
     }
 
-    render(){
-        return (
-            <ul className="GhostTetro" style ={this._getTetrominoStyle()}>
-                {this._renderTetro()}
-            </ul>
-        )
-    }
-
-}
+    return (
+        <ul className="GhostTetro" style ={_getTetrominoStyle()}>
+            {_renderTetro()}
+        </ul>
+    );
+};
 
 export default GhosTetro;

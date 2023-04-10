@@ -28,13 +28,20 @@ const initalState = {
   savedTetromino: '',
   hasSaved: false,
   currentlyPicked: false,
-  incomingTetros: ['','','','','','']
+  incomingTetros: ['','','','','',''],
+  colorBool: true
 }
 
 const tetrisReducer = (state = initalState, action) => {
   let players, tetroPiece, currentlyPicked, tetroPosition, tetroGrid, incomingTetros, currentGrid, hasSaved,
-  stateFlip, ongoingScore, gameOver,finalScore, innerState, superGate, sound, ghostTetroPosition, savedTetromino;
+  stateFlip, ongoingScore, colorBool, gameOver,finalScore, innerState, superGate, sound, ghostTetroPosition, savedTetromino;
   switch (action.type) {
+    case types.COLOR_BOOL:
+      colorBool = action.payload;
+      return {
+        ...state,
+        colorBool
+      }
     // turnoff stateflip -------------------------------------------------
     case types.STATE_FLIP_OFF:
       stateFlip = false;
@@ -289,7 +296,7 @@ const tetrisReducer = (state = initalState, action) => {
      // DROP REDUCER CASE ----------------------------------------------------------------------
      case types.DROP:
       innerState = false
-      superGate = false
+      superGate = false;
       let howManyAdded;
       let checkerY = state.tetroPosition.y
       let currentPosition;
@@ -333,7 +340,7 @@ const tetrisReducer = (state = initalState, action) => {
           }
         }
       checkerY += howManyAdded
-
+  
 
       const allValues = Object.values(currentPosition)
       for (const crosshair of allValues){

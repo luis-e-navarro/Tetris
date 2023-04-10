@@ -6,14 +6,7 @@ import React, { Component, useMemo }  from "react";
 const GameOver = (props) => {
     const finalScore = useMemo(()=>{
         return props.finalScore
-    },[props.finalScore]);
-
-    function limitKeyPress(event, value, maxLength) {
-        console.log(event, event.currentTarget.id)
-        // if (value != undefined && value.toString().length >= maxLength) {
-        //     event.preventDefault();
-        // }
-    };
+    },[]);
     return (
         <section>
         <div className="scoreTank">

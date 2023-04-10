@@ -12,7 +12,7 @@ import { startGame,
     dropBlocks, stateFlipOff,
     rotateLeft,colorBlocks,
     rotateRight, floorDrop,
-    saveTetro } from "../actions/actions";
+    saveTetro, colorBoolFalse, colorBoolTrue } from "../actions/actions";
 
 const keyState = {};
 let moveCounter = 2;
@@ -31,7 +31,8 @@ const mapStateToProps = (state) => {
         sound: state.sound,
         ghostTetroPosition: state.ghostTetroPosition,
         hasSaved: state.hasSaved,
-        currentlyPicked: state.currentlyPicked
+        currentlyPicked: state.currentlyPicked,
+        colorBool: state.colorBool
     };
 }
 
@@ -49,7 +50,9 @@ function mapDispatchToProps(dispatch) {
         slamSound:() => dispatch(slamSound()),
         saveTetro:() => dispatch(saveTetro()),
         startGameRenderSavedTetromino:() => dispatch(startGameRenderSavedTetromino()),
-        moveDown:() => dispatch(moveDown())
+        moveDown:() => dispatch(moveDown()),
+        colorBoolTrue:() => dispatch(colorBoolTrue()),
+        colorBoolFalse:() => dispatch(colorBoolFalse()),
     }
   }
 
@@ -81,6 +84,7 @@ class TetrisBoard extends Component{
     }
 
      move = (e) =>{  
+        
         switch (e.keyCode){
             case 68:
                 if(!keyState[e.keyCode]){
@@ -122,6 +126,7 @@ class TetrisBoard extends Component{
                 this.props.moveDown();
                 break;
             default:
+                
                 break;
         }
     }
@@ -138,10 +143,13 @@ class TetrisBoard extends Component{
 
 
      componentDidMount(){
+        
         if(!this.props.gameOver){
+            
              document.addEventListener('keyup', this.start)
              document.addEventListener('keydown', this.move)
              document.addEventListener('keyup', this.slam)
+             
              //------------------------------------------  
             const {moveTetroLeft, moveTetroRight, rotateLeft, rotateRight} = this.props;
             function gameLoop() {
@@ -177,26 +185,31 @@ class TetrisBoard extends Component{
                 setTimeout(gameLoop, 67);
             }    
             gameLoop();
+            
         }
     }
 
     async componentDidUpdate(){
+       
         if(this.props.stateFlip){
+            
             if (this.props.superGate){
                 await this.props.colorBlocks();
+                // if(!this.props.colorBool)this.props.colorBoolTrue();
             }else{  
                 let sound = this.props.sound
                 if (this.props.innerState){
                     sound.play(); 
                     await this.props.stateFlipOff();
-                    setTimeout(this.props.startGame,250);
-                    setTimeout(this.props.dropBlocks,250);
+                    setTimeout(this.props.startGame,350);
+                    setTimeout(this.props.dropBlocks,350);
                 }else{
                     await this.props.stateFlipOff();
                     await this.props.startGame();
                     await this.props.dropBlocks();
                 }
             }
+            // this.props.colorBoolTrue();
         }
     }
       
@@ -215,7 +228,10 @@ render(){
             tetroPosition={this.props.tetroPosition}
             tetroPiece = {this.props.tetroPiece}
             />}
-         {<GhosTetro
+            {<GhosTetro
+            colorBoolTrue = {this.props.colorBoolTrue}
+            colorBoolFalse = {this.props.colorBoolFalse}
+            colorBool = {this.props.colorBool}
             currentGrid = {this.props.currentGrid}
             tetroGrid = {this.props.tetroGrid}
             ghostTetroPosition = {this.props.ghostTetroPosition}
