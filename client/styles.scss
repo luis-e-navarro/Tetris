@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Silkscreen:wght@700&display=swap');
+
 @mixin border-colors ($inputColor){
     border-top-color: lighten($inputColor, 35%);
     border-left-color: darken($inputColor, 10%);
@@ -260,39 +261,79 @@ input:focus {
     margin: 0;
 }
 
-.ghostBlock{
-    //background-color: 1f2122;
-    //opacity: 65%;
+@mixin ghostBlockBorders ($inputColor){
+    border-top-color: $inputColor;
+    border-left-color: $inputColor;
+    border-right-color: $inputColor;
+    border-bottom-color: $inputColor;
+  }
+  
+  .ghostBlock{
     width: 100%;
     height: 100%;
-    box-shadow: inset 0 0 45px #fff, 0 0 50px #fff, -10px 0 80px #f0f, 10px 0 80px #0ff;
-    //box-shadow: inset 0px 0px 10px rgba(255, 255, 255, 0.5), 0px 0px 10px rgba(0, 0, 0, 0.5);
-    border-style: outset;
-    border: 7px solid;
+    box-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00, 0 0 40px #00ff00, 0 0 80px #00ff00;
+    border-style: solid;
+    border-width: 10px;
+    border-radius: 7px;
     box-sizing: border-box;
-    animation: glow 1.3s infinite;
+    animation: glow 1s infinite;
+    opacity: 0.7;
+    background-color: #1e1e1e;
+    
+  
     &.iTetro {
-    @include border-colors(#00ffff)  
+        @include border-colors(#80ffff);
+      }
+      &.oTetro {
+        @include border-colors(#ffff80);
+      }
+      &.tTetro {
+        @include border-colors(#c080ff);
+      }
+      &.jTetro {
+        @include border-colors(#8080ff);
+      }
+      &.lTetro {
+        @include border-colors(#ffc080);
+      }
+      &.sTetro {
+        @include border-colors(#80ff80);
+      }
+      &.zTetro {
+        @include border-colors(#ff8080);
+      }
     }
-    &.oTetro {
-        @include border-colors(#ffff00)  
-    }
-    &.tTetro {
-        @include border-colors(#aa00ff)  
-    }
-    &.jTetro {
-        @include border-colors(#0000ff)  
-    }
-    &.lTetro {
-        @include border-colors(#ffaa00)  
-    }
-    &.sTetro {
-        @include border-colors(#00ff00)  
-    }
-    &.zTetro {
-        @include border-colors(#ff0000)  
-    }
-}
+
+// .ghostBlock{
+//     width: 100%;
+//     height: 100%;
+//     box-shadow: inset 0 0 45px #fff, 0 0 50px #fff, -10px 0 80px #f0f, 10px 0 80px #0ff;
+//     border-style: outset;
+//     border: 7px solid;
+//     box-sizing: border-box;
+//     animation: glow 1.3s infinite;
+//     &.iTetro {
+//     @include border-colors(#00ffff)  
+//     }
+//     &.oTetro {
+//         @include border-colors(#ffff00)  
+//     }
+//     &.tTetro {
+//         @include border-colors(#aa00ff)  
+//     }
+//     &.jTetro {
+//         @include border-colors(#0000ff)  
+//     }
+//     &.lTetro {
+//         @include border-colors(#ffaa00)  
+//     }
+//     &.sTetro {
+//         @include border-colors(#00ff00)  
+//     }
+//     &.zTetro {
+//         @include border-colors(#ff0000)  
+//     }
+// }
 
 @keyframes glow {
   0% {
@@ -388,4 +429,39 @@ input:focus {
     &.zTetro {
         @include border-colors(#ff0000)  
     }
+  }
+
+  .particle {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 2px;
+    height: 2px;
+    border-radius: 50%;
+    background-color: rgb(120, 20, 191);
+    //animation: particle 1s ease-in-out infinite;
+  }
+  
+  .explosion-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+  
+  .explosion-color {
+    position: absolute;
+    background-image: linear-gradient(-25deg, #ffffff, #23a6d5, #d90101);
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .explosion-particles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
   }
