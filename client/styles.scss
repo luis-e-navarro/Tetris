@@ -62,6 +62,26 @@ $border_width: 8px;
     font-size: 350%;
 }
 
+.pop-out-fade-out {
+  animation-name: pop-out-fade-out;
+  animation-duration: 1s;
+}
+
+@keyframes pop-out-fade-out {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(1.2);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.5);
+  }
+}
+
 
 .eachLine{
     display: flex;

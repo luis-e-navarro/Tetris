@@ -1,9 +1,10 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import { connect } from 'react-redux';
 import BoardGrid from './BoardGrid.jsx'
 import WholeTetro from "./WholeTetro.jsx";
 import GhosTetro from "./GhostTetro.jsx";
 import { SPACE_KEY } from '../constants/tetromino.js'
+import { AnimatePresence, motion } from 'framer-motion';
 
 import { startGame,
     moveTetroLeft,
@@ -58,6 +59,14 @@ function mapDispatchToProps(dispatch) {
 
 
 class TetrisBoard extends Component{
+    // constructor(props) {
+    //     super(props);
+    
+    //     this.state = {
+    //       isVisible: true
+    //     };
+    //   }
+    
     start = (e) => {
         switch (e.keyCode){
             case SPACE_KEY:
@@ -212,9 +221,27 @@ class TetrisBoard extends Component{
             // this.props.colorBoolTrue();
         }
     }
+    // handleAnimationComplete = () => {
+    //     this.setState({
+    //       isVisible: false
+    //     });
+    //   };
       
 render(){
+   
+  
     return (
+        // <AnimatePresence>
+            
+        // { this.state.isVisible && (
+        //   <motion.div
+        //     initial={{ y: -50, opacity: 0 }}
+        //     animate={{ y: 0, opacity: 1 }}
+        //     exit={{ y: 50, opacity: 0 }}
+        //     transition={{ duration: 1 }}
+        //     onAnimationComplete={this.handleAnimationComplete}
+        //   >
+        //     {/* Your component content here */}
         <div className="TetrisBoard">
             <BoardGrid
             currentGrid = {this.props.currentGrid}
@@ -239,7 +266,10 @@ render(){
             />}
 
         </div>
-    )
+    //     </motion.div>
+    //     )}
+    //   </AnimatePresence>
+      )
     }
 }
 
