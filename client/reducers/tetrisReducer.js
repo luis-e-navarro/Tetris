@@ -135,40 +135,73 @@ const tetrisReducer = (state = initalState, action) => {
 
       // color lines ------------------------------------------------
       case types.COLOR_LINES:
+        ongoingScore = state.ongoingScore
+        let scoreCounter = 0
+        let bonus = 0
+      
         innerState = false
-        let counter = 0
-        let col = TETROCOLORS.C
-        currentGrid = state.currentGrid.slice(state.currentGrid.length)
+        let counter = 0;
+        let col = TETROCOLORS.C;
+        currentGrid = state.currentGrid.slice(state.currentGrid.length);
         const colorBuilder = state.currentGrid.reduce((result, row) => {
           if (!row.every(el => el !== null)) {
             result.push([...row])
           } else {
+            if(scoreCounter === 1) bonus += 6
+            if(scoreCounter === 2) bonus += 8
+            if(scoreCounter === 3) bonus += 10
+            scoreCounter++
             counter++
             innerState = true
             result.push([col, col, col, col, col, col, col, col, col, col])
           }
           return result
-        }, [])
+        }, []);
+
         counter === 4 ? sound = new Audio(quad) : counter > 1 ? sound = new Audio(doubles) : sound = new Audio(single);
         
         currentGrid.push(...colorBuilder)
         superGate = false
-
+        scoreCounter *= 12
+        scoreCounter += bonus
+        ongoingScore += scoreCounter
         return {
           ...state,
           currentGrid,
           innerState,
           superGate,
+          ongoingScore,
           sound
         }
         
+      
+      case types.UPDATE_SCORE:
+        // ongoingScore = state.ongoingScore
+        // let scoreCounter = 0
+        // let bonus = 0
+        state.currentGrid.forEach(row => {
+          if (row.every(el => el !== null)) {
+            if(scoreCounter === 1) bonus += 6
+            if(scoreCounter === 2) bonus += 8
+            if(scoreCounter === 3) bonus += 10
+            scoreCounter++
+          }
+          return result
+        })
+        scoreCounter *= 12
+        scoreCounter += bonus
+        ongoingScore += scoreCounter
+      return{
+        ...state,
+        ongoingScore
+      }
       // start ------------------------------------------------------
       case types.START:
-        ongoingScore = state.ongoingScore
+        //ongoingScore = state.ongoingScore
         currentGrid = state.currentGrid.slice(state.currentGrid.length)
         innerState = false
-        let scoreCounter = 0
-        let bonus = 0
+        //let scoreCounter = 0
+        // let bonus = 0
         const gridBuilder = state.currentGrid.reduce((result, row) => {
           if (!row.every(el => el !== null)) {
             result.push([...row])
@@ -181,9 +214,9 @@ const tetrisReducer = (state = initalState, action) => {
           }
           return result
         }, [])
-        scoreCounter *= 12
-        scoreCounter += bonus
-        ongoingScore += scoreCounter
+        // scoreCounter *= 12
+        // scoreCounter += bonus
+        // ongoingScore += scoreCounter
         currentGrid.push(...gridBuilder)
         let rand = Math.floor(Math.random() * TETROMINOS.length)
         rand = TETROMINOS[rand];
@@ -251,7 +284,7 @@ const tetrisReducer = (state = initalState, action) => {
         tetroPosition,
         tetroGrid,
         currentGrid,
-        ongoingScore,
+        //ongoingScore,
         innerState,
         ghostTetroPosition
       }

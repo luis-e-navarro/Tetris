@@ -54,6 +54,7 @@ function mapDispatchToProps(dispatch) {
         moveDown:() => dispatch(moveDown()),
         colorBoolTrue:() => dispatch(colorBoolTrue()),
         colorBoolFalse:() => dispatch(colorBoolFalse()),
+        updateScore:() => dispatch(updateScore())
     }
   }
 
@@ -208,6 +209,7 @@ class TetrisBoard extends Component{
             }else{  
                 let sound = this.props.sound
                 if (this.props.innerState){
+                    // await this.props.updateScore();
                     sound.play(); 
                     await this.props.stateFlipOff();
                     setTimeout(this.props.startGame,350);
