@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 const mapStateToProps = (state) => {
    return {
     ongoingScore: state.ongoingScore,
+    tetroPiece: state.tetroPiece,
    }
 }
 
@@ -25,27 +26,24 @@ const CurrentBoard = (props) => {
     }, 1000); // 1 second
     return () => clearTimeout(timeout);
   }, [props.ongoingScore]);
-  // const handleAnimationComplete = () => {
-  //   setAnimate(false);
-  // };
+
 
     return (
       <div className="headerScoreTank">
       <p className="scoreName">SCORE</p>
       <AnimatePresence>
-        {animate && (
+        {animate && props.tetroPiece !== '' && (
           <motion.p
             className="ongoingScore"
-           // initial={{ scale: 0.8, opacity: 0 }}
             animate={{ 
-              scale: [1, 1.2, 10, 20, 35], 
+              scale: [1, 1.5, 11, 20, 35], 
               opacity: [1, 0.8, 0.4, 0.2, 0] 
             }}
     
             exit={{ scale: 10, opacity: 0 }}
             transition={{ duration: 0.5 }}
             key={props.ongoingScore}
-          //  onAnimationComplete={handleAnimationComplete}
+
           >
             {props.ongoingScore}
           </motion.p>

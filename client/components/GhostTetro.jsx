@@ -1,62 +1,47 @@
-import React, {useState, useEffect, useMemo } from "react";
+import React from "react";
 import GhostBlock from './blocks/GhostBlock.jsx'
-import { GRID, TETROMINOS, SHAPES, TETROCOLORS} from '../constants/tetromino';
-import { render } from "react-dom";
+import { GRID, TETROCOLORS} from '../constants/tetromino';
+
 
 const GhosTetro = (props) => {
-    const tetrominoClasses = {
-        [TETROCOLORS.I]: 'iTetro',
-        [TETROCOLORS.O]: 'oTetro',
-        [TETROCOLORS.T]: 'tTetro',
-        [TETROCOLORS.J]: 'jTetro',
-        [TETROCOLORS.L]: 'lTetro',
-        [TETROCOLORS.S]: 'sTetro',
-        [TETROCOLORS.Z]: 'zTetro',
-      };
-
-
     const _getTetrominoStyle = () => {
-        const rows = GRID.length
-        const columns = GRID[0].length
+        const rows = GRID.length;
+        const columns = GRID[0].length;
         
-        const widthPercent = 100 / columns
-        const heightPercent = 100 / rows
+        const widthPercent = 100 / columns;
+        const heightPercent = 100 / rows;
         return {
             width: `${4 * widthPercent}%`,
             height: `${4 * heightPercent}%`,
             top: `${props.ghostTetroPosition.y * heightPercent}%`,
             left: `${props.ghostTetroPosition.x * widthPercent}%`
-        }
-    }
+        };
+    };
     const _renderTetro = () => {
-        const shapeArr = props.tetroGrid
+        const shapeArr = props.tetroGrid;
         const color = TETROCOLORS[props.tetroPiece];
-        const rows = shapeArr.length
-        const columns = shapeArr[0].length
-        let result = []
+        const rows = shapeArr.length;
+        const columns = shapeArr[0].length;
+        let result = [];
 
         for (let row = 0; row < rows; row++){
             for (let col = 0; col < columns; col++){
                 if (!shapeArr[row][col]) continue
                 result.push(
                     <li className="square-container"
-                    key={`t-${row}${col}`}
-                    style={{
+                        key={`t-${row}${col}`}
+                        style={{
                         top: `${row * 25}%`,
                         left: `${col * 25}%`
-
                     }}>
-            
-              <GhostBlock
-                color={color} colorBool ={props.colorBool}/>
-                
+                        <GhostBlock
+                        color={color} colorBool ={props.colorBool}/>
                     </li>
-                )
-            }
-        }
-        
+                );
+            };
+        };
         return result;
-    }
+    };
 
     return (
         <ul className="GhostTetro" style ={_getTetrominoStyle()}>

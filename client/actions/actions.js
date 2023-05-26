@@ -77,10 +77,6 @@ export const colorBlocks = () => async (dispatch) => {
   await dispatch({ type: types.COLOR_LINES })
 }
 
-export const updateScore = () => ({
-  type: types.UPDATE_SCORE
-})
-
 // stopgame -------------------------------------------------------------------
 export const stopGame = () => (dispatch) => {
   clearDropTimeout();

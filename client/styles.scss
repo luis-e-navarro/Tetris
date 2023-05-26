@@ -58,21 +58,9 @@ $border_width: 8px;
     padding: 2rem;
     border-radius: 15px;
     width: 38vh;
-
     margin: 1vh;
 }
 
-// .ongoingScore{
-//   display: flex;
-//   flex-direction: column;
-//   align-items: center;
-//   color: gold;
-//   font-family: 'Silkscreen', cursive;
-//   font-size: 350%;
-//   position: fixed;
-//   z-index: 50;
-//   text-align: center;
-// }
 .ongoingScore{
   display: flex;
   flex-direction: column;
@@ -80,12 +68,11 @@ $border_width: 8px;
   justify-content: center;
   color: gold;
   font-family: 'Silkscreen', cursive;
-  font-size: 350%;
+  font-size: 460%;
   position: absolute;
-  left: 17vh;
+  left: 16vh;
   z-index: 50;
 }
-
 
 .ongoingScore2{
   display: flex;
@@ -93,29 +80,9 @@ $border_width: 8px;
   align-items: center;
   color: gold;
   font-family: 'Silkscreen', cursive;
-  font-size: 350%;
-  //position: absolute;
+  font-size: 460%;
   z-index: 50; 
 }
-// .pop-out-fade-out {
-//   animation-name: pop-out-fade-out;
-//   animation-duration: 1s;
-// }
-
-// @keyframes pop-out-fade-out {
-//   0% {
-//     opacity: 1;
-//     transform: scale(1);
-//   }
-//   50% {
-//     opacity: 0.5;
-//     transform: scale(1.2);
-//   }
-//   100% {
-//     opacity: 0;
-//     transform: scale(1.5);
-//   }
-// }
 
 
 .eachLine{
@@ -304,11 +271,115 @@ input:focus {
     margin: 0;
 }
 
-.savedTetro{
-    position: absolute;
-    padding: 0;
-    margin: 0;
+// .savedTetro{
+//     position: absolute;
+//     padding: 0;
+//     margin: 0;
+// }
+
+// .savedTetro {
+//   position: absolute;
+//   padding: 0;
+//   margin: 0;
+//   animation-name: bounce;
+//   animation-duration: 1s;
+//   animation-timing-function: ease-in-out;
+//   animation-iteration-count: infinite;
+// }
+
+// @keyframes bounce {
+//   0% {
+//       transform: translateY(0);
+//   }
+//   50% {
+//       transform: translateY(-20px);
+//   }
+//   100% {
+//       transform: translateY(0);
+//   }
+// }
+
+// .savedTetro {
+//   position: absolute;
+//   padding: 0;
+//   margin: 0;
+//   animation-name: spin;
+//   animation-duration: 4s;
+//   animation-timing-function: ease-out;
+//   animation-iteration-count: infinite;
+// }
+
+// @keyframes spin {
+//   0% {
+//     transform: rotateY(0);
+//     animation-timing-function: ease-in;
+//   }
+//   40% {
+//     transform: rotateY(1080deg); //3
+//     animation-timing-function: linear;
+//   }
+//   60% {
+//     transform: rotateY(1800deg); //5
+//     animation-timing-function: linear;
+//   }
+//   80% {
+//     transform: rotateY(2880deg); //8
+//     animation-timing-function: linear;
+//   }
+//   100% {
+//     transform: rotateY(4320deg);
+//     animation-timing-function: ease-out;
+//   }
+// }
+
+.savedTetro {
+  position: absolute;
+  padding: 0;
+  margin: 0;
+  animation-name: spin;
+  animation-duration: 4s;
+  animation-timing-function: ease-out;
+  animation-iteration-count: infinite;
+  animation-delay: 3s;
+  }
+  
+
+// @keyframes bounce {
+//   0% {
+//       transform: translateY(0);
+//   }
+//   50% {
+//       transform: translateY(-20px);
+//   }
+//   100% {
+//       transform: translateY(0);
+//   }
+// }
+
+  @keyframes spin {
+  0% {
+    transform: rotateY(0);
+    animation-timing-function: ease-in;
+  }
+  40% {
+    transform: rotateY(1080deg); //3
+    animation-timing-function: linear;
+  }
+  60% {
+    transform: rotateY(1800deg); //5
+    animation-timing-function: linear;
+  }
+  80% {
+    transform: rotateY(2880deg); //8
+    animation-timing-function: linear;
+  }
+  100% {
+    transform: rotateY(4320deg);
+    animation-timing-function: ease-out;
+  }
 }
+
+
 
 .GhostTetro{
     position: absolute;

@@ -33,7 +33,8 @@ const mapStateToProps = (state) => {
         ghostTetroPosition: state.ghostTetroPosition,
         hasSaved: state.hasSaved,
         currentlyPicked: state.currentlyPicked,
-        colorBool: state.colorBool
+        colorBool: state.colorBool,
+        topValue: state.topValue
     };
 }
 
@@ -53,20 +54,12 @@ function mapDispatchToProps(dispatch) {
         startGameRenderSavedTetromino:() => dispatch(startGameRenderSavedTetromino()),
         moveDown:() => dispatch(moveDown()),
         colorBoolTrue:() => dispatch(colorBoolTrue()),
-        colorBoolFalse:() => dispatch(colorBoolFalse()),
-        updateScore:() => dispatch(updateScore())
+        colorBoolFalse:() => dispatch(colorBoolFalse())
     }
   }
 
 
 class TetrisBoard extends Component{
-    // constructor(props) {
-    //     super(props);
-    
-    //     this.state = {
-    //       isVisible: true
-    //     };
-    //   }
     
     start = (e) => {
         switch (e.keyCode){
@@ -153,9 +146,7 @@ class TetrisBoard extends Component{
 
 
      componentDidMount(){
-        
         if(!this.props.gameOver){
-            
              document.addEventListener('keyup', this.start)
              document.addEventListener('keydown', this.move)
              document.addEventListener('keyup', this.slam)
@@ -195,21 +186,16 @@ class TetrisBoard extends Component{
                 setTimeout(gameLoop, 67);
             }    
             gameLoop();
-            
         }
     }
 
     async componentDidUpdate(){
-       
         if(this.props.stateFlip){
-            
             if (this.props.superGate){
                 await this.props.colorBlocks();
-                // if(!this.props.colorBool)this.props.colorBoolTrue();
             }else{  
                 let sound = this.props.sound
                 if (this.props.innerState){
-                    // await this.props.updateScore();
                     sound.play(); 
                     await this.props.stateFlipOff();
                     setTimeout(this.props.startGame,350);
@@ -220,30 +206,14 @@ class TetrisBoard extends Component{
                     await this.props.dropBlocks();
                 }
             }
-            // this.props.colorBoolTrue();
+
         }
     }
-    // handleAnimationComplete = () => {
-    //     this.setState({
-    //       isVisible: false
-    //     });
-    //   };
-      
+
 render(){
-   
-  
+    const { topValue } = this.props;
+
     return (
-        // <AnimatePresence>
-            
-        // { this.state.isVisible && (
-        //   <motion.div
-        //     initial={{ y: -50, opacity: 0 }}
-        //     animate={{ y: 0, opacity: 1 }}
-        //     exit={{ y: 50, opacity: 0 }}
-        //     transition={{ duration: 1 }}
-        //     onAnimationComplete={this.handleAnimationComplete}
-        //   >
-        //     {/* Your component content here */}
         <div className="TetrisBoard">
             <BoardGrid
             currentGrid = {this.props.currentGrid}
@@ -266,11 +236,7 @@ render(){
             ghostTetroPosition = {this.props.ghostTetroPosition}
             tetroPiece = {this.props.tetroPiece}
             />}
-
         </div>
-    //     </motion.div>
-    //     )}
-    //   </AnimatePresence>
       )
     }
 }

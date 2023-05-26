@@ -29,12 +29,13 @@ const initalState = {
   hasSaved: false,
   currentlyPicked: false,
   incomingTetros: ['','','','','',''],
-  colorBool: true
+  colorBool: true,
+  topValue: 0
 }
 
 const tetrisReducer = (state = initalState, action) => {
   let players, tetroPiece, currentlyPicked, tetroPosition, tetroGrid, incomingTetros, currentGrid, hasSaved,
-  stateFlip, ongoingScore, colorBool, gameOver,finalScore, innerState, superGate, sound, ghostTetroPosition, savedTetromino;
+  stateFlip, ongoingScore, colorBool, gameOver,finalScore, innerState, superGate, sound, ghostTetroPosition, savedTetromino, topValue;
   switch (action.type) {
     case types.COLOR_BOOL:
       colorBool = action.payload;
@@ -69,7 +70,6 @@ const tetrisReducer = (state = initalState, action) => {
       }else{
         sidePosition = moveAllTetros(state.tetroGrid, state.tetroPosition)
       }
-
       if (sidePosition.right < 9 && sidePosition.left > 0){
         tetroPosition = _.assign({}, state.tetroPosition, { x: state.tetroPosition.x + action.payload })
       }else if(sidePosition.right === 9  && action.payload < 0){
@@ -138,7 +138,7 @@ const tetrisReducer = (state = initalState, action) => {
         ongoingScore = state.ongoingScore
         let scoreCounter = 0
         let bonus = 0
-      
+        topValue = state.topValue - 10;
         innerState = false
         let counter = 0;
         let col = TETROCOLORS.C;
@@ -171,37 +171,15 @@ const tetrisReducer = (state = initalState, action) => {
           innerState,
           superGate,
           ongoingScore,
-          sound
+          sound,
+          topValue
         }
         
-      
-      case types.UPDATE_SCORE:
-        // ongoingScore = state.ongoingScore
-        // let scoreCounter = 0
-        // let bonus = 0
-        state.currentGrid.forEach(row => {
-          if (row.every(el => el !== null)) {
-            if(scoreCounter === 1) bonus += 6
-            if(scoreCounter === 2) bonus += 8
-            if(scoreCounter === 3) bonus += 10
-            scoreCounter++
-          }
-          return result
-        })
-        scoreCounter *= 12
-        scoreCounter += bonus
-        ongoingScore += scoreCounter
-      return{
-        ...state,
-        ongoingScore
-      }
+    
       // start ------------------------------------------------------
       case types.START:
-        //ongoingScore = state.ongoingScore
         currentGrid = state.currentGrid.slice(state.currentGrid.length)
         innerState = false
-        //let scoreCounter = 0
-        // let bonus = 0
         const gridBuilder = state.currentGrid.reduce((result, row) => {
           if (!row.every(el => el !== null)) {
             result.push([...row])
@@ -214,9 +192,6 @@ const tetrisReducer = (state = initalState, action) => {
           }
           return result
         }, [])
-        // scoreCounter *= 12
-        // scoreCounter += bonus
-        // ongoingScore += scoreCounter
         currentGrid.push(...gridBuilder)
         let rand = Math.floor(Math.random() * TETROMINOS.length)
         rand = TETROMINOS[rand];
@@ -284,7 +259,6 @@ const tetrisReducer = (state = initalState, action) => {
         tetroPosition,
         tetroGrid,
         currentGrid,
-        //ongoingScore,
         innerState,
         ghostTetroPosition
       }
@@ -297,39 +271,41 @@ const tetrisReducer = (state = initalState, action) => {
       ...state,
       players,
      }
-      case types.FLOOR_DROP:
 
-          currentGrid = state.currentGrid
-
-          let relX,relY;
-          
-          for (let row = 0; row < state.tetroGrid.length; row++) {
-            for (let col = 0; col < state.tetroGrid[0].length; col++) {
-              if (!state.tetroGrid[row][col]) continue
-              relX = state.ghostTetroPosition.x + col
-              relY = state.ghostTetroPosition.y + row;
-              currentGrid[relY][relX] = TETROCOLORS[state.tetroPiece];
-            }
+     // FLOOR DROP ---------------------------------------------------------------------------
+    case types.FLOOR_DROP:
+        currentGrid = state.currentGrid;
+        let relX,relY;
+        topValue = state.topValue + 10;
+        for (let row = 0; row < state.tetroGrid.length; row++) {
+          for (let col = 0; col < state.tetroGrid[0].length; col++) {
+            if (!state.tetroGrid[row][col]) continue
+            relX = state.ghostTetroPosition.x + col
+            relY = state.ghostTetroPosition.y + row;
+            currentGrid[relY][relX] = TETROCOLORS[state.tetroPiece];
           }
-          stateFlip = true
-          superGate = true
-          tetroGrid = state.tetroGrid.map((curr)=>{
-            return curr.map((el)=>{
-              return 0
-            })
-          })
-        return{
-          ...state,
-          currentGrid,
-          stateFlip,
-          superGate,
-          tetroGrid
         }
+        stateFlip = true
+        superGate = true
+        tetroGrid = state.tetroGrid.map((curr)=>{
+          return curr.map((el)=>{
+            return 0
+          })
+        })
+      return{
+        ...state,
+        currentGrid,
+        stateFlip,
+        superGate,
+        tetroGrid,
+        topValue
+      }
      
      // DROP REDUCER CASE ----------------------------------------------------------------------
      case types.DROP:
       innerState = false
       superGate = false;
+
       let howManyAdded;
       let checkerY = state.tetroPosition.y
       let currentPosition;
