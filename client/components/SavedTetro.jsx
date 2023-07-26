@@ -45,7 +45,7 @@ class SavedTetro extends Component {
 
     render(){
         return (
-            <ul className="savedTetro" style ={this._getTetrominoStyle()}>
+            <ul className="savedTetroDry" style ={this._getTetrominoStyle()}>
                 {this._renderTetro()}
             </ul>
         )

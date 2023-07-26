@@ -12,7 +12,9 @@ const mapStateToProps = (state) => {
    tetroGrid: state.tetroGrid,
    tetroPosition: state.tetroPosition,
    savedTetromino: state.savedTetromino,
-   incomingTetros: state.incomingTetros
+   incomingTetros: state.incomingTetros,
+   stateFlip: state.stateFlip,
+   innerState: state.innerState,
   }
 }
 function mapDispatchToProps(dispatch) {
@@ -34,6 +36,7 @@ const App = (props) =>  {
               <h2 id='savedHeader'>NEXT</h2>
               <IncomingTetros
               incomingTetros={props.incomingTetros}
+              innerState = {props.innerState}
               />
           </div>
         </div>

@@ -204,31 +204,31 @@ $border_width: 8px;
 }
 
 ul {
-    display: block;
-    list-style-type:none;
-    margin-block-start: 1em;
-    margin-block-end: 1em;
-    margin-inline-start: 0px;
-    margin-inline-end: 0px;
-    padding-inline-start: 40px;
+  display: block;
+  list-style-type:none;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  padding-inline-start: 40px;
 }
 
 
 input:focus {
-    border: 3px solid rgb(196, 174, 174);
-    background-color: #242828;
-  }
+  border: 3px solid rgb(196, 174, 174);
+  background-color: #242828;
+}
 
 .inputName{
-    font-family: 'Silkscreen', cursive;
-    color: yellow;
-    width: 100%;
-    height: 40px;
-    font-size: 125%;
-    border: none;
-    outline: none;
-    background-color: rgb(63, 77, 90);
-    text-align: center; 
+  font-family: 'Silkscreen', cursive;
+  color: yellow;
+  width: 100%;
+  height: 40px;
+  font-size: 125%;
+  border: none;
+  outline: none;
+  background-color: rgb(63, 77, 90);
+  text-align: center; 
 }
 
 .gameOverTank{
@@ -264,98 +264,22 @@ input:focus {
   }
 }
 
-
 .WholeTetro{
     position: absolute;
     padding: 0;
     margin: 0;
 }
 
-// .savedTetro{
-//     position: absolute;
-//     padding: 0;
-//     margin: 0;
-// }
-
-// .savedTetro {
-//   position: absolute;
-//   padding: 0;
-//   margin: 0;
-//   animation-name: bounce;
-//   animation-duration: 1s;
-//   animation-timing-function: ease-in-out;
-//   animation-iteration-count: infinite;
-// }
-
-// @keyframes bounce {
-//   0% {
-//       transform: translateY(0);
-//   }
-//   50% {
-//       transform: translateY(-20px);
-//   }
-//   100% {
-//       transform: translateY(0);
-//   }
-// }
-
-// .savedTetro {
-//   position: absolute;
-//   padding: 0;
-//   margin: 0;
-//   animation-name: spin;
-//   animation-duration: 4s;
-//   animation-timing-function: ease-out;
-//   animation-iteration-count: infinite;
-// }
-
-// @keyframes spin {
-//   0% {
-//     transform: rotateY(0);
-//     animation-timing-function: ease-in;
-//   }
-//   40% {
-//     transform: rotateY(1080deg); //3
-//     animation-timing-function: linear;
-//   }
-//   60% {
-//     transform: rotateY(1800deg); //5
-//     animation-timing-function: linear;
-//   }
-//   80% {
-//     transform: rotateY(2880deg); //8
-//     animation-timing-function: linear;
-//   }
-//   100% {
-//     transform: rotateY(4320deg);
-//     animation-timing-function: ease-out;
-//   }
-// }
-
-.savedTetro {
+.savedTetroAnimation {
   position: absolute;
   padding: 0;
   margin: 0;
   animation-name: spin;
   animation-duration: 4s;
   animation-timing-function: ease-out;
-  animation-iteration-count: infinite;
   animation-delay: 3s;
   }
   
-
-// @keyframes bounce {
-//   0% {
-//       transform: translateY(0);
-//   }
-//   50% {
-//       transform: translateY(-20px);
-//   }
-//   100% {
-//       transform: translateY(0);
-//   }
-// }
-
   @keyframes spin {
   0% {
     transform: rotateY(0);
@@ -369,17 +293,33 @@ input:focus {
     transform: rotateY(1800deg); //5
     animation-timing-function: linear;
   }
-  80% {
-    transform: rotateY(2880deg); //8
-    animation-timing-function: linear;
-  }
-  100% {
-    transform: rotateY(4320deg);
-    animation-timing-function: ease-out;
-  }
 }
 
-
+.savedTetroDry {
+  position: absolute;
+  padding: 0;
+  margin: 0;
+  // animation-name: spin;
+  // animation-duration: 4s;
+  // animation-iteration-count: infinite;
+  // animation-timing-function: ease-out;
+  // animation-delay: 3s;
+  }
+  
+  @keyframes spin {
+  0% {
+    transform: rotateY(0);
+    animation-timing-function: ease-in;
+  }
+  40% {
+    transform: rotateY(1080deg); //3
+    animation-timing-function: linear;
+  }
+  60% {
+    transform: rotateY(1800deg); //5
+    animation-timing-function: linear;
+  }
+}
 
 .GhostTetro{
     position: absolute;
@@ -394,72 +334,40 @@ input:focus {
     border-bottom-color: $inputColor;
   }
   
-  .ghostBlock{
-    width: 100%;
-    height: 100%;
-    box-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00, 0 0 40px #00ff00, 0 0 80px #00ff00;
-    border-style: solid;
-    border-width: 10px;
-    border-radius: 7px;
-    box-sizing: border-box;
-    animation: glow 1s infinite;
-    opacity: 0.7;
-    background-color: #1e1e1e;
-    
+.ghostBlock{
+  width: 100%;
+  height: 100%;
+  box-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00, 0 0 40px #00ff00, 0 0 80px #00ff00;
+  border-style: solid;
+  border-width: 10px;
+  border-radius: 7px;
+  box-sizing: border-box;
+  animation: glow 1s infinite;
+  opacity: 0.7;
+  background-color: #1e1e1e;
   
-    &.iTetro {
-        @include border-colors(#80ffff);
-      }
-      &.oTetro {
-        @include border-colors(#ffff80);
-      }
-      &.tTetro {
-        @include border-colors(#c080ff);
-      }
-      &.jTetro {
-        @include border-colors(#8080ff);
-      }
-      &.lTetro {
-        @include border-colors(#ffc080);
-      }
-      &.sTetro {
-        @include border-colors(#80ff80);
-      }
-      &.zTetro {
-        @include border-colors(#ff8080);
-      }
+  &.iTetro {
+      @include border-colors(#80ffff);
     }
-
-// .ghostBlock{
-//     width: 100%;
-//     height: 100%;
-//     box-shadow: inset 0 0 45px #fff, 0 0 50px #fff, -10px 0 80px #f0f, 10px 0 80px #0ff;
-//     border-style: outset;
-//     border: 7px solid;
-//     box-sizing: border-box;
-//     animation: glow 1.3s infinite;
-//     &.iTetro {
-//     @include border-colors(#00ffff)  
-//     }
-//     &.oTetro {
-//         @include border-colors(#ffff00)  
-//     }
-//     &.tTetro {
-//         @include border-colors(#aa00ff)  
-//     }
-//     &.jTetro {
-//         @include border-colors(#0000ff)  
-//     }
-//     &.lTetro {
-//         @include border-colors(#ffaa00)  
-//     }
-//     &.sTetro {
-//         @include border-colors(#00ff00)  
-//     }
-//     &.zTetro {
-//         @include border-colors(#ff0000)  
-//     }
-// }
+    &.oTetro {
+      @include border-colors(#ffff80);
+    }
+    &.tTetro {
+      @include border-colors(#c080ff);
+    }
+    &.jTetro {
+      @include border-colors(#8080ff);
+    }
+    &.lTetro {
+      @include border-colors(#ffc080);
+    }
+    &.sTetro {
+      @include border-colors(#80ff80);
+    }
+    &.zTetro {
+      @include border-colors(#ff8080);
+    }
+  }
 
 @keyframes glow {
   0% {
@@ -494,38 +402,7 @@ input:focus {
     padding: 0; 
 }
 
-
-// @function createBorders($color) {
-//     //$border_width: 2px; // Set your desired border width here
-//     $lighten_amount: 35%; // Set the percentage amount to lighten the top border color
-//     $darken_amount: 10%; // Set the percentage amount to darken the left and right border colors
-    
-//     // Return the CSS for the border with the specified color
-//     @return (
-//     border: $border_width solid $color
-//     border-top-color lighten($color, $lighten_amount)
-//     border-left-color  darken($color, $darken_amount)
-//     border-right-color  darken($color, $darken_amount)
-//     border-bottom-color darken($color, $lighten_amount)
-//     );
-// }
-
-// .staticBlock {
-//     $color: #{var("--my-color")};
-//     width: 100%;
-//     height: 100%;
-//     box-shadow: inset 0px 0px 10px rgba(255, 255, 255, 0.5), 
-//                 0px 0px 10px rgba(0, 0, 0, 0.5);
-//     border-style: outset;
-//     border-color: #ffffff;
-//     box-sizing: border-box;
-//     border-top-color: lighten($color, 35%);
-//     border-left-color: darken($color, 10%);
-//     border-right-color: darken($color, 10%);
-//     border-bottom-color: darken($color, 35%);
-// }
 .staticBlock {
-    //$color: $color; // Define the color variable using the prop passed to the component
     width: 100%;
     height: 100%;
     box-shadow: inset 0px 0px 10px rgba(255, 255, 255, 0.5), 
@@ -533,7 +410,7 @@ input:focus {
     border-style: outset;
     border: 7px solid;
     box-sizing: border-box;
-   // --border-color: currentColor; /* set default border color to the current text color */
+
     &.iTetro {
       @include border-colors(#00ffff)  
     }
@@ -565,7 +442,6 @@ input:focus {
     height: 2px;
     border-radius: 50%;
     background-color: rgb(120, 20, 191);
-    //animation: particle 1s ease-in-out infinite;
   }
   
   .explosion-container {

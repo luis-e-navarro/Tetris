@@ -2,7 +2,7 @@ import React from "react";
 import DynamicBlock from './blocks/DynamicBlock.jsx'
 import {SMALLGRID, GRID, TETROMINOS, SHAPES, TETROCOLORS} from '../constants/tetromino';
 
-const IncomingTetros = ({incomingTetros}) => {
+const IncomingTetros = ({incomingTetros, innerState}) => {
 
     function getTetrominoStyle(position){
         const heightPos = 13;
@@ -52,12 +52,12 @@ const IncomingTetros = ({incomingTetros}) => {
             return count
         }
     }
-
+    console.log('innerState:', innerState)
     const keyAssigner = keyMaker()
         return (
             <div id="incomingTetroContainer">
                 {incomingTetros.map((tetro, index) => {
-                    return (<ul key={keyAssigner()} className="savedTetro" style ={getTetrominoStyle(index)}>
+                    return (<ul key={keyAssigner()} className={innerState ? "savedTetroDry" : "savedTetroAnimation"} style ={getTetrominoStyle(index)}>
                         {renderTetro(tetro)}
                     </ul>)
                 })}
