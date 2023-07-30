@@ -52,6 +52,7 @@ const IncomingTetros = ({incomingTetros, innerState}) => {
             return count
         }
     }
+    
     console.log('innerState:', innerState)
     const keyAssigner = keyMaker()
         return (

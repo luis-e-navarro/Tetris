@@ -4,6 +4,7 @@ import { updatePlayers, startGame } from "../actions/actions";
 import CurrentBoard from './CurrentBoard.jsx';
 import GameOver from './GameOver.jsx';
 import SavedTetro from "./SavedTetro.jsx";
+import BarLoader from "react-spinners/BarLoader";
 
 const mapStateToProps = (state) => {
    return {
@@ -39,7 +40,12 @@ class Scores extends Component {
 
   render() {
     const { finalScore, gameOver, currentGrid, tetroGrid, tetroPosition, savedTetromino } = this.props;
-
+    const loadingBarsArr = [];
+    if (!this.props.players.length){
+      for(let i = 0; i < 5; i++){
+        loadingBarsArr.push(<div style={{ marginBottom: '30px' }}><BarLoader margin={1} color={"#2a9898"} width={300} height={'10px'} size={150} /></div>)
+      }
+    }
     return (
       <div id="allScoresContainer">
         <div>
@@ -58,11 +64,13 @@ class Scores extends Component {
               {gameOver ? <GameOver finalScore={finalScore}/> : <CurrentBoard/>}
             </div>
             <ul className="scoreTank">
-              {
+              { this.props.players.length ?
                 this.props.players
                   .map(person =>
                     <li className ="eachLine" key= {`playerkey-${person.name}`}><p className="playerName">{person.name.toUpperCase()}</p> <p className="scoreNumber">{person.score}</p> </li>
-                  )
+                  ) : 
+                  loadingBarsArr
+
               }
             </ul>
 
