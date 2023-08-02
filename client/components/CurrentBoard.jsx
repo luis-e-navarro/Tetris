@@ -21,10 +21,10 @@ const CurrentBoard = (props) => {
 
   useEffect(() => {
     setAnimate(true);
-    const timeout = setTimeout(() => {
-      setAnimate(false);
-    }, 1000); // 1 second
-    return () => clearTimeout(timeout);
+    // const timeout = setTimeout(() => {
+    //   setAnimate(false);
+    // }, 1000); // 1 second
+    // return () => clearTimeout(timeout);
   }, [props.ongoingScore]);
 
 
@@ -39,11 +39,9 @@ const CurrentBoard = (props) => {
               scale: [1, 1.5, 11, 20, 35], 
               opacity: [1, 0.8, 0.4, 0.2, 0] 
             }}
-    
             exit={{ scale: 10, opacity: 0 }}
             transition={{ duration: 0.5 }}
             key={props.ongoingScore}
-
           >
             {props.ongoingScore}
           </motion.p>

@@ -28,13 +28,12 @@ export const stateFlipOff = () =>({
 
 // rotate tetro right or left ------------------------------------------------
 export const rotateLeft = () => {
-
   return{
     type: types.ROTATE,
     payload: false
   }
-  
 }
+
 export const rotateRight = () => {
   return{
   type: types.ROTATE,
@@ -43,11 +42,11 @@ export const rotateRight = () => {
 }
 
 // move down -------------------------------------------------------------------
-
-export const moveDown = (dispatch) => {
+export const moveDown = () => (dispatch) => {
   clearDropTimeout()
-  dispatch({types: types.DROP});
+  dispatch({type: types.DROP});
 }
+
 // floordrop -------------------------------------------------------------------
 export const floorDrop = () => (dispatch) => {
   let sound = new Audio(slam)
@@ -58,7 +57,6 @@ export const floorDrop = () => (dispatch) => {
 // drop ----------------------------------------------------------------
 export const dropBlocks = () => (dispatch) => {
   dispatch(drop())
-  
 }
 
 // color bool ----
@@ -95,27 +93,40 @@ export const startGameRenderSavedTetromino =  () => async(dispatch) => {
   await dispatch({
     type: types.START,
     payload: true
-  })
+  });
 }
 
-export const drop = () => async (dispatch) => {
-  
-  await setDropTimeout(() => {
-    dispatch({ type: types.DROP })
-    dispatch(drop());
-    dispatch(colorBoolFalse());
-  }, 500)
+export const drop = () => dispatch => {
+  window.dropTimer = setInterval(() => {
+      dispatch({ type: types.DROP });
+      dispatch(colorBoolFalse());
+  }, 500);
 }
 
-
-export function setDropTimeout(cb, interval) {
-  clearDropTimeout()
-  
-  window.dropTimer = setTimeout(cb, interval)
+export const clearDropTimeout = () => {
+  if (!window.dropTimer) return;  
+  clearInterval(window.dropTimer);
+  window.dropTimer = null;
 }
 
-export function clearDropTimeout() {
-  if (!window.dropTimer)  return
-  clearTimeout(window.dropTimer)
-  window.dropTimer = null
-}
+// export const drop = () =>  (dispatch) => {
+//    setDropTimeout(() => { // argument for callback definition starts (cb)
+//     dispatch({ type: types.DROP });
+//     dispatch(drop());
+//     dispatch(colorBoolFalse());
+//   }, 
+//   500); // interval argument (interval)
+// }
+
+
+// export function setDropTimeout(cb, interval) {
+//   clearDropTimeout();
+//   window.dropTimer = setTimeout(cb, interval)
+// }
+
+// export function clearDropTimeout() {
+//   if (!window.dropTimer) return;
+//   clearTimeout(window.dropTimer)
+//   window.dropTimer = null
+// }
+

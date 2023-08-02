@@ -269,57 +269,53 @@ input:focus {
     padding: 0;
     margin: 0;
 }
+.savedTetroDry {
+  position: absolute;
+  padding: 0;
+  margin: 0;
+}
 
 .savedTetroAnimation {
   position: absolute;
   padding: 0;
   margin: 0;
   animation-name: spin;
-  animation-duration: 4s;
+  animation-duration: 1s;
   animation-timing-function: ease-out;
-  animation-delay: 3s;
-  }
-  
-  @keyframes spin {
+  animation-delay: 0s; // Animation will start immediately
+  animation-fill-mode: forwards; // Prevent the animation from resetting to initial state
+}
+
+@keyframes spin {
   0% {
     transform: rotateY(0);
-    animation-timing-function: ease-in;
-  }
-  40% {
-    transform: rotateY(1080deg); //3
     animation-timing-function: linear;
   }
-  60% {
-    transform: rotateY(1800deg); //5
+  100% { // We also adjusted the keyframes to have the final state at 100%
+    transform: rotateY(360deg);
     animation-timing-function: linear;
   }
 }
 
-.savedTetroDry {
-  position: absolute;
-  padding: 0;
-  margin: 0;
-  // animation-name: spin;
-  // animation-duration: 4s;
-  // animation-iteration-count: infinite;
-  // animation-timing-function: ease-out;
-  // animation-delay: 3s;
-  }
+
+
+
+
   
-  @keyframes spin {
-  0% {
-    transform: rotateY(0);
-    animation-timing-function: ease-in;
-  }
-  40% {
-    transform: rotateY(1080deg); //3
-    animation-timing-function: linear;
-  }
-  60% {
-    transform: rotateY(1800deg); //5
-    animation-timing-function: linear;
-  }
-}
+//   @keyframes spin {
+//   0% {
+//     transform: rotateY(0);
+//     animation-timing-function: ease-in;
+//   }
+//   40% {
+//     transform: rotateY(1080deg); //3
+//     animation-timing-function: linear;
+//   }
+//   60% {
+//     transform: rotateY(1800deg); //5
+//     animation-timing-function: linear;
+//   }
+// }
 
 .GhostTetro{
     position: absolute;

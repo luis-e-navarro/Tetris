@@ -1,8 +1,8 @@
-import React from "react";
+import React, { Component, useEffect, useState }  from "react";
 import DynamicBlock from './blocks/DynamicBlock.jsx'
 import {SMALLGRID, GRID, TETROMINOS, SHAPES, TETROCOLORS} from '../constants/tetromino';
 
-const IncomingTetros = ({incomingTetros, innerState}) => {
+const IncomingTetros = ({incomingTetros, innerState, ongoingScore}) => {
 
     function getTetrominoStyle(position){
         const heightPos = 13;
@@ -17,6 +17,15 @@ const IncomingTetros = ({incomingTetros, innerState}) => {
             left: `15%`
         }
     }
+    const [animate, setAnimate] = useState(true);
+
+    useEffect(() => {
+      setAnimate(true);
+      const timeout = setTimeout(() => {
+        setAnimate(false);
+      }, 1000); // 1 second
+      return () => clearTimeout(timeout);
+    }, [ongoingScore]);
 
     function renderTetro (tetro) {
         const shapeArr = !tetro.length ? SHAPES.D : SHAPES[tetro]
@@ -53,12 +62,11 @@ const IncomingTetros = ({incomingTetros, innerState}) => {
         }
     }
     
-    console.log('innerState:', innerState)
     const keyAssigner = keyMaker()
         return (
             <div id="incomingTetroContainer">
                 {incomingTetros.map((tetro, index) => {
-                    return (<ul key={keyAssigner()} className={innerState ? "savedTetroDry" : "savedTetroAnimation"} style ={getTetrominoStyle(index)}>
+                    return (<ul key={keyAssigner()} className={!animate ? "savedTetroDry" : "savedTetroAnimation"} style ={getTetrominoStyle(index)}>
                         {renderTetro(tetro)}
                     </ul>)
                 })}

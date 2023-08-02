@@ -15,6 +15,7 @@ const mapStateToProps = (state) => {
    incomingTetros: state.incomingTetros,
    stateFlip: state.stateFlip,
    innerState: state.innerState,
+   ongoingScore: state.ongoingScore,
   }
 }
 function mapDispatchToProps(dispatch) {
@@ -37,6 +38,7 @@ const App = (props) =>  {
               <IncomingTetros
               incomingTetros={props.incomingTetros}
               innerState = {props.innerState}
+              ongoingScore = {props.ongoingScore}
               />
           </div>
         </div>

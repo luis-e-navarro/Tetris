@@ -3,7 +3,6 @@ import { TETROCOLORS } from "../../constants/tetromino";
 import { motion } from "framer-motion";
 
 const GhostBlock = ({ color, colorBool }) => {
-  console.log('hi there');
   const tetrominoClasses = {
     [TETROCOLORS.I]: 'iTetro',
     [TETROCOLORS.O]: 'oTetro',

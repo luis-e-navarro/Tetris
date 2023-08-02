@@ -40,28 +40,81 @@ export function moveTetroI(tetrominoGrid, blockPosition){
   return sidePosition
 }
 
-export function moveAllTetros(tetrominoGrid, blockPosition){
+export function retrieveCoordinates(startingPos, tetroGrid){
+  const coordinates = [];
+  for (let index = 0; index < tetroGrid.length - 1; index++){
+    if (tetroGrid[index][0] === 1){
+      coordinates.push([startingPos.y + index,startingPos.x ]);
+    }
+    if (tetroGrid[index][1] === 1 && tetroGrid[index][0] !== 1 && tetroGrid[index][2] !== 1){
+      coordinates.push([startingPos.y + index, startingPos.x + 1])
+    }
+
+    if (tetroGrid[index][2] === 1){
+      coordinates.push([startingPos.y + index, startingPos.x + 2]);
+    }
+  }
+  // console.log('coodrinate length', coordinates.length)
+  return coordinates;
+}
+
+export function checkSides(tetroPos, tetroGrid, mainGrid, direction){
+  for (let i = 0; i < tetroGrid.length; i++ ){
+    for (let j = 0; j < tetroGrid[i].length; j++){
+      if (tetroGrid[i][j] === 1){
+        console.log(mainGrid[tetroPos.y])
+        if (mainGrid[tetroPos.y + i][(tetroPos.x + j) + direction] !== null){
+          // console.log('maingrid hitting')
+          return false;
+        }
+      }
+    }
+  }
+  return true;
+}
+
+export function retrieveSides(tetrominoGrid, blockPosition) {
   const sidePosition = {
-    left: null,
-    right: null
+    left: blockPosition.x + 1,
+    right: blockPosition.x + 1
   }
 
-  for (const row of tetrominoGrid){
-    if(row[0] === 1){
-      sidePosition.left = blockPosition.x
+  for (const row of tetrominoGrid) {
+    if(row[0] === 1 && sidePosition.left === blockPosition.x + 1){
+      sidePosition.left = blockPosition.x;
+    }
+
+    if (row[2] === 1) {
+      sidePosition.right = blockPosition.x + 2;
     }
   }
-  if (sidePosition.left === null){
-    sidePosition.left = blockPosition.x + 1
-  }
-  for (const row of tetrominoGrid){
-    if (row[2] === 1){
-      sidePosition.right = blockPosition.x + 2
-    }
-  }
-  if (!sidePosition.right) sidePosition.right = blockPosition.x + 1 
-  return sidePosition
+  
+  return sidePosition;
 }
+
+// export function moveAllTetros(tetrominoGrid, blockPosition){
+//   const sidePosition = {
+//     left: null,
+//     right: null
+//   }
+
+//   for (const row of tetrominoGrid){
+//     if(row[0] === 1){
+//       sidePosition.left = blockPosition.x
+//     }
+//   }
+//   if (sidePosition.left === null){
+//     sidePosition.left = blockPosition.x + 1
+//   }
+//   for (const row of tetrominoGrid){
+//     if (row[2] === 1){
+//       sidePosition.right = blockPosition.x + 2
+//     }
+//   }
+//   if (!sidePosition.right) sidePosition.right = blockPosition.x + 1;
+
+//   return sidePosition
+// }
 
 export function coordinateBuilder(grid, gridPosition, piece){
   let howManyToAdd = additionalSpaces(piece);
@@ -105,7 +158,6 @@ export function ghostTetroPositionBuilder(currTetroPos, currTetroGrid, currTetro
   }
   const droppedBlockPosition = currTetroPos
   const adv = Object.values(coordinateBuilder(currTetroGrid, currTetroPos, currTetroPiece))
-
 
   let checkingGrid1 = null
   let checkingGrid2 = null

@@ -13,7 +13,7 @@ import { startGame,
     dropBlocks, stateFlipOff,
     rotateLeft,colorBlocks,
     rotateRight, floorDrop,
-    saveTetro, colorBoolFalse, colorBoolTrue } from "../actions/actions";
+    saveTetro, colorBoolFalse, colorBoolTrue, moveDown } from "../actions/actions";
 
 const keyState = {};
 let moveCounter = 2;
@@ -70,24 +70,30 @@ class TetrisBoard extends Component{
             case 68:
                 keyState[e.keyCode] = false
                 moveCounter = 2;
+                break;
             case 65:
                 keyState[e.keyCode] = false
                 moveCounter = 2;
+                break;
             case 37:
                 keyState[e.keyCode] = false
                 rotateCounter = 4;
+                break;
             case 39:
                 keyState[e.keyCode] = false
                 rotateCounter = 4;
+                break;
             case 83:
+                keyState[e.keyCode] = false
+                moveCounter = 4;
                 this.props.dropBlocks();
+                break;
             default:
                 break;
         }
     }
 
-     move = (e) =>{  
-        
+     move = (e) =>{       
         switch (e.keyCode){
             case 68:
                 if(!keyState[e.keyCode]){
@@ -126,7 +132,11 @@ class TetrisBoard extends Component{
                 }
                 break;
             case 83:
-                this.props.moveDown();
+                if(!keyState[e.keyCode]){
+                    this.props.moveDown();
+                }
+                console.log('hits');
+                keyState[e.keyCode] = true
                 break;
             default:
                 
@@ -152,7 +162,7 @@ class TetrisBoard extends Component{
              document.addEventListener('keyup', this.slam)
              
              //------------------------------------------  
-            const {moveTetroLeft, moveTetroRight, rotateLeft, rotateRight} = this.props;
+            const {moveTetroLeft, moveTetroRight, rotateLeft, rotateRight, moveDown} = this.props;
             function gameLoop() {
                 if (keyState[65]){
                     if(moveCounter > 0){
@@ -182,7 +192,13 @@ class TetrisBoard extends Component{
                         rotateLeft();
                     }
                 }
-
+                if (keyState[83]){
+                    if(moveCounter > 0){
+                        moveCounter--
+                    }else{
+                    moveDown();
+                    }
+                }
                 setTimeout(gameLoop, 67);
             }    
             gameLoop();
@@ -206,13 +222,10 @@ class TetrisBoard extends Component{
                     await this.props.dropBlocks();
                 }
             }
-
         }
     }
 
 render(){
-    const { topValue } = this.props;
-
     return (
         <div className="TetrisBoard">
             <BoardGrid
