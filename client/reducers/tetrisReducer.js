@@ -2,7 +2,7 @@ import * as types from '../constants/types';
 import { GRID, TETROMINOS, SHAPES, TETROCOLORS} from '../constants/tetromino';
 import _, { has } from 'lodash'
 import { moveAllTetros, moveTetroI, rotateLeft, ghostTetroPositionBuilder, rotateRight, retrieveSides, 
-  checkSides, retrieveCoordinates } from '../constants/utils';
+  checkSides } from '../constants/utils';
 import single from '../constants/audio/single.wav'; 
 import doubles from '../constants/audio/doubles.wav';
 import quad from '../constants/audio/quad.wav'
@@ -12,7 +12,7 @@ const initalState = {
   tetroGrid: [[0, 0, 0], [0, 0, 0], [0, 0, 0]],
   tetroPosition: {
     x: 3,
-    y: -2
+    y: 0
   },
   ghostTetroPosition:{
     x: 3,
@@ -70,7 +70,7 @@ const tetrisReducer = (state = initalState, action) => {
       if (state.tetroPiece === 'I'){
         sidePosition = moveTetroI(state.tetroGrid, state.tetroPosition);
       }else{
-        sidePosition = retrieveSides(state.tetroGrid, state.tetroPosition);
+        sidePosition = moveAllTetros(state.tetroGrid, state.tetroPosition);
       }
 
       if (sidePosition.right < 9 && sidePosition.left > 0){ //going left or right
@@ -245,7 +245,7 @@ const tetrisReducer = (state = initalState, action) => {
 
         const position = {
           x: Math.round(5) - Math.round(SHAPES[tetroPiece][0].length / 2),
-          y: -2
+          y: 0
         }
         
         tetroPosition = _.assign(state.tetroPosition, position)
