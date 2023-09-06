@@ -50,10 +50,11 @@ export const moveDown = () => (dispatch) => {
 // floordrop -------------------------------------------------------------------
 export const floorDrop = () => (dispatch) => {
   let sound = new Audio(slam)
-  sound.play();
+  // sound.play();
   sound.free;
   dispatch({ type: types.FLOOR_DROP })
 }
+
 // drop ----------------------------------------------------------------
 export const dropBlocks = () => (dispatch) => {
   dispatch(drop())

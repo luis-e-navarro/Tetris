@@ -212,7 +212,7 @@ class TetrisBoard extends Component{
             }else{  
                 let sound = this.props.sound
                 if (this.props.innerState){
-                    sound.play(); 
+                    // sound.play(); 
                     await this.props.stateFlipOff();
                     setTimeout(this.props.startGame,350);
                     setTimeout(this.props.dropBlocks,350);
