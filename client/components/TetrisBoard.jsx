@@ -15,10 +15,6 @@ import { startGame,
     rotateRight, floorDrop,
     saveTetro, colorBoolFalse, colorBoolTrue, moveDown } from "../actions/actions";
 
-const keyState = {};
-let moveCounter = 2;
-let rotateCounter = 4;
-
 const mapStateToProps = (state) => {
     return {
         currentGrid: state.currentGrid, 
@@ -60,32 +56,69 @@ function mapDispatchToProps(dispatch) {
 
 
 class TetrisBoard extends Component{
-    
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            keyState: {},
+            moveLeftCounter: 2,
+            moveRightCounter: 2,
+            moveCounter: 2,
+            rotateCounter: 4,
+        };
+    }
+
     start = (e) => {
+        const { keyState } = this.state;
         switch (e.keyCode){
             case SPACE_KEY:
                 this.props.startGame();
                 this.props.dropBlocks();
                 break;
             case 68:
-                keyState[e.keyCode] = false
-                moveCounter = 2;
+                this.setState({
+                    keyState: {
+                        ...keyState,
+                        [e.keyCode]: false
+                    }
+                });
+                this.setState({ moveRightCounter: 2 });
                 break;
             case 65:
-                keyState[e.keyCode] = false
-                moveCounter = 2;
+                this.setState({
+                    keyState: {
+                        ...keyState,
+                        [e.keyCode]: false
+                    }
+                });
+                this.setState({ moveLeftCounter: 2 });
                 break;
             case 37:
-                keyState[e.keyCode] = false
-                rotateCounter = 4;
+                this.setState({
+                    keyState: {
+                        ...keyState,
+                        [e.keyCode]: false
+                    }
+                });
+                this.setState({rotateCounter: 4});
                 break;
             case 39:
-                keyState[e.keyCode] = false
-                rotateCounter = 4;
+                this.setState({
+                    keyState: {
+                        ...keyState,
+                        [e.keyCode]: false
+                    }
+                });
+                this.setState({rotateCounter: 4});
                 break;
             case 83:
-                keyState[e.keyCode] = false
-                moveCounter = 4;
+                this.setState({
+                    keyState: {
+                        ...keyState,
+                        [e.keyCode]: false
+                    }
+                });
+                this.setState({moveCounter: 4});
                 this.props.dropBlocks();
                 break;
             default:
@@ -93,24 +126,29 @@ class TetrisBoard extends Component{
         }
     }
 
-     move = (e) =>{       
+     move = (e) =>{   
+        const { keyState } = this.state;    
         switch (e.keyCode){
             case 68:
-                if(!keyState[e.keyCode]){
+                if(!keyState[65] && !keyState[68] ){
                     this.props.moveTetroRight();
-                }
+                }else{
+                    this.setState({moveLeftCounter: 2});    
+                };
                 keyState[e.keyCode] = true
                 break;
             case 65:
-                if(!keyState[e.keyCode]){
+                if(!keyState[65] && !keyState[68]){
                     this.props.moveTetroLeft();
-                }
+                }else{
+                    this.setState({moveRightCounter: 2});              
+                };
                 keyState[e.keyCode] = true
                 break;
             case 37:
                 if(!keyState[e.keyCode]){
                     this.props.rotateRight();
-                }
+                };
                 keyState[e.keyCode] = true
                 break;
             case 39:
@@ -135,8 +173,9 @@ class TetrisBoard extends Component{
                 if(!keyState[e.keyCode]){
                     this.props.moveDown();
                 }
-                console.log('hits');
-                keyState[e.keyCode] = true
+                keyState[e.keyCode] = true;
+                // this.setState({keyState[e.keyCode]: true});
+                console.log(keyState)
                 break;
             default:
                 
@@ -154,54 +193,98 @@ class TetrisBoard extends Component{
         }
     }
 
+    gameLoop = () => {
+        const { keyState, moveLeftCounter, moveRightCounter, moveCounter, rotateCounter} = this.state; 
+        const { moveTetroLeft, moveTetroRight, rotateLeft, rotateRight, moveDown} = this.props;
+
+        if (keyState[65]){
+            if(moveLeftCounter > 0){
+                this.setState({moveLeftCounter: this.state.moveLeftCounter - 1});
+            }else {
+                moveTetroLeft();
+            }
+        }    
+        if (keyState[68]){
+            if(moveRightCounter > 0){
+                this.setState({moveRightCounter: this.state.moveRightCounter - 1});
+            }else{
+            moveTetroRight();
+            }
+        }
+        if (keyState[37]){
+            if(rotateCounter > 0){
+                this.setState({rotateCounter: this.state.rotateCounter - 1});
+            }else{
+                rotateRight();
+            }
+        }
+        if (keyState[39]){
+            if(rotateCounter > 0){
+                this.setState({rotateCounter: this.state.rotateCounter - 1});
+            }else{
+                rotateLeft();
+            }
+        }
+        if (keyState[83]){
+            if(moveCounter > 0){
+                this.setState({moveCounter: this.state.moveCounter - 1});
+                
+            }else{
+          
+                moveDown();
+            }
+        }
+        setTimeout(this.gameLoop, 67);
+    }   
 
      componentDidMount(){
         if(!this.props.gameOver){
              document.addEventListener('keyup', this.start)
              document.addEventListener('keydown', this.move)
-             document.addEventListener('keyup', this.slam)
+             document.addEventListener('keydown', this.slam)
              
              //------------------------------------------  
-            const {moveTetroLeft, moveTetroRight, rotateLeft, rotateRight, moveDown} = this.props;
-            function gameLoop() {
-                if (keyState[65]){
-                    if(moveCounter > 0){
-                        moveCounter--
-                    }else{
-                        moveTetroLeft();
-                    }
-                }    
-                if (keyState[68]){
-                    if(moveCounter > 0){
-                        moveCounter--
-                    }else{
-                    moveTetroRight();
-                    }
-                }
-                if (keyState[37]){
-                    if(rotateCounter > 0){
-                        rotateCounter--
-                    }else{
-                        rotateRight();
-                    }
-                }
-                if (keyState[39]){
-                    if(rotateCounter > 0){
-                        rotateCounter--
-                    }else{
-                        rotateLeft();
-                    }
-                }
-                if (keyState[83]){
-                    if(moveCounter > 0){
-                        moveCounter--
-                    }else{
-                    moveDown();
-                    }
-                }
-                setTimeout(gameLoop, 67);
-            }    
-            gameLoop();
+            // const {moveTetroLeft, moveTetroRight, rotateLeft, rotateRight, moveDown} = this.props;
+            // function gameLoop() {
+
+            //     if (keyState[65]){
+            //         if(this.props.moveLeftCounter > 0){
+            //             this.setState({moveLeftCounter: this.state.moveLeftCounter - 1});
+            //         }else{
+            //             moveTetroLeft();
+            //         }
+            //     }    
+            //     if (keyState[68]){
+            //         if(this.props.moveRightCounter > 0){
+            //             this.setState({moveRightCounter: this.state.moveRightCounter - 1});
+            //         }else{
+            //         moveTetroRight();
+            //         }
+            //     }
+            //     if (keyState[37]){
+            //         if(rthis.props.otateCounter > 0){
+            //             this.setState({rotateCounter: this.state.rotateCounter - 1});
+            //         }else{
+            //             rotateRight();
+            //         }
+            //     }
+            //     if (keyState[39]){
+            //         if(this.props.rotateCounter > 0){
+            //             this.setState({rotateCounter: this.state.rotateCounter - 1});
+            //         }else{
+            //             rotateLeft();
+            //         }
+            //     }
+            //     if (keyState[83]){
+            //         if(this.props.moveCounter > 0){
+            //             this.setState({moveCounter: this.state.moveCounter - 1});
+            //         }else{
+            //         moveDown();
+            //         }
+            //     }
+            //     setTimeout(gameLoop, 67);
+            // }    
+            this.gameLoop();
         }
     }
 

@@ -133,18 +133,62 @@ function additionalSpaces(tetroPiece){
 
 export function checkStartTetro(tetroGrid, currentGrid, position){
   let tetroRow = tetroGrid[1];
+  let firstTetroRow = tetroGrid[0];
+  let shiftUp = false;
+  let copyPos = position;
+
+  for (let i = firstTetroRow.length - 1; i >= 0; i--){
+    if (firstTetroRow[i] > 0){
+      if (currentGrid[0][position.x+i] !== null){
+        return -2;
+      }        
+    }  
+  };
+
   for (let i = tetroRow.length - 1; i >= 0; i--){
     if (tetroRow[i] > 0){
       if (currentGrid[1][position.x+i] !== null){
-        return -1;
+        shiftUp = true;
+        copyPos = position;
+        copyPos.y--
+        break;
       }        
     }  
-  }
+  };
+
+  if (shiftUp){
+    for (let i = tetroRow.length - 1; i >= 0; i--){
+      if (tetroRow[i] > 0){
+        if (currentGrid[0][copyPos.x+i] !== null){
+          return -2;
+        }        
+      }  
+    };
+    return -1;
+  };
+
   return 0;
-}
+};
+
+export function checkStartTetroRotate(tetroGrid, currentGrid, position){
+
+  for (let i = tetroGrid.length - 1; i >= 0; i--){
+    const currRow = tetroGrid[i];
+    for (let z = currRow.length - 1; z >= 0; z--){
+      if (currRow[i] > 0){
+        if (currentGrid[position.y + i][position.x+z] !== null){
+          return -1;
+        }        
+      }        
+    }
+  };
+  return 0;
+};
 
 export function ghostTetroPositionBuilder(currTetroPos, currTetroGrid, currTetroPiece, mainGrid ){
-  if (checkStartTetro(currTetroGrid, mainGrid, currTetroPos) < 0 ){
+  let int = checkStartTetro(currTetroGrid, mainGrid, currTetroPos);
+  if (int < 0 ){
+    currTetroPos.y += int;
     return currTetroPos;
   }else{
     while(currTetroPos.y < 0){
@@ -159,12 +203,12 @@ export function ghostTetroPositionBuilder(currTetroPos, currTetroGrid, currTetro
   let checkingGrid2 = null
   let checkingGrid3 = null
   let checkingGrid4 = null
-  console.log('adv: ', adv[4]);
+  // console.log('adv: ', adv[4]);
   if (adv[0].length) checkingGrid1 = mainGrid[adv[0][1]+1][adv[0][0]]
   if (adv[1].length) checkingGrid2 = mainGrid[adv[1][1]+1][adv[1][0]]
   if (adv[2].length) checkingGrid3 = mainGrid[adv[2][1]+1][adv[2][0]]
   if (adv[3].length) checkingGrid4 = mainGrid[adv[3][1]+1][adv[3][0]];
-  console.log('chGrid1: ',checkingGrid1);
+  // console.log('chGrid1: ',checkingGrid1);
 
   while(!checkingGrid1 && !checkingGrid2 && !checkingGrid3 && !checkingGrid4){
     adv[4]++

@@ -3,6 +3,16 @@
   "version": "1.0.0",
   "description": "fun game",
   "main": "index.js",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug Node.js",
+      "program": "./client/index.js",
+      "sourceMaps": true,
+      "outFiles": ["bundle.js"]
+    }
+  ],
   "scripts": {
     "dev": "NODE_ENV=development webpack-dev-server --open & nodemon server/server.js",
     "build": "NODE_ENV=production webpack",

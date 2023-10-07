@@ -1,7 +1,15 @@
 import * as types from '../constants/types';
 import { GRID, TETROMINOS, SHAPES, TETROCOLORS} from '../constants/tetromino';
 import _, { has } from 'lodash'
-import { moveAllTetros, moveTetroI, rotateFunc, checkRotation, checkStartTetro,  ghostTetroPositionBuilder, rotateRight, retrieveSides, 
+import { moveAllTetros,
+  moveTetroI,
+  rotateFunc,
+  checkRotation,
+  checkStartTetroRotate,
+  checkStartTetro, 
+  ghostTetroPositionBuilder,
+  rotateRight,
+  retrieveSides, 
   checkSides } from '../constants/utils';
 import single from '../constants/audio/single.wav'; 
 import doubles from '../constants/audio/doubles.wav';
@@ -66,7 +74,6 @@ const tetrisReducer = (state = initalState, action) => {
     case types.MOVE:
       let sidePosition = undefined;
   
-
       if (state.tetroPiece === 'I'){
         sidePosition = moveTetroI(state.tetroGrid, state.tetroPosition);
       }else{
@@ -82,7 +89,7 @@ const tetrisReducer = (state = initalState, action) => {
       }else if (sidePosition.left === 0 && action.payload > 0){ // going right from the far left
         tetroPosition = _.assign({}, state.tetroPosition, { x: state.tetroPosition.x + action.payload })
       }
- 
+//  console.log('tetropos', tetroPosition);
       if(tetroPosition){
         const ghostPositionArg = _.assign({},tetroPosition)
         ghostTetroPosition = ghostTetroPositionBuilder(ghostPositionArg, state.tetroGrid, state.tetroPiece, state.currentGrid);
@@ -124,6 +131,12 @@ const tetrisReducer = (state = initalState, action) => {
             tetroPosition.x--
           }
           if (checkRotation(tetroPosition, tetroGrid, state.currentGrid)){
+            if (tetroPosition.y === 0){
+              const offSet = checkStartTetroRotate(tetroGrid, state.currentGrid, tetroPosition);
+              tetroPosition.y += offSet;
+              console.log('hits 0',offSet )
+            };
+
           const ghostPositionArg = _.assign({},tetroPosition);
           const ghostTetroGridArg = [...tetroGrid]
           ghostTetroPosition = ghostTetroPositionBuilder(ghostPositionArg, ghostTetroGridArg, state.tetroPiece, state.currentGrid);
@@ -208,6 +221,7 @@ const tetrisReducer = (state = initalState, action) => {
         incomingTetros = state.incomingTetros;
         const tempTetros = {};
         const TETROMINOS_CLONE = JSON.parse(JSON.stringify(TETROMINOS));
+
         if(!state.incomingTetros[0].length){ /* this part fills up the right tank of incoming tetromino pieces in the very beginning */ 
           incomingTetros = state.incomingTetros.map((el) => {
             let newTetro = TETROMINOS_CLONE[Math.floor(Math.random() * TETROMINOS_CLONE.length)]
@@ -231,7 +245,7 @@ const tetrisReducer = (state = initalState, action) => {
             incomingTetros.forEach((el)=> !tempTetros[el] ? tempTetros[el] = 1 : tempTetros[el]++)
             const insertTetroList = TETROMINOS_CLONE.filter((el)=>{
               if(!tempTetros[el] || tempTetros[el] < 2){
-                return el
+                return el;
               }
             })
             let newTetromino = insertTetroList[Math.floor(Math.random() * insertTetroList.length)]
@@ -253,26 +267,45 @@ const tetrisReducer = (state = initalState, action) => {
           x: Math.round(5) - Math.round(SHAPES[tetroPiece][0].length / 2),
           y: 0
         };
+
         position.y += checkStartTetro(tetroGrid, currentGrid, position);
         tetroPosition = _.assign(state.tetroPosition, position);
-        const ghostPositionArg = _.assign({},tetroPosition);
-        ghostTetroPosition = ghostTetroPositionBuilder(ghostPositionArg, tetroGrid, tetroPiece, gridBuilder);
-        
-        
-      return {
-        ...state,
-        incomingTetros,
-        hasSaved,
-        currentlyPicked,
-        savedTetromino,
-        tetroPiece,
-        tetroPosition,
-        tetroGrid,
-        currentGrid,
-        innerState,
-        ghostTetroPosition
-      }
-   
+        if (tetroPosition.y === -2 ){
+          finalScore = state.ongoingScore
+          ongoingScore = 0;
+          gameOver = true
+          return {
+            ...state,
+            currentGrid,
+            gameOver,
+            ongoingScore,
+            finalScore,
+            innerState,
+            superGate
+          }
+        }else{
+          if (tetroPiece === 'I' && tetroPosition.y === 0){
+            tetroPosition.y--
+          }
+
+          const ghostPositionArg = _.assign({},tetroPosition);
+          ghostTetroPosition = ghostTetroPositionBuilder(ghostPositionArg, tetroGrid, tetroPiece, gridBuilder); 
+
+          return {
+          ...state,
+          incomingTetros,
+          hasSaved,
+          currentlyPicked,
+          savedTetromino,
+          tetroPiece,
+          tetroPosition,
+          tetroGrid,
+          currentGrid,
+          innerState,
+          ghostTetroPosition
+          }          
+        };
+
      // updated CASE ----------------------------------------------------------------------
      case types.UPDATE_PLAYERS:
       players = state.players.slice(state.players.length)
@@ -287,6 +320,7 @@ const tetrisReducer = (state = initalState, action) => {
         currentGrid = state.currentGrid;
         let relX,relY;
         topValue = state.topValue + 10;
+
         for (let row = 0; row < state.tetroGrid.length; row++) {
           for (let col = 0; col < state.tetroGrid[0].length; col++) {
             if (!state.tetroGrid[row][col]) continue
@@ -294,7 +328,8 @@ const tetrisReducer = (state = initalState, action) => {
             relY = state.ghostTetroPosition.y + row;
             currentGrid[relY][relX] = TETROCOLORS[state.tetroPiece];
           }
-        }
+        };
+
         stateFlip = true
         superGate = true
         tetroGrid = state.tetroGrid.map((curr)=>{
@@ -344,27 +379,32 @@ const tetrisReducer = (state = initalState, action) => {
           2:[],
         }
       }
-        let flip = false
-        for (let row = state.tetroGrid.length - 1; row > -1; row--){ //iterating through the single tetromino grid container
-          for(let column = state.tetroGrid[0].length - 1; column > -1; column--){
-            if (state.tetroGrid[row][column] === 1){ // if a square in the tetromino grid container itself is populated we enter condition
-              flip = true
-              if(!currentPosition[column].length){
-                currentPosition[column].push(state.tetroPosition.x + column, checkerY + row) // tetroposition is only the top left hand corner of the container grid
-              }
+      let flip = false
+
+      for (let row = state.tetroGrid.length - 1; row > -1; row--){ /* iterating through the single tetromino grid container */
+        for(let column = state.tetroGrid[0].length - 1; column > -1; column--){
+          if (state.tetroGrid[row][column] === 1){ /* if a square in the tetromino grid container itself is populated we enter condition */
+            flip = true
+            if(!currentPosition[column].length){
+              currentPosition[column].push(state.tetroPosition.x + column, checkerY + row) // tetroposition is only the top left hand corner of the container grid
             }
           }
-          if (!flip){
-            howManyAdded--
-          }
-        }
-      checkerY += howManyAdded // the bottom x line part of the tetro container
+        };
+        if (!flip){
+          howManyAdded--
+        };
+      };
+
+      /* ----------------------------------   --------------------------------    ------------------------------ */ 
+      checkerY += howManyAdded /* the bottom x line part of current position */
       const allValues = Object.values(currentPosition);
+
       for (const crosshair of allValues){
-        let checkSpot = state.currentGrid[crosshair[1]+1]
-        if(checkerY === 19){
+        let nextRow = state.currentGrid[crosshair[1]+1]; /* gets the spot right after the current position of the tetromino */
+
+        if(checkerY === 19){ /*  when the tetromino hits the bottom of the grid it prints them onto to the main grid*/
           let relativeX, relativeY;
-          currentGrid = state.currentGrid
+          currentGrid = state.currentGrid;
 
           for (let row = 0; row < state.tetroGrid.length; row++) {
             for (let col = 0; col < state.tetroGrid[0].length; col++) {
@@ -389,32 +429,32 @@ const tetrisReducer = (state = initalState, action) => {
             superGate,
             tetroGrid
           }
-        }else if (checkSpot !== undefined){
-           if (checkSpot[crosshair[0]] !== null){  /* if the tetroposition is not over the grid*/
+        }else if (nextRow !== undefined){
+           if (nextRow[crosshair[0]] !== null){  /* if the next block under any of the crosshair column values is filled then we stop here and print the tetro */
             currentGrid = state.currentGrid
-            let upperY = checkerY - howManyAdded
-            if (upperY <= 0){
-              finalScore = state.ongoingScore
-              ongoingScore = 0
-              gameOver = true
-              return {
-                ...state,
-                currentGrid,
-                gameOver,
-                ongoingScore,
-                finalScore,
-                innerState,
-                superGate
-              }
-            }else{
+            let originalYValue = checkerY - howManyAdded
+            //if (originalYValue <= 0){ /* if the original y value is equal or less than zero then we quit the game. crazy */ 
+            //   finalScore = state.ongoingScore
+            //   ongoingScore = 0;
+            //   gameOver = true
+            //   return {
+            //     ...state,
+            //     currentGrid,
+            //     gameOver,
+            //     ongoingScore,
+            //     finalScore,
+            //     innerState,
+            //     superGate
+            //   }
+            // }else{
               let relativeX, relativeY;
               for (let row = 0; row < state.tetroGrid.length; row++) {
                 for (let col = 0; col < state.tetroGrid[0].length; col++) {
-                  if (!state.tetroGrid[row][col]) continue
+                  if (!state.tetroGrid[row][col]) continue;
                   relativeX = state.tetroPosition.x + col
                   relativeY = state.tetroPosition.y + row
-            
-                  currentGrid[relativeY][relativeX] = TETROCOLORS[state.tetroPiece]
+                  if(relativeY < 0) continue;
+                  currentGrid[relativeY][relativeX] = TETROCOLORS[state.tetroPiece];
                 }
               }
               superGate = true
@@ -431,16 +471,15 @@ const tetrisReducer = (state = initalState, action) => {
                 superGate,
                 tetroGrid
               }
-            }
+            //  }
 
            }
           }
-      }
+      };
 
       tetroPosition = _.assign({}, state.tetroPosition, {
         y: state.tetroPosition.y + 1
       })
-      // console.log(tetroPosition);
       return {
         ...state,
         tetroPosition,

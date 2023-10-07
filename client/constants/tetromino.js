@@ -41,28 +41,28 @@ export const SHAPES = {
 }
 
 export const GRID =  [
-        [null, null, null, null, null, null, null, null, null, null],
-        [null, null, null, null, null, null, null, null, null, null],
-        [null, null, null, null, null, null, null, null, null, null],
-        [null, null, null, null, null, null, null, null, null, null],
-        [null, null, null, null, null, null, null, null, null, null],
-        [null, null, null, null, null, null, null, null, null, null],
-        [null, null, null, null, null, null, null, null, null, null],
-        [null, null, null, null, null, null, null, null, null, null],
-        [null, null, null, null, null, null, null, null, null, null],
-        [null, null, null, null, null, null, null, null, null, null],
-        [null, null, null, null, null, null, null, null, null, null],
-        [null, null, null, null, null, null, null, null, null, null],
-        [null, null, null, null, null, null, null, null, null, null],
-        [null, null, null, null, null, null, null, null, null, null],
-        [null, null, null, null, null, null, null, null, null, null],
-        [null, null, null, null, null, null, null, null, null, null],
-        [null, null, null, null, null, null, null, null, null, null],
-        [null, null, null, null, null, null, null, null, null, null],
-        [null, null, null, null, null, null, null, null, null, null],
-        [null, null, null, null, null, null, null, null, null, null]
-      ]
-    
+    [null, null, null, null, null, null, null, null, null, null],
+    [null, null, null, null, null, null, null, null, null, null],
+    [null, null, null, null, null, null, null, null, null, null],
+    [null, null, null, null, null, null, null, null, null, null],
+    [null, null, null, null, null, null, null, null, null, null],
+    [null, null, null, null, null, null, null, null, null, null],
+    [null, null, null, null, null, null, null, null, null, null],
+    [null, null, null, null, null, null, null, null, null, null],
+    [null, null, null, null, null, null, null, null, null, null],
+    [null, null, null, null, null, null, null, null, null, null],
+    [null, null, null, null, null, null, null, null, null, null],
+    [null, null, null, null, null, null, null, null, null, null],
+    [null, null, null, null, null, null, null, null, null, null],
+    [null, null, null, null, null, null, null, null, null, null],
+    [null, null, null, null, null, null, null, null, null, null],
+    [null, null, null, null, null, null, null, null, null, null],
+    [null, null, null, null, null, null, null, null, null, null],
+    [null, null, null, null, null, null, null, null, null, null],
+    [null, null, null, null, null, null, null, null, null, null],
+    [null, null, null, null, null, null, null, null, null, null]
+];
+
 export const SMALLGRID = [
     [null, null, null, null,null, null, null, null],
     [null, null, null, null,null, null, null, null],
@@ -72,4 +72,4 @@ export const SMALLGRID = [
     [null, null, null, null,null, null, null, null],
     [null, null, null, null,null, null, null, null],
     [null, null, null, null,null, null, null, null],
-]
+];
