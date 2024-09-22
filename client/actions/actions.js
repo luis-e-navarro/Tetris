@@ -5,9 +5,10 @@ import slam from '../constants/audio/slam.wav';
 
 
 export const updatePlayers = () => async dispatch => {
-  const response  = await axios.get('/api');
+  const response = await axios.get('/api');
   dispatch({type: types.UPDATE_PLAYERS, data: response.data })
-} 
+};
+
 export const saveTetro = () => ({
   type: types.SAVE_TETRO,
 })
@@ -17,14 +18,15 @@ export const moveTetroLeft = () => ({
   type: types.MOVE,
   payload: -1
 });
+
 export const moveTetroRight = () => ({
-    type: types.MOVE,
-    payload: 1
+  type: types.MOVE,
+  payload: 1
 });
 
 export const stateFlipOff = () =>({
   type: types.STATE_FLIP_OFF
-})
+});
 
 // rotate tetro right or left ------------------------------------------------
 export const rotateLeft = () => {
@@ -36,8 +38,8 @@ export const rotateLeft = () => {
 
 export const rotateRight = () => {
   return{
-  type: types.ROTATE,
-  payload: true
+    type: types.ROTATE,
+    payload: true
   }
 }
 

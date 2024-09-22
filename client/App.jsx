@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import Scores from './components/Scores.jsx';
 import TetrisBoard from './components/TetrisBoard.jsx';
 import { connect } from 'react-redux';
-import {stopGame} from './actions/actions.js'
-import IncomingTetros from './components/IncomingTetros.jsx'
+import {stopGame} from './actions/actions.js';
+import IncomingTetros from './components/IncomingTetros.jsx';
+
 const mapStateToProps = (state) => {
   return {
    gameOver: state.gameOver,

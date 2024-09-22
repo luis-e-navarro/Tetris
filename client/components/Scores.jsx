@@ -86,11 +86,11 @@ class Scores extends Component {
               }
             
             </div>
-            <ul key={"scoreTankKey"} className="scoreTank">
+            <ul key="scoreTankKey" className="scoreTank">
               { this.props.players.length ?
                 this.props.players
                   .map(person =>
-                    <li className ="eachLine" key= {`playerkey-${person.name}`}><p className="playerName">{person.name.toUpperCase()}</p> <p className="scoreNumber">{person.score}</p> </li>
+                    <li className ="eachLine" key= {`playerkey-${person.alias}`}><p className="playerName">{person.alias.toUpperCase()}</p> <p className="scoreNumber">{person.score}</p> </li>
                   ) : 
                   loadingBarsArr
 

@@ -1,49 +1,50 @@
 @import url('https://fonts.googleapis.com/css2?family=Silkscreen:wght@700&display=swap');
 
 @mixin border-colors ($inputColor){
-    border-top-color: lighten($inputColor, 35%);
-    border-left-color: darken($inputColor, 10%);
-    border-right-color: darken($inputColor, 10%);
-    border-bottom-color: darken($inputColor, 35%);
-  }
+  border-top-color: lighten($inputColor, 35%);
+  border-left-color: darken($inputColor, 10%);
+  border-right-color: darken($inputColor, 10%);
+  border-bottom-color: darken($inputColor, 35%);
+}
+
 body{
-    width: 100%;
-    height: 100%;
-    background-image: linear-gradient(to right, rgb(3, 32, 26), rgb(98, 98, 195), rgb(68, 37, 68));
+  width: 100%;
+  height: 100%;
+  background-image: linear-gradient(to right, rgb(3, 32, 26), rgb(98, 98, 195), rgb(68, 37, 68));
 }
 $border_width: 8px;
 
 .mainTitle {
-    display: flex;
-    justify-content: flex-end;
-    padding-right: 32%;
-    font-size: 200%;
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 32%;
+  font-size: 200%;
 }
 
 .titleImage {
-    max-width: auto;
-    max-height: auto;
-    width: 300px;
-
+  max-width: auto;
+  max-height: auto;
+  width: 300px;
 }
 
 #allScoresContainer{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: flex-end;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-end;
 }
 
 .scoreContainer{
-    position: relative;
-    box-shadow: 6px 20px 30px rgb(83, 23, 117);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 50vh;
-    margin-top: .5vh;
-    background-image: url('./constants/tetrisboardbackground.jpg');
+  position: relative;
+  box-shadow: 6px 20px 30px rgb(83, 23, 117);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 50vh;
+  margin-top: .5vh;
+  background-image: url('./constants/tetrisboardbackground.jpg');
 }
+
 .headerScoreTank{
   background-image: url('./constants/backgroundwebcore.png');
   padding: 2rem;
@@ -86,64 +87,62 @@ $border_width: 8px;
 
 
 .eachLine{
-    display: flex;
-    justify-content: space-between;
-    font-size: 30px;
-    -webkit-user-select: none; /* Safari */
-    -ms-user-select: none; /* IE 10 and IE 11 */
-    user-select: none; /* Standard syntax */
-    margin-left: -4vh;
-
+  display: flex;
+  justify-content: space-between;
+  font-size: 30px;
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
+  margin-left: -4vh;
 }
 
 .playerName{
-    color: white;
-    text-shadow: 1px 5px 5px rgb(66, 26, 26);
-    font-family: 'Silkscreen', cursive;
+  color: white;
+  text-shadow: 1px 5px 5px rgb(66, 26, 26);
+  font-family: 'Silkscreen', cursive;
 }
 
 #savedHeader{
-    width: 17vh;
-    color: rgb(171, 133, 234);
-    border: 2px solid rgb(18, 30, 34);
-    text-shadow: 10px 15px 25px rgb(181, 228, 25);
-    font-family: 'Silkscreen', cursive;
-    border-radius: 15px;
-    padding: .5vh;
-    margin-top: .5vh;
-    background-image: url('./constants/backgroundwebcore.png');
-    background-size: 475px;
-    background-position: center;
+  width: 17vh;
+  color: rgb(171, 133, 234);
+  border: 2px solid rgb(18, 30, 34);
+  text-shadow: 10px 15px 25px rgb(181, 228, 25);
+  font-family: 'Silkscreen', cursive;
+  border-radius: 15px;
+  padding: .5vh;
+  margin-top: .5vh;
+  background-image: url('./constants/backgroundwebcore.png');
+  background-size: 475px;
+  background-position: center;
 }
 
 .scoreName{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    color: white;
-    font-size: 190%;
-    text-shadow: 1px 5px 5px rgb(66, 26, 26);
-    font-family: 'Silkscreen', cursive;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: white;
+  font-size: 190%;
+  text-shadow: 1px 5px 5px rgb(66, 26, 26);
+  font-family: 'Silkscreen', cursive;
 }
 
 .scoreNumber{
-    color: gold;
-    font-family: 'Silkscreen', cursive;
-    text-shadow: 10px 10px 5px rgb(40, 9, 9);
+  color: gold;
+  font-family: 'Silkscreen', cursive;
+  text-shadow: 10px 10px 5px rgb(40, 9, 9);
 }
 
-
 .mainDiv{
-    border-radius: 40px;
-    justify-content: center;
-    position: relative;
-    // overflow: hidden;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    height: 742.5px; 
-    margin: 3% 15%;    
-    justify-content: flex-start;
+  border-radius: 40px;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  height: 742.5px; 
+  margin: 3% 15%;    
+  justify-content: flex-start;
 }
 
 #leftMainDiv { 
@@ -191,7 +190,6 @@ $border_width: 8px;
     background-position: 80%;
 }
 
-
 .boardGrid {
     position: relative  ;
     width: 100%;
@@ -233,15 +231,15 @@ input:focus {
 }
 
 .gameOverTank{
-    margin-top: 40%;
-    width: 100%;
-    border-style: outset;
-    background-color: rgb(20, 36, 51);
+  margin-top: 40%;
+  width: 100%;
+  border-style: outset;
+  background-color: rgb(20, 36, 51);
 }
 
 .singleBlock {
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
 }
 
 .hlBlock {
@@ -319,17 +317,17 @@ input:focus {
 // }
 
 .GhostTetro{
-    position: absolute;
-    padding: 0;
-    margin: 0;
+  position: absolute;
+  padding: 0;
+  margin: 0;
 }
 
 @mixin ghostBlockBorders ($inputColor){
-    border-top-color: $inputColor;
-    border-left-color: $inputColor;
-    border-right-color: $inputColor;
-    border-bottom-color: $inputColor;
-  }
+  border-top-color: $inputColor;
+  border-left-color: $inputColor;
+  border-right-color: $inputColor;
+  border-bottom-color: $inputColor;
+}
   
 .ghostBlock{
   width: 100%;
@@ -379,88 +377,88 @@ input:focus {
 }
 
 .square-container{
-    position: absolute;
-    width: 25%;
-    height: 25%; 
-    border-style: inset;
-    border-color: #081b1b;
+  position: absolute;
+  width: 25%;
+  height: 25%; 
+  border-style: inset;
+  border-color: #081b1b;
 }
 
 .saved-square-container{
-    position: absolute;
-    width: 25%;
-    height: 25%; 
-    border-style: inset;
-    border-color: #2a9898;
+  position: absolute;
+  width: 25%;
+  height: 25%; 
+  border-style: inset;
+  border-color: #2a9898;
 }
 
 * {
-    margin: 0;
-    padding: 0; 
+  margin: 0;
+  padding: 0; 
 }
 
 .staticBlock {
-    width: 100%;
-    height: 100%;
-    box-shadow: inset 0px 0px 10px rgba(255, 255, 255, 0.5), 
-                0px 0px 10px rgba(0, 0, 0, 0.5);
-    border-style: outset;
-    border: 7px solid;
-    box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  box-shadow: inset 0px 0px 10px rgba(255, 255, 255, 0.5), 
+              0px 0px 10px rgba(0, 0, 0, 0.5);
+  border-style: outset;
+  border: 7px solid;
+  box-sizing: border-box;
 
-    &.iTetro {
-      @include border-colors(#00ffff)  
-    }
-    &.oTetro {
-        @include border-colors(#ffff00)  
-      }
-    &.tTetro {
-        @include border-colors(#aa00ff)  
-    }
-    &.jTetro {
-        @include border-colors(#0000ff)  
-    }
-    &.lTetro {
-        @include border-colors(#ffaa00)  
-      }
-    &.sTetro {
-        @include border-colors(#00ff00)  
-    }
-    &.zTetro {
-        @include border-colors(#ff0000)  
-    }
+  &.iTetro {
+    @include border-colors(#00ffff)  
   }
+  &.oTetro {
+      @include border-colors(#ffff00)  
+    }
+  &.tTetro {
+      @include border-colors(#aa00ff)  
+  }
+  &.jTetro {
+      @include border-colors(#0000ff)  
+  }
+  &.lTetro {
+      @include border-colors(#ffaa00)  
+    }
+  &.sTetro {
+      @include border-colors(#00ff00)  
+  }
+  &.zTetro {
+      @include border-colors(#ff0000)  
+  }
+}
 
-  .particle {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 2px;
-    height: 2px;
-    border-radius: 50%;
-    background-color: rgb(120, 20, 191);
-  }
+.particle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 2px;
+  height: 2px;
+  border-radius: 50%;
+  background-color: rgb(120, 20, 191);
+}
   
-  .explosion-container {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-  }
+.explosion-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.explosion-color {
+  position: absolute;
+  background-image: linear-gradient(-25deg, #ffffff, #23a6d5, #d90101);
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
   
-  .explosion-color {
-    position: absolute;
-    background-image: linear-gradient(-25deg, #ffffff, #23a6d5, #d90101);
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-  }
-  
-  .explosion-particles {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-  }
+.explosion-particles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
