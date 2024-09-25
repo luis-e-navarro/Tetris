@@ -238,8 +238,6 @@ class TetrisBoard extends Component{
 
     if (!this.props.gameOver){
       if (!this.props.innerState  ){
-        // console.log('gamelooopin')
-      console.log('loop',this.props.superGate)
         setTimeout(this.gameLoop, 67);  
       };
     };
