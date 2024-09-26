@@ -105,3 +105,30 @@ dist
 
 #Security risk 
 .DS_store
+
+/node_modules
+/.pnp
+.pnp.js
+
+package-lock.json
+
+# dotenv environment variables file
+.env
+.env.test
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+
+7ab332dc59fc250d197c39c5fd0372d7.png
+/dist
+/dist/bundle.js
+/dist/bundle.js.LICENSE.txt
+/dist/index.html
