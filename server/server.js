@@ -25,7 +25,7 @@ playerController.checkAmount,
 app.post('/api',
 playerController.addPlayer, 
 (req, res) => {
-  return res.redirect('/')
+  return res.redirect('https://tetris-luis-navarro.vercel.app')
 });
 
 //global error handler
