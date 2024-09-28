@@ -19,18 +19,11 @@ Enjoy a game of tetris!
 
 1. `https://tetris-luis-navarro.vercel.app`
 
-**Gameplay**
-
-<p align="center">
-  <img src="client/constants/tetrisDemo/tetrisgif.gif" width="600px" margin="auto"/>
-</p>
-
 ## Running Tetris
 
 1.  Install dependencies with
 
         npm install
-
 
 2.  Run the application
 
