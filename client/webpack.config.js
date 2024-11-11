@@ -62,9 +62,7 @@ module.exports = {
       directory: path.resolve(__dirname, 'dist'),
       publicPath: '/',
     },
-    // enable HMR on the devServer
     hot: true,
-    // fallback to root for other urls
     historyApiFallback: true,
     headers: { 'Access-Control-Allow-Origin': '*' },
     /**

@@ -11,7 +11,12 @@ import { moveAllTetros,
   checkSides } from '../constants/utils';
 import single from '../constants/audio/single.wav'; 
 import doubles from '../constants/audio/doubles.wav';
-import quad from '../constants/audio/quad.wav'
+import quad from '../constants/audio/quad.wav';
+
+const firstRenderLocaleState = localStorage.getItem('FIRST_VISIT') 
+? true
+: false;
+
 const initalState = {
   currentGrid: GRID,
   tetroPiece: '',
@@ -34,11 +39,12 @@ const initalState = {
   currentlyPicked: false,
   incomingTetros: ['','','','','',''],
   colorBool: true,
+  userVisited: firstRenderLocaleState,
   topValue: 0
 }
 
 const tetrisReducer = (state = initalState, action) => {
-  let players, tetroPiece, currentlyPicked, tetroPosition, tetroGrid, incomingTetros, currentGrid, hasSaved,
+  let players, tetroPiece, currentlyPicked, tetroPosition, tetroGrid, incomingTetros, currentGrid, hasSaved, userVisited,
   stateFlip, ongoingScore, colorBool, gameOver,finalScore, innerState, superGate, sound, ghostTetroPosition, savedTetromino, topValue;
 
   switch (action.type) {
@@ -56,7 +62,16 @@ const tetrisReducer = (state = initalState, action) => {
       return{
         ...state,
         stateFlip
-      }
+      };
+
+    // user visited -------------------------------------------------      
+    case types.FIRST_VISIT:
+      userVisited = true;
+      return {
+        ...state,
+        userVisited
+      };
+
     // saved tetro ---------------------------------------------------------
     case types.SAVE_TETRO:
       if(!state.hasSaved){
@@ -326,10 +341,14 @@ const tetrisReducer = (state = initalState, action) => {
 
         for (let row = 0; row < state.tetroGrid.length; row++) {
           for (let col = 0; col < state.tetroGrid[0].length; col++) {
-            if (!state.tetroGrid[row][col]) continue
+            if (!state.tetroGrid[row][col]) continue // makes sure that the tetromino cell isnt empty
             relX = state.ghostTetroPosition.x + col
             relY = state.ghostTetroPosition.y + row;
-            currentGrid[relY][relX] = TETROCOLORS[state.tetroPiece];
+
+            if (currentGrid[relY] && (currentGrid[relY][relX] !== undefined)){
+              currentGrid[relY][relX] = TETROCOLORS[state.tetroPiece]; 
+            }
+            
           }
         };
 

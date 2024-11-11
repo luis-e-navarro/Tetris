@@ -1,9 +1,10 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import Scores from './components/Scores.jsx';
 import TetrisBoard from './components/TetrisBoard.jsx';
 import { connect } from 'react-redux';
-import {stopGame} from './actions/actions.js';
+import {dropBlocks, firstVisit, stopGame, startGame} from './actions/actions.js';
 import IncomingTetros from './components/IncomingTetros.jsx';
+import Introduction from './components/introduction.jsx';
 
 const mapStateToProps = (state) => {
   return {
@@ -17,33 +18,45 @@ const mapStateToProps = (state) => {
    stateFlip: state.stateFlip,
    innerState: state.innerState,
    ongoingScore: state.ongoingScore,
+   userVisited: state.userVisited,
   }
 }
 function mapDispatchToProps(dispatch) {
   return {
-      stopGame: () => dispatch(stopGame())
+    stopGame: () => dispatch(stopGame()),
+    firstVisit: ()=> dispatch(firstVisit()) 
   }
 }
 
-
 const App = (props) =>  {
+  props.gameOver ? props.stopGame() : null;
 
-  props.gameOver ? props.stopGame() : null
-
+  useEffect(()=>{
+  }, [props.userVisited]);
+  
+  
   return (
-        <div className="mainDiv">
-          <Scores/>
-          <TetrisBoard />
-          <div id='leftMainDiv'>
-              <h2 id='savedHeader'>NEXT</h2>
-              <IncomingTetros
-              incomingTetros={props.incomingTetros}
-              innerState = {props.innerState}
-              ongoingScore = {props.ongoingScore}
-              />
-          </div>
-        </div>
-    );
+    <div className="mainDiv">
+      {
+      props.userVisited 
+      ? null : 
+      <Introduction 
+        firstVisit= {props.firstVisit} 
+      />
+      }
+      <Scores/>
+      <TetrisBoard />
+      <div id='leftMainDiv'>
+        <h2 id='savedHeader'>NEXT</h2>
+        <IncomingTetros
+        incomingTetros={props.incomingTetros}
+        innerState = {props.innerState}
+        ongoingScore = {props.ongoingScore}
+        userVisited = {props.userVisited}
+        />
+      </div>
+    </div>
+  );
 }
  
 export default connect(mapStateToProps,mapDispatchToProps)(App);
