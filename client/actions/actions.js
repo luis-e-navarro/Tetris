@@ -5,7 +5,7 @@ import slam from '../constants/audio/slam.wav';
 
 
 export const updatePlayers = () => async dispatch => {
-  const response = await axios.get(`${process.env.REACT_APP_PRODUCTION_URL}/api`);
+  const response = await axios.get(`/api`);
   dispatch({type: types.UPDATE_PLAYERS, data: response.data })
 };
 
@@ -28,6 +28,10 @@ export const stateFlipOff = () =>({
   type: types.STATE_FLIP_OFF
 });
 
+export const firstVisit = () =>({
+  type: types.FIRST_VISIT
+});
+
 // rotate tetro right or left ------------------------------------------------
 export const rotateLeft = () => {
   return{
@@ -36,12 +40,23 @@ export const rotateLeft = () => {
   }
 }
 
+
 export const rotateRight = () => {
   return{
     type: types.ROTATE,
     payload: true
   }
 }
+
+//update first render
+// export const initializeApp = () => {
+//   return dispatch => {
+//     const localStorageUserVisited = localStorage.getItem('userVisited');
+//     if (localStorageUserVisited !== null) {
+//       dispatch(firstVisit());
+//     }
+//   };
+// }
 
 // move down -------------------------------------------------------------------
 export const moveDown = () => (dispatch) => {
@@ -111,25 +126,4 @@ export const clearDropTimeout = () => {
   clearInterval(window.dropTimer);
   window.dropTimer = null;
 }
-
-// export const drop = () =>  (dispatch) => {
-//    setDropTimeout(() => { // argument for callback definition starts (cb)
-//     dispatch({ type: types.DROP });
-//     dispatch(drop());
-//     dispatch(colorBoolFalse());
-//   }, 
-//   500); // interval argument (interval)
-// }
-
-
-// export function setDropTimeout(cb, interval) {
-//   clearDropTimeout();
-//   window.dropTimer = setTimeout(cb, interval)
-// }
-
-// export function clearDropTimeout() {
-//   if (!window.dropTimer) return;
-//   clearTimeout(window.dropTimer)
-//   window.dropTimer = null
-// }
 

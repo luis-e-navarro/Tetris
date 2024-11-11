@@ -1,4 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Silkscreen:wght@700&display=swap');
+@import url("https://fonts.googleapis.com/css?family=Share+Tech+Mono");
+$border_width: 8px;
 
 @mixin border-colors ($inputColor){
   border-top-color: lighten($inputColor, 35%);
@@ -11,8 +13,10 @@ body{
   width: 100%;
   height: 100%;
   background-image: linear-gradient(to right, rgb(3, 32, 26), rgb(98, 98, 195), rgb(68, 37, 68));
+  /* Sets font to "Share Tech Mono' */
+  font-family: "Share Tech Mono", monospace;
+  overscroll-behavior-y: none;
 }
-$border_width: 8px;
 
 .mainTitle {
   display: flex;
@@ -55,11 +59,11 @@ $border_width: 8px;
 }
 
 .scoreTank{
-    background-image: url('./constants/backgroundwebcore.png');
-    padding: 2rem;
-    border-radius: 15px;
-    width: 38vh;
-    margin: 1vh;
+  background-image: url('./constants/backgroundwebcore.png');
+  padding: 2rem;
+  border-radius: 15px;
+  width: 38vh;
+  margin: 1vh;
 }
 
 .ongoingScore{
@@ -146,60 +150,60 @@ $border_width: 8px;
 }
 
 #leftMainDiv { 
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    background-image: url('./constants/tetrisboardbackground.jpg');
-    margin-right: .4vh;
-    width: 22vh;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  background-image: url('./constants/tetrisboardbackground.jpg');
+  margin-right: .4vh;
+  width: 22vh;
 }
 
 .TetrisBoard {
-    position: relative;
-    flex-basis: 398.25px;
-    background-color: #1f2122;
-    border: 2px solid;
-    box-shadow: 6px 20px 30px rgb(112, 193, 93);
-    overflow: hidden;
+  position: relative;
+  flex-basis: 398.25px;
+  background-color: #1f2122;
+  border: 2px solid;
+  box-shadow: 6px 20px 30px rgb(112, 193, 93);
+  overflow: hidden;
 }
 
 .savedTetroBoard {
-    position: relative;
-    border-radius: 15px;
-    width: 18vh;
-    height: 18vh;
-    background-color: #1b2a31;
-    border: 2px solid;
-    box-shadow: 6px 10px 40px rgb(99, 125, 202);
-    background-image: url('./constants/backgroundwebcore.png');
-    background-size: 475px;
-    background-position: center;
+  position: relative;
+  border-radius: 15px;
+  width: 18vh;
+  height: 18vh;
+  background-color: #1b2a31;
+  border: 2px solid;
+  box-shadow: 6px 10px 40px rgb(99, 125, 202);
+  background-image: url('./constants/backgroundwebcore.png');
+  background-size: 475px;
+  background-position: center;
 }
 
 #incomingTetroContainer{
-    position: relative;
-    border-radius: 15px;
-    margin-top: .5vh;
-    width: 18vh;
-    height: 76vh;
-    background-color: #1b2a31;
-    border: 2px solid;
-    box-shadow: 6px 10px 40px rgb(99, 125, 202);
-    background-image: url('./constants/backgroundwebcore.png');
-    background-size: 735px;
-    background-position: 80%;
+  position: relative;
+  border-radius: 15px;
+  margin-top: .5vh;
+  width: 18vh;
+  height: 76vh;
+  background-color: #1b2a31;
+  border: 2px solid;
+  box-shadow: 6px 10px 40px rgb(99, 125, 202);
+  background-image: url('./constants/backgroundwebcore.png');
+  background-size: 735px;
+  background-position: 80%;
 }
 
 .boardGrid {
-    position: relative  ;
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    padding:0;
+  position: relative  ;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding:0;
 }
 
 .falling-container {
-    position: absolute;
+  position: absolute;
 }
 
 ul {
@@ -296,25 +300,76 @@ input:focus {
   }
 }
 
+/* Style for the message container */
+.message-container {
+  padding-top: 1.5em;
+  color: #ffffff;
+  text-align: center;
+}
 
+/* Keyboard style */
+.keyboard {
+  padding: 2.5em 0;
+  width: 600px;
+  margin: 0 auto;
+}
 
+/* Top row for keyboard */
+.top-row {
+  width: 140px;
+  /* Off Centered */
+  /* width: 190px; */
+  margin: 0 auto;
+}
+/* Bottom row for keyboard */
+.bottom-row {
+  display: flex;
+  justify-content: space-between;
+}
 
+.key-tank{
+  color: white;
+  text-align: center;
+  font-size: 1.5em; 
+};
+/* Style for each Key */
+.key {
+  background-color: #353943;
+  border: 1px solid #834426;
+  box-shadow: 5px 5px #c2b7ab;
+  color: #ffffff;
+  width: 100px;
+  margin: 15px;
+  text-align: center;
+  top: 0;
+  left: 0;
+  transition: all 0.07s ease;
+}
 
-  
-//   @keyframes spin {
-//   0% {
-//     transform: rotateY(0);
-//     animation-timing-function: ease-in;
-//   }
-//   40% {
-//     transform: rotateY(1080deg); //3
-//     animation-timing-function: linear;
-//   }
-//   60% {
-//     transform: rotateY(1800deg); //5
-//     animation-timing-function: linear;
-//   }
-// }
+.introduction-instructions{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1000; /* Ensure it's on top */
+  background-color:  rgb(44, 24, 44);
+  opacity: 80%;
+}
+
+/* Active Class for Key */
+.activeKey {
+  transform: scale(1.1);
+  position: relative;
+  top: 0.2em;
+  left: 0.2em;
+  box-shadow: 0 0 0 0;
+}
+
+/* Sets font size for each Key */
+.key > p {
+  font-size: 2em;
+}
 
 .GhostTetro{
   position: absolute;
@@ -395,6 +450,60 @@ input:focus {
 * {
   margin: 0;
   padding: 0; 
+}
+
+.genesisFooter{
+  display: flex;
+  justify-content: center;
+}
+
+.app-tank{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.genesisButton {
+  background-color: #FFFFFF;
+  border: 1px solid #222222;
+  border-radius: 8px;
+  box-sizing: border-box;
+  color: #222222;
+  cursor: pointer;
+  display: inline-block;
+  font-family: Circular,-apple-system,BlinkMacSystemFont,Roboto,"Helvetica Neue",sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 20px;
+  margin: 0;
+  outline: none;
+  padding: 13px 23px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  touch-action: manipulation;
+  transition: box-shadow .2s,-ms-transform .1s,-webkit-transform .1s,transform .1s;
+  user-select: none;
+  -webkit-user-select: none;
+  width: 10rem;
+}
+
+.genesisButton:focus-visible {
+  box-shadow: #222222 0 0 0 2px, rgba(255, 255, 255, 0.8) 0 0 0 4px;
+  transition: box-shadow .2s;
+}
+
+.genesisButton:active {
+  background-color: #F7F7F7;
+  border-color: #000000;
+  transform: scale(.96);
+}
+
+.genesisButton:disabled {
+  border-color: #DDDDDD;
+  color: #DDDDDD;
+  cursor: not-allowed;
+  opacity: 1;
 }
 
 .staticBlock {

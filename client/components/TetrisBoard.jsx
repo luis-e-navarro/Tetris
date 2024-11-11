@@ -1,9 +1,8 @@
-import React, { Component, useState } from "react";
+import React, { Component } from "react";
 import { connect } from 'react-redux';
 import BoardGrid from './BoardGrid.jsx'
 import WholeTetro from "./WholeTetro.jsx";
 import GhosTetro from "./GhostTetro.jsx";
-import { SPACE_KEY } from '../constants/tetromino.js'
 
 import { 
   startGame,
@@ -31,7 +30,8 @@ const mapStateToProps = (state) => {
     hasSaved: state.hasSaved,
     currentlyPicked: state.currentlyPicked,
     colorBool: state.colorBool,
-    topValue: state.topValue
+    topValue: state.topValue,
+    userVisited: state.userVisited,
   };
 }
 
@@ -59,23 +59,23 @@ class TetrisBoard extends Component{
   constructor(props) {
     super(props);
 
-  this.state = {
-    keyState: {},
-    moveLeftCounter: 2,
-    moveRightCounter: 2,
-    moveCounter: 2,
-    rotateCounter: 4,
+    this.state = {
+      keyState: {},
+      moveLeftCounter: 2,
+      moveRightCounter: 2,
+      moveCounter: 2,
+      rotateCounter: 4
+    };
   };
-};
 
   start = (e) => {
     const { keyState } = this.state;
 
     switch (e.keyCode){
-      case SPACE_KEY:
-        this.props.startGame();
-        this.props.dropBlocks();
-        break;
+      // case SPACE_KEY:
+      //   this.props.startGame();
+      //   this.props.dropBlocks();
+      //   break;
       case 68:
         this.setState({
           keyState: {
@@ -129,7 +129,7 @@ class TetrisBoard extends Component{
 
   move = (e) =>{   
     const { keyState } = this.state;  
-
+    e.preventDefault();
     switch (e.keyCode){
       case 68:
         if(!keyState[65] && !keyState[68] ){
@@ -244,7 +244,7 @@ class TetrisBoard extends Component{
   };
 
   componentDidMount(){
-    if(!this.props.gameOver){
+    if(!this.props.gameOver && this.props.userVisited){
       document.addEventListener('keyup', this.start);
       document.addEventListener('keydown', this.move);
       document.addEventListener('keydown', this.slam);
@@ -253,7 +253,15 @@ class TetrisBoard extends Component{
     };
   };
 
-  async componentDidUpdate(){
+  async componentDidUpdate(prevProps){
+    if(prevProps.userVisited !== this.props.userVisited && !this.props.gameOver && this.props.userVisited){
+      document.addEventListener('keyup', this.start);
+      document.addEventListener('keydown', this.move);
+      document.addEventListener('keydown', this.slam);
+      console.log('got in')
+      this.gameLoop();
+    };
+
     if(this.props.stateFlip){ /* blocks touched/landed */
       /* 
         clearing blocks colors blocks first
@@ -264,7 +272,7 @@ class TetrisBoard extends Component{
         await this.props.colorBlocks();
         if(this.props.innerState){
           setTimeout(this.gameLoop,350);
-        }
+        };
       }else{  
         let sound = this.props.sound;
         if (this.props.innerState){ /* clearing blocks goes here second*/
@@ -272,8 +280,6 @@ class TetrisBoard extends Component{
           await this.props.stateFlipOff();
           setTimeout(this.props.startGame,350);
           setTimeout(this.props.dropBlocks,350);
-          // console.log(' innerState');
-          // this.gameLoop();
         }else{/* all regular drops */
           await this.props.stateFlipOff();
           await this.props.startGame();
@@ -294,33 +300,33 @@ class TetrisBoard extends Component{
     };
   };
 
-render(){
+  render(){
     return (
-        <div className="TetrisBoard">
-            <BoardGrid
-            currentGrid = {this.props.currentGrid}
-            startGame = {this.props.startGame}
-            innerState = {this.props.innerState}
-            stateFlip = {this.props.stateFlip}
-            />
-            {<WholeTetro 
-            currentGrid = {this.props.currentGrid}
-            tetroGrid = {this.props.tetroGrid}
-            tetroPosition={this.props.tetroPosition}
-            tetroPiece = {this.props.tetroPiece}
-            />}
-            {<GhosTetro
-            colorBoolTrue = {this.props.colorBoolTrue}
-            colorBoolFalse = {this.props.colorBoolFalse}
-            colorBool = {this.props.colorBool}
-            currentGrid = {this.props.currentGrid}
-            tetroGrid = {this.props.tetroGrid}
-            ghostTetroPosition = {this.props.ghostTetroPosition}
-            tetroPiece = {this.props.tetroPiece}
-            />}
-        </div>
-      )
-    }
+      <div className="TetrisBoard">
+        <BoardGrid
+        currentGrid = {this.props.currentGrid}
+        startGame = {this.props.startGame}
+        innerState = {this.props.innerState}
+        stateFlip = {this.props.stateFlip}
+        />
+        {<WholeTetro 
+        currentGrid = {this.props.currentGrid}
+        tetroGrid = {this.props.tetroGrid}
+        tetroPosition={this.props.tetroPosition}
+        tetroPiece = {this.props.tetroPiece}
+        />}
+        {<GhosTetro
+        colorBoolTrue = {this.props.colorBoolTrue}
+        colorBoolFalse = {this.props.colorBoolFalse}
+        colorBool = {this.props.colorBool}
+        currentGrid = {this.props.currentGrid}
+        tetroGrid = {this.props.tetroGrid}
+        ghostTetroPosition = {this.props.ghostTetroPosition}
+        tetroPiece = {this.props.tetroPiece}
+        />}
+      </div>
+    )
+  }
 }
 
 
