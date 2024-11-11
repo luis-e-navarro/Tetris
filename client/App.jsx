@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import Scores from './components/Scores.jsx';
 import TetrisBoard from './components/TetrisBoard.jsx';
 import { connect } from 'react-redux';
-import {dropBlocks, firstVisit, stopGame, startGame} from './actions/actions.js';
+import {firstVisit, stopGame} from './actions/actions.js';
 import IncomingTetros from './components/IncomingTetros.jsx';
 import Introduction from './components/introduction.jsx';
 
@@ -21,6 +21,7 @@ const mapStateToProps = (state) => {
    userVisited: state.userVisited,
   }
 }
+
 function mapDispatchToProps(dispatch) {
   return {
     stopGame: () => dispatch(stopGame()),
@@ -33,7 +34,6 @@ const App = (props) =>  {
 
   useEffect(()=>{
   }, [props.userVisited]);
-  
   
   return (
     <div className="mainDiv">

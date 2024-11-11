@@ -1,6 +1,4 @@
-import React, { Component, useEffect, useState }  from "react";
-import DynamicBlock from './blocks/DynamicBlock.jsx'
-import {SMALLGRID, GRID, TETROMINOS, SHAPES, TETROCOLORS} from '../constants/tetromino';
+import React from "react";
 
 const Introduction = ({firstVisit}) => {
 
