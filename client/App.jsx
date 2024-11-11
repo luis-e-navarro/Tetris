@@ -4,7 +4,7 @@ import TetrisBoard from './components/TetrisBoard.jsx';
 import { connect } from 'react-redux';
 import {firstVisit, stopGame} from './actions/actions.js';
 import IncomingTetros from './components/IncomingTetros.jsx';
-import Introduction from './components/introduction.jsx';
+import Introduction from './components/Introduction.jsx'
 
 const mapStateToProps = (state) => {
   return {
