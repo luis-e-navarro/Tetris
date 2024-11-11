@@ -60,7 +60,7 @@ class Scores extends Component {
             savedTetromino = {savedTetromino}
           />}
           </div>
-          </div>
+        </div>
           <div key="scoreContainerKey" className="scoreContainer">
             <div>
               {gameOver ? <GameOver finalScore={finalScore}/> :
@@ -93,7 +93,6 @@ class Scores extends Component {
                     <li className ="eachLine" key= {`playerkey-${person.alias}`}><p className="playerName">{person.alias.toUpperCase()}</p> <p className="scoreNumber">{person.score}</p> </li>
                   ) : 
                   loadingBarsArr
-
               }
             </ul>
 
