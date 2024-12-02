@@ -258,7 +258,7 @@ class TetrisBoard extends Component{
       document.addEventListener('keyup', this.start);
       document.addEventListener('keydown', this.move);
       document.addEventListener('keydown', this.slam);
-      console.log('got in')
+
       this.gameLoop();
     };
 
