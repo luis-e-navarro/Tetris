@@ -9,6 +9,11 @@ $border_width: 8px;
   border-bottom-color: darken($inputColor, 35%);
 }
 
+* {
+  margin: 0;
+  padding: 0; 
+}
+
 body{
   width: 100%;
   height: 100%;
@@ -88,7 +93,6 @@ body{
   font-size: 460%;
   z-index: 50; 
 }
-
 
 .eachLine{
   display: flex;
@@ -268,9 +272,9 @@ input:focus {
 }
 
 .WholeTetro{
-    position: absolute;
-    padding: 0;
-    margin: 0;
+  position: absolute;
+  padding: 0;
+  margin: 0;
 }
 .savedTetroDry {
   position: absolute;
@@ -445,11 +449,6 @@ input:focus {
   height: 25%; 
   border-style: inset;
   border-color: #2a9898;
-}
-
-* {
-  margin: 0;
-  padding: 0; 
 }
 
 .genesisFooter{

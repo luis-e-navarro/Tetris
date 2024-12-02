@@ -5,7 +5,7 @@ const GameOver = (props) => {
         return props.finalScore
     },[]);
 
-    const [url, setUrl] = useState(`${process.env.REACT_APP_PRODUCTION_URL}/api`);
+    const [url, setUrl] = useState(`/api`); //`${process.env.REACT_APP_PRODUCTION_URL}/api`
 
     return (
         <section>
@@ -13,19 +13,19 @@ const GameOver = (props) => {
             <p className="scoreName">GAME OVER</p>
             <p className="ongoingScore2">{finalScore}</p>
             <form method="POST" action={url}>
-                <input 
-                    type="text" 
-                    name="alias" 
-                    placeholder="enter your name"
-                    className="inputName" 
-                    maxLength="10">
-                </input>
-                <input 
-                    type="hidden" 
-                    name="score" 
-                    value={finalScore} 
-                />
-                <input type="submit" value="enter score"/>
+            <input 
+                type="text" 
+                name="alias" 
+                placeholder="enter your name"
+                className="inputName" 
+                maxLength="10">
+            </input>
+            <input 
+                type="hidden" 
+                name="score" 
+                value={finalScore} 
+            />
+            <input type="submit" value="enter score"/>
             </form>
         </div>
         </section>
