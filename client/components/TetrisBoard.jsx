@@ -129,7 +129,7 @@ class TetrisBoard extends Component{
 
   move = (e) =>{   
     const { keyState } = this.state;  
-    e.preventDefault();
+    //e.preventDefault();
     switch (e.keyCode){
       case 68:
         if(!keyState[65] && !keyState[68] ){
