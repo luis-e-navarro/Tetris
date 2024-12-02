@@ -129,7 +129,7 @@ class TetrisBoard extends Component{
 
   move = (e) =>{   
     const { keyState } = this.state;  
-    //e.preventDefault();
+    
     switch (e.keyCode){
       case 68:
         if(!keyState[65] && !keyState[68] ){
@@ -258,7 +258,7 @@ class TetrisBoard extends Component{
       document.addEventListener('keyup', this.start);
       document.addEventListener('keydown', this.move);
       document.addEventListener('keydown', this.slam);
-
+      console.log('got in')
       this.gameLoop();
     };
 

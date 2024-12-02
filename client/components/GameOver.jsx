@@ -5,7 +5,7 @@ const GameOver = (props) => {
         return props.finalScore
     },[]);
 
-    const [url, setUrl] = useState(`/api`); //`${process.env.REACT_APP_PRODUCTION_URL}/api`
+    const [url, setUrl] = useState(`${process.env.REACT_APP_PRODUCTION_URL}/api`); 
 
     return (
         <section>

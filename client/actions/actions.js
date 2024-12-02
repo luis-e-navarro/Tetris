@@ -5,7 +5,7 @@ import slam from '../constants/audio/slam.wav';
 
 
 export const updatePlayers = () => async dispatch => {
-  const response = await axios.get(`/api`); //`${process.env.REACT_APP_PRODUCTION_URL}/api`
+  const response = await axios.get(`${process.env.REACT_APP_PRODUCTION_URL}/api`); 
   dispatch({type: types.UPDATE_PLAYERS, data: response.data })
 };
 
