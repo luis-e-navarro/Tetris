@@ -4,7 +4,7 @@ const GameOver = (props) => {
     const finalScore = useMemo(()=>{
         return props.finalScore
     },[]);
-    const [url, setUrl] = useState(`/api`);
+    const [url, setUrl] = useState(`/api`); //`${process.env.REACT_APP_PRODUCTION_URL}/api`
     return (
         <section>
         <div className="scoreTank">
