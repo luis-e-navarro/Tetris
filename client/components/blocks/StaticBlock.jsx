@@ -12,7 +12,9 @@ const StaticBlock = ({ color }) => {
     [TETROCOLORS.S]: 'sTetro',
     [TETROCOLORS.Z]: 'zTetro',
   };
+
   const className = `staticBlock ${tetrominoClasses[color]}`;
+  
   return (
     <div className={className} style={{ backgroundColor: color }} />
   );

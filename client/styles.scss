@@ -149,6 +149,7 @@ body{
   flex-direction: row;
   flex-wrap: nowrap;
   height: 742.5px; 
+  width: 100%;
   margin: 1vh 15%;    
   justify-content: flex-start;
 }
@@ -454,6 +455,13 @@ input:focus {
 .genesisFooter{
   display: flex;
   justify-content: center;
+}
+
+#app{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; 
 }
 
 .app-tank{

@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 
 const DynamicBlock = ({color = '#1f2122', innerState}) => {
   let blockClass = innerState && color === '#76ff7a' ? 'hlBlock' : 'singleBlock';
+  
   if (blockClass === 'singleBlock' && color ){
     const tetrominoClasses = {
       [TETROCOLORS.I]: 'iTetro',

@@ -72,10 +72,6 @@ class TetrisBoard extends Component{
     const { keyState } = this.state;
 
     switch (e.keyCode){
-      // case SPACE_KEY:
-      //   this.props.startGame();
-      //   this.props.dropBlocks();
-      //   break;
       case 68:
         this.setState({
           keyState: {
@@ -258,7 +254,6 @@ class TetrisBoard extends Component{
       document.addEventListener('keyup', this.start);
       document.addEventListener('keydown', this.move);
       document.addEventListener('keydown', this.slam);
-      console.log('got in')
       this.gameLoop();
     };
 
@@ -290,9 +285,9 @@ class TetrisBoard extends Component{
 
     if(this.props.gameOver){
       await this.props.stateFlipOff();
-      document.addEventListener('keyup', null);
-      document.addEventListener('keydown', null);
-      document.addEventListener('keydown', null);
+      document.removeEventListener('keyup', this.start);
+      document.removeEventListener('keydown', this.move);
+      document.removeEventListener('keydown', this.slam);
 
       for(let key in this.keyState){
         keyState[key] = false;
