@@ -1,5 +1,7 @@
 export const TETROMINOS = ['I', 'O', 'T', 'J', 'L', 'S', 'Z'];
 export const SPACE_KEY = 32;
+export const MOVE_LEFT_KEY = 65;
+export const MOVE_RIGHT_KEY = 68;
 
 export const TETROCOLORS = {
     I:'#00ffff',
