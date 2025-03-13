@@ -112,7 +112,7 @@ export const startGameRenderSavedTetromino =  () => async(dispatch) => {
     type: types.START,
     payload: true
   });
-}
+};
 
 export const drop = () => dispatch => {
   window.dropTimer = setInterval(() => {

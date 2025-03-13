@@ -92,14 +92,9 @@ const tetrisReducer = (state = initalState, action) => {
       }else{
         sidePosition = moveAllTetros(state.tetroGrid, state.tetroPosition);
       }
+      
       if (checkSides(state.tetroPosition, state.tetroGrid,  state.currentGrid, action.payload)){
-        // if (sidePosition.right < 9 && sidePosition.left > 0){ //going left or right
-            tetroPosition = _.assign({}, state.tetroPosition, { x: state.tetroPosition.x + action.payload })          
-        // }else if(sidePosition.right === 9  && action.payload < 0){ //going left from the far right
-          // tetroPosition = _.assign({}, state.tetroPosition, { x: state.tetroPosition.x + action.payload })
-        // }else if (sidePosition.left === 0 && action.payload > 0){ // going right from the far left
-          // tetroPosition = _.assign({}, state.tetroPosition, { x: state.tetroPosition.x + action.payload })
-        // }
+        tetroPosition = _.assign({}, state.tetroPosition, { x: state.tetroPosition.x + action.payload })          
       };
  
       if(tetroPosition){
@@ -286,6 +281,7 @@ const tetrisReducer = (state = initalState, action) => {
         if (tetroPosition.y === -2 ){
           finalScore = state.ongoingScore
           ongoingScore = 0;
+          stateFlip = false;
           gameOver = true
           return {
             ...state,
@@ -294,6 +290,7 @@ const tetrisReducer = (state = initalState, action) => {
             ongoingScore,
             finalScore,
             innerState,
+            stateFlip,
             superGate
           }
         }else{

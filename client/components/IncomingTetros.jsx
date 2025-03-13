@@ -40,33 +40,35 @@ const IncomingTetros = ({incomingTetros, innerState, ongoingScore}) => {
                 if (!shapeArr[row][col]) continue
                 result.push(
                     <li className="square-container"
-                    key={`t-${row}${col}`}
-                    style={{
-                        marginTop: '20%',
-                        top: `${row * 25}%`,
-                        left: `${col * 25}%`
-                    }}>
+                        key={`t-${row}${col}`}
+                        style={{
+                            marginTop: '20%',
+                            top: `${row * 25}%`,
+                            left: `${col * 25}%`
+                        }}>
                         <DynamicBlock color={color}/>
                     </li>
                 )
             }
         }
         return result;
-    }
+    };
 
     function keyMaker(){
         let count = 0;
         return function(){
             count++
             return count
-        }
-    }
+        };
+    };
     
-    const keyAssigner = keyMaker()
+    const keyAssigner = keyMaker();
+
         return (
             <div id="incomingTetroContainer">
                 {incomingTetros.map((tetro, index) => {
-                    return (<ul key={keyAssigner()} className={!animate ? "savedTetroDry" : "savedTetroAnimation"} style ={getTetrominoStyle(index)}>
+                    return (
+                    <ul key={keyAssigner()} className={!animate ? "savedTetroDry" : "savedTetroAnimation"} style ={getTetrominoStyle(index)}>
                         {renderTetro(tetro)}
                     </ul>)
                 })}
