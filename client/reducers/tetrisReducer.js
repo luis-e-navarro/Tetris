@@ -490,8 +490,6 @@ const tetrisReducer = (state = initalState, action) => {
                 superGate,
                 tetroGrid
               }
-            //  }
-
            }
           }
       };
